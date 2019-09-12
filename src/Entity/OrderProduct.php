@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductOrderRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrderProductRepository")
  */
-class ProductOrder
+class OrderProduct
 {
     /**
      * @ORM\Id()
@@ -17,13 +17,7 @@ class ProductOrder
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order", inversedBy="productOrders")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $orderRef;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vinyl", inversedBy="productOrders")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vinyl", inversedBy="orderProducts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $vinyl;
@@ -31,28 +25,22 @@ class ProductOrder
     /**
      * @ORM\Column(type="integer")
      */
-    private $amount;
+    private $price;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $quantity;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Cart", inversedBy="orderProducts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cart;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOrderRef(): ?Order
-    {
-        return $this->orderRef;
-    }
-
-    public function setOrderRef(?Order $orderRef): self
-    {
-        $this->orderRef = $orderRef;
-
-        return $this;
     }
 
     public function getVinyl(): ?Vinyl
@@ -67,14 +55,14 @@ class ProductOrder
         return $this;
     }
 
-    public function getAmount(): ?int
+    public function getPrice(): ?int
     {
-        return $this->amount;
+        return $this->price;
     }
 
-    public function setAmount(int $amount): self
+    public function setPrice(int $price): self
     {
-        $this->amount = $amount;
+        $this->price = $price;
 
         return $this;
     }
@@ -87,6 +75,18 @@ class ProductOrder
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(?Cart $cart): self
+    {
+        $this->cart = $cart;
 
         return $this;
     }

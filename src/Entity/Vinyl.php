@@ -19,11 +19,6 @@ class Vinyl
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Track", mappedBy="vinyl", orphanRemoval=true)
-     */
-    private $track;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
@@ -76,12 +71,12 @@ class Vinyl
     /**
      * @ORM\Column(type="integer")
      */
-    private $RegularPrice;
+    private $regularPrice;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $ReducePrice;
+    private $reducePrice;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -100,50 +95,25 @@ class Vinyl
     private $genre;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductOrder", mappedBy="vinyl")
+     * @ORM\OneToMany(targetEntity="App\Entity\Track", mappedBy="vinyl", orphanRemoval=true)
      */
-    private $productOrders;
+    private $tracks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderProduct", mappedBy="vinyl")
+     */
+    private $orderProducts;
 
     public function __construct()
     {
-        $this->track = new ArrayCollection();
-        $this->productOrders = new ArrayCollection();
+        $this->tracks = new ArrayCollection();
+        $this->orderProducts = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection|Track[]
-     */
-    public function getTrack(): Collection
-    {
-        return $this->track;
-    }
-
-    public function addTrack(Track $track): self
-    {
-        if (!$this->track->contains($track)) {
-            $this->track[] = $track;
-            $track->setVinyl($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrack(Track $track): self
-    {
-        if ($this->track->contains($track)) {
-            $this->track->removeElement($track);
-            // set the owning side to null (unless already changed)
-            if ($track->getVinyl() === $this) {
-                $track->setVinyl(null);
-            }
-        }
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -268,24 +238,24 @@ class Vinyl
 
     public function getRegularPrice(): ?int
     {
-        return $this->RegularPrice;
+        return $this->regularPrice;
     }
 
-    public function setRegularPrice(int $RegularPrice): self
+    public function setRegularPrice(int $regularPrice): self
     {
-        $this->RegularPrice = $RegularPrice;
+        $this->regularPrice = $regularPrice;
 
         return $this;
     }
 
     public function getReducePrice(): ?int
     {
-        return $this->ReducePrice;
+        return $this->reducePrice;
     }
 
-    public function setReducePrice(?int $ReducePrice): self
+    public function setReducePrice(?int $reducePrice): self
     {
-        $this->ReducePrice = $ReducePrice;
+        $this->reducePrice = $reducePrice;
 
         return $this;
     }
@@ -327,30 +297,61 @@ class Vinyl
     }
 
     /**
-     * @return Collection|ProductOrder[]
+     * @return Collection|Track[]
      */
-    public function getProductOrders(): Collection
+    public function getTracks(): Collection
     {
-        return $this->productOrders;
+        return $this->tracks;
     }
 
-    public function addProductOrder(ProductOrder $productOrder): self
+    public function addTrack(Track $track): self
     {
-        if (!$this->productOrders->contains($productOrder)) {
-            $this->productOrders[] = $productOrder;
-            $productOrder->setVinyl($this);
+        if (!$this->tracks->contains($track)) {
+            $this->tracks[] = $track;
+            $track->setVinyl($this);
         }
 
         return $this;
     }
 
-    public function removeProductOrder(ProductOrder $productOrder): self
+    public function removeTrack(Track $track): self
     {
-        if ($this->productOrders->contains($productOrder)) {
-            $this->productOrders->removeElement($productOrder);
+        if ($this->tracks->contains($track)) {
+            $this->tracks->removeElement($track);
             // set the owning side to null (unless already changed)
-            if ($productOrder->getVinyl() === $this) {
-                $productOrder->setVinyl(null);
+            if ($track->getVinyl() === $this) {
+                $track->setVinyl(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|OrderProduct[]
+     */
+    public function getOrderProducts(): Collection
+    {
+        return $this->orderProducts;
+    }
+
+    public function addOrderProduct(OrderProduct $orderProduct): self
+    {
+        if (!$this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts[] = $orderProduct;
+            $orderProduct->setVinyl($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrderProduct(OrderProduct $orderProduct): self
+    {
+        if ($this->orderProducts->contains($orderProduct)) {
+            $this->orderProducts->removeElement($orderProduct);
+            // set the owning side to null (unless already changed)
+            if ($orderProduct->getVinyl() === $this) {
+                $orderProduct->setVinyl(null);
             }
         }
 

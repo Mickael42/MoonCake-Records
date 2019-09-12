@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,11 +16,7 @@ class Order
      */
     private $id;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $client;
+
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -32,7 +26,7 @@ class Order
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dateOrder;
+    private $orderDate;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,31 +39,22 @@ class Order
     private $totalAmount;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\ProductOrder", mappedBy="orderRef", orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="App\Entity\Cart", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $productOrders;
+    private $cart;
 
-    public function __construct()
-    {
-        $this->productOrders = new ArrayCollection();
-    }
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     public function getPaymentMethod(): ?string
     {
@@ -83,14 +68,14 @@ class Order
         return $this;
     }
 
-    public function getDateOrder(): ?\DateTimeInterface
+    public function getOrderDate(): ?\DateTimeInterface
     {
-        return $this->dateOrder;
+        return $this->orderDate;
     }
 
-    public function setDateOrder(\DateTimeInterface $dateOrder): self
+    public function setOrderDate(\DateTimeInterface $orderDate): self
     {
-        $this->dateOrder = $dateOrder;
+        $this->orderDate = $orderDate;
 
         return $this;
     }
@@ -119,33 +104,26 @@ class Order
         return $this;
     }
 
-    /**
-     * @return Collection|ProductOrder[]
-     */
-    public function getProductOrders(): Collection
+    public function getCart(): ?Cart
     {
-        return $this->productOrders;
+        return $this->cart;
     }
 
-    public function addProductOrder(ProductOrder $productOrder): self
+    public function setCart(Cart $cart): self
     {
-        if (!$this->productOrders->contains($productOrder)) {
-            $this->productOrders[] = $productOrder;
-            $productOrder->setOrderRef($this);
-        }
+        $this->cart = $cart;
 
         return $this;
     }
 
-    public function removeProductOrder(ProductOrder $productOrder): self
+    public function getClient(): ?Client
     {
-        if ($this->productOrders->contains($productOrder)) {
-            $this->productOrders->removeElement($productOrder);
-            // set the owning side to null (unless already changed)
-            if ($productOrder->getOrderRef() === $this) {
-                $productOrder->setOrderRef(null);
-            }
-        }
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
 
         return $this;
     }

@@ -69,14 +69,21 @@ class Client
     private $zipCode;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="client", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Cart", mappedBy="client")
+     */
+    private $carts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="client")
      */
     private $orders;
 
     public function __construct()
     {
+        $this->carts = new ArrayCollection();
         $this->orders = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -204,6 +211,37 @@ class Client
     }
 
     /**
+     * @return Collection|Cart[]
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): self
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts[] = $cart;
+            $cart->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): self
+    {
+        if ($this->carts->contains($cart)) {
+            $this->carts->removeElement($cart);
+            // set the owning side to null (unless already changed)
+            if ($cart->getClient() === $this) {
+                $cart->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
      * @return Collection|Order[]
      */
     public function getOrders(): Collection
@@ -233,4 +271,5 @@ class Client
 
         return $this;
     }
+
 }

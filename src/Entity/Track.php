@@ -17,12 +17,18 @@ class Track
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Vinyl", inversedBy="tracks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $vinyl;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
     private $duration;
 
@@ -31,15 +37,21 @@ class Track
      */
     private $position;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Vinyl", inversedBy="track")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $vinyl;
-
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getVinyl(): ?Vinyl
+    {
+        return $this->vinyl;
+    }
+
+    public function setVinyl(?Vinyl $vinyl): self
+    {
+        $this->vinyl = $vinyl;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -54,12 +66,12 @@ class Track
         return $this;
     }
 
-    public function getDuration(): ?string
+    public function getDuration(): ?int
     {
         return $this->duration;
     }
 
-    public function setDuration(string $duration): self
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
@@ -74,18 +86,6 @@ class Track
     public function setPosition(string $position): self
     {
         $this->position = $position;
-
-        return $this;
-    }
-
-    public function getVinyl(): ?Vinyl
-    {
-        return $this->vinyl;
-    }
-
-    public function setVinyl(?Vinyl $vinyl): self
-    {
-        $this->vinyl = $vinyl;
 
         return $this;
     }
