@@ -82,6 +82,33 @@ html {
     color: #C26208;
 }
 
+.button-orange{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    background-color: #C26208;
+    font-weight: bolder;
+    border-radius: 10px;
+    color : white;
+    transition: 0.3s;
+    cursor: pointer;
+    box-shadow:none;
+}
+
+.button-orange:hover{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    background-color: #C26208;
+    font-weight: bolder;
+    border-radius: 10px;
+    color : white;
+    transition: 0.3s;
+    cursor: pointer;
+    filter: brightness(85%);
+    box-shadow:none;
+}
+
 
 .button-white{
     padding : 20px;
@@ -147,4 +174,41 @@ html {
 .container-brand-promotion{
     background: rgba(0, 0, 0, 0.685);
     height: 500px;
+}
+
+
+.icon-brand-promotion{
+    width: 100px;
+}
+
+.title-brand-promotion{
+    color : #C26208;
+    font-weight: bold;
+}
+.image-filter-grey{
+    filter: grayscale(60%);
+}
+
+.text{
+    color:white
+}
+
+
+.container-header-page{
+    background: rgba(0, 0, 0, 0.685);
+    height: 200px;
+}
+
+.title-header-page{
+    text-align: center;
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    color: white;
+}
+
+.section-title{
+    color : #C26208;
+    font-weight: bold
 }

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="parallax-container container-header-page  ">
+        <h3 class="title-header-page center-align">Contact</h3>
+        <p class="text center-align">Une question? Un renseignement? </p>
+        <div class="parallax ">
+            <img src="assets/img/records-shop.jpg">
+        </div>
+
+    </div>
+
+
+    <form method="POST" action="#!" accept-charset="UTF-8" id="formContact" class="light-gray-bg">
+        <input name="_token" type="hidden" value="">
+        <input name="job_id" type="hidden" value="">
+        <section class="section-padding">
+            <div class="container">
+                <div class="text-center mb-80">
+                    <h4 class="section-title text-uppercase center-align">Contacter MoonCake Records</h4>
+                    <p class="section-sub text-center center-align">En cas de question, n’hésitez pas à nous contacter par mail ou par téléphone. </p>
+                </div>
+
+                <div class="row">
+                    <div id="contactForm" class="col-xs-12 col-sm-12 col-md-8">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-field">
+                                    <input required="required" name="firstname" type="text">
+                                    <label for="firstname">Prénom</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-field">
+                                    <input required="required" name="lastname" type="text">
+                                    <label for="lastname">Nom</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-field">
+                                    <input required="required" name="email" type="email">
+                                    <label for="email">Email</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-field">
+                                    <input required="required" name="phone" type="tel">
+                                    <label for="phone">Téléphone</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-field">
+                                    <textarea class="materialize-textarea" required="required" name="message" cols="50" rows="10"></textarea>
+                                    <label for="message">Votre message</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6 col-md-offset-3 center-align">
+                                <button type="submit" name="submit" class="button-orange">
+                                    Envoyer votre message
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+    </form>
+{% endblock %}
