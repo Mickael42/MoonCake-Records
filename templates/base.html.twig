@@ -2,11 +2,171 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Bienvenue sur MoonCake Records!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>
+            {% block title %}Bienvenue sur MoonCake Records!
+            {% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+            <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            <link href="assets/css/styles.css" rel="stylesheet">
+        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <nav class="main-navbar">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo logoBrand">MoonCake Records</a>
+                <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+                    <i class="material-icons">menu</i>
+                </a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li class="active">
+                        <a href="">Accueil</a>
+                    </li>
+                    <li>
+                        <a href="badges.html">Catalogue</a>
+                    </li>
+                    <li>
+                        <a href="collapsible.html">Promo</a>
+                    </li>
+                    <li>
+                        <a href="collapsible.html">Contact</a>
+                    </li>
+
+                    <li>
+                        <form>
+                            <div class="input-field">
+                                <input id="search" type="search" placeholder="Rechercher" required>
+                                <label class="label-icon" for="search">
+                                    <i class="material-icons">search</i>
+                                </label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form>
+                    </li>
+
+
+                    <li>
+                        <a href="badges.html">
+                            <i class="material-icons left">account_circle</i>Espace Client</a>
+                    </li>
+                    <li>
+                        <a href="badges.html">
+                            <i class="material-icons left">shopping_cart</i>Panier</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <ul class="sidenav main-sidenav" id="mobile-demo">
+            <div class="row">
+                <div class="col s12 center-align">
+                    <a href="#" class="logoBrandSidenav ">MoonCake Records</a>
+                </div>
+
+            </div>
+
+            <li class="active">
+                <a href="">
+                    <span class="text-sidenav">Accueil</span>
+                </a>
+            </li>
+            <li>
+                <a href="badges.html">
+                    <span class="text-sidenav">Catalogue</span>
+                </a>
+            </li>
+            <li>
+                <a href="collapsible.html">
+                    <span class="text-sidenav">Promo</span>
+                </a>
+            </li>
+            <li>
+                <a href="collapsible.html">
+                    <span class="text-sidenav">Contact</span>
+                </a>
+            </li>
+
+            <li>
+                <form>
+                    <div class="input-field">
+                        <input id="search" type="search" placeholder="Rechercher..." required>
+                        <i class="material-icons">close</i>
+                    </div>
+                </form>
+            </li>
+
+
+            <li>
+                <a href="badges.html">
+                    <i class="material-icons left ">account_circle</i>
+                    <span class="text-sidenav">Espace Client</span>
+                </a>
+            </li>
+            <li>
+                <a href="badges.html">
+                    <i class="material-icons left ">shopping_cart</i>
+                    <span class="text-sidenav">Panier</span>
+                </a>
+            </li>
+        </ul>
+
+
+        <main>
+
+            {% block body %}{% endblock %}
+        </main>
+
+
+        <footer class="page-footer main-footer">
+            <div class="row">
+                <div class="col s12 m4 l2 center-align">
+                    <a href="http://facebook.com" target="_blank" rel="noopener noreferrer">
+                        <img class="logoSocialMediaFooter" src="assets/img/facebook-logo-in-circular-button-outlined-social-symbol.png" alt="facebook-logo"></a>
+                    <a href="http://instagram.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="assets/img/instagram.png" alt="instagram-logo"></a>
+                    <a href="http://twitter.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="assets/img/twitter-circular-button.png" alt="twitter-logo"></a>
+                </div>
+                <div class="col s12 m4 l8 center-align">
+                    <a href="">
+                        <p class="logoBrandFooter">MoonCakeRecords</p>
+                    </a>
+                </div>
+                <div class="col s12 m4 l2">
+                    <a href="">
+                        <span class="white-text">Mentions légales</span>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    <div class="col s12 m12 l12 center-align">
+                        <p>Copyright ©2019 -
+                            <a href="https://github.com/Mickael42" target="_blank" rel="noopener noreferrer">
+                                <span class="white-text">MW Agency</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
         {% block javascripts %}{% endblock %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('.parallax');
+                var instances = M.Parallax.init(elems);
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var elems = document.querySelectorAll('.sidenav');
+                var instances = M.Sidenav.init(elems);
+            });
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </body>
 </html>

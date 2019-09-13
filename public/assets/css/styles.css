@@ -1,0 +1,150 @@
+html {
+    font-family: 'Raleway', sans-serif;
+}
+
+.main-navbar {
+    background: #555555
+}
+
+.main-footer {
+    background: #555555
+}
+
+.main-sidenav {
+    background: #555555
+}
+
+.logoBrand {
+    margin-left: 40px;
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.5rem;
+    color: #FFFFFF;
+    text-shadow: 2px 2px #C26208;
+}
+
+.logoBrandFooter {
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1rem;
+    color: #FFFFFF;
+    text-shadow: 2px 2px #C26208;
+}
+
+.logoSocialMediaFooter {
+    max-width: 30px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px
+}
+
+.text-sidenav {
+    color: white
+}
+
+.logoBrandSidenav {
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2rem;
+    color: #FFFFFF;
+    text-shadow: 2px 2px #C26208;
+}
+
+#search{
+    margin : 0;
+}
+
+.container-call-to-action{
+    height: 40vh;
+    background: rgba(0, 0, 0, 0.685)
+}
+
+
+.title-call-to-action{
+    
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    color: #FFFFFF;
+    text-shadow: 2px 2px #C26208;
+}
+
+.titleSection{
+    text-align: center;
+    font-family: Pacifico;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    color: #C26208;
+}
+
+
+.button-white{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    background-color: white;
+    font-weight: bolder;
+    border-radius: 10px;
+    color : #C26208;
+    transition: 0.3s
+
+}
+.button-white:hover{
+    padding : 20px;
+    font-weight: bolder;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    border-radius: 10px;
+    background-color: #C26208;
+    color : white;
+    transition: 0.3s
+    
+}
+
+.text-call-to-action{
+    text-align: center;
+    color : white;
+    margin-top: 15px;
+    margin-bottom: 45px;
+    font-size: 20px;
+
+}
+
+.cover-vinyl{
+    max-width: 250px;
+}
+
+.container-vinyl-info{
+    margin-top: 15px;
+    border-top: 0.6px solid black;
+    
+}
+
+.artist-name{
+    margin-bottom :0;
+    color : #C26208;
+    font-weight: bold;
+}
+.vinyl-name{
+    margin-top: 0px;
+    margin-bottom :0;
+    font-weight: bold;
+}
+.label-and-year{
+    margin-top: 0px;
+    color :  #A4A1A1
+}
+.vinyl-price{
+    color :  #A4A1A1;
+    font-weight: bold;
+}
+
+.container-brand-promotion{
+    background: rgba(0, 0, 0, 0.685);
+    height: 500px;
+}
