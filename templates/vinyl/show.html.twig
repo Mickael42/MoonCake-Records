@@ -8,6 +8,13 @@
     <a class="link-back" href="{{ path('vinyl_index') }}">
         <i class="tiny material-icons">arrow_back</i>Aller au catalogue</a>
 
+    {% for message in app.flashes('notice') %}
+        <div class="row">
+            <div class="col s4 right">
+                <p class="flash-notice center-align ">{{ message }}</p>
+            </div>
+        </div>
+    {% endfor %}
 
     <div class="row container-product-presentation ">
 
@@ -31,6 +38,7 @@
 
 
         <div class="col l6 s12  " id="container-vinyl-main-infos">
+
             <h4 class="vinyl-artitst">{{ vinyl.artiste }}</h4>
             <h5 class="vinyl-title">{{ vinyl.name }}</h5>
 
@@ -42,7 +50,7 @@
             {% if vinyl.quantityStock > 0 %}
                 <div class="right">
                     <form method="post" action="{{ path ('vinyl_show',{id : vinyl.id}) }}">
-                    <input type="hidden" name="vinylSelected" value ={{vinyl.id}}>
+                        <input type="hidden" name="vinylSelected" value={{vinyl.id}}>
                         <button type="submit" class="waves-effect waves-light btn-large btn-add-cart">
                             <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</button>
                     </form>
@@ -143,3 +151,8 @@
 
 
     {% endblock %}
+{% block javascripts %}
+
+
+
+{% endblock %}

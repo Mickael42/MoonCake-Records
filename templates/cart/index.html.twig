@@ -1,37 +1,139 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cart index{% endblock %}
+{% block title %}Votre panier| MoonCake Records
+{% endblock %}
 
 {% block body %}
-    <h1>Cart index</h1>
+    <h3 class="section-title">Votre panier</h3>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>IpAddress</th>
-                <th>TotalAmount</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for cart in carts %}
-            <tr>
-                <td>{{ cart.id }}</td>
-                <td>{{ cart.ipAddress }}</td>
-                <td>{{ cart.totalAmount }}</td>
-                <td>
-                    <a href="{{ path('cart_show', {'id': cart.id}) }}">show</a>
-                    <a href="{{ path('cart_edit', {'id': cart.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="row">
 
-    <a href="{{ path('cart_new') }}">Create new</a>
+        <div class="col s8 ">
+
+            <div>
+                <div class="col s6 ">
+                    Article
+                </div>
+                <div class="col s3 ">
+                    Quantité
+
+                </div>
+                <div class="col s3 ">
+                    Prix
+                </div>
+            </div>
+            {% for product in orderProducts %}
+                <div class="cart-container-order-product">
+                    <div class="col s6 col-container-order-product  valign-wrapper">
+                        <div class="col s6">
+                            <img class="cart-cover-vinyl" src="{{product.vinyl.cover}}" alt="">
+                        </div> 
+                        <div class="col s6">
+                            <p class="vinyl-artist">{{product.vinyl.artiste}}</p>
+                            <p>{{product.vinyl.name}}</p>
+                            <p>{{product.vinyl.catNum}}</p>
+                        </div>
+
+                    </div>
+                    <div class="col s3 col-container-order-product valign-wrapper">
+                       <input type="number" name="quantity" min="1" max="5">
+
+
+                    </div>
+                    <div class="col s3 col-container-order-product valign-wrapper">
+                        {{product.price}} €
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+
+        <div class="col s4 summary-cart">
+            <h5 class="section-title center-align">Résumé de la commande</h5>
+
+            <div class="col s8 ">
+                <p>Nombre d'article</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>{{orderProducts | length }}</p>
+            </div>
+            <div class="col s8 ">
+                <p>Prix total des articles</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>{{cart.totalAmount}} €</p>
+            </div>
+            <div class="col s8 ">
+                <p>Prix de la livraison</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>0 €</p>
+            </div>
+
+
+            <div class="col s8 ">
+                <p>Prix de la livraison</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>1 €</p>
+            </div>
+
+            <div class="col s8 total-summary-cart ">
+                <p class="text-total-summary-cart">Montant total</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p class="text-total-summary-cart">{{cart.totalAmount}} €</p>
+            </div>
+            <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
+            <div class="center-align">
+                <button class="waves-effect waves-light btn-large btn-add-cart">
+                    Aller à la caisse</button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+<div class="section ">
+    <div class="row container container-title-section">
+        <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
+    </div>
+
+    <div class="row">
+        {% for vinyl in vinyls %}
+            <div class="col s12 m6 l3 center-align ">
+                <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                    {% if vinyl.reducePrice >0 %}
+                        <span class=" right banner-discount">PROMO</span>
+                    {% endif %}
+                    <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                    <div class="container-vinyl-info ">
+
+                        <p class='artist-name'>{{ vinyl.artiste }}</p>
+                        <p class='vinyl-name'>{{ vinyl.name }}</p>
+                        <p class='label-and-year'>{{ vinyl.label }}
+                            -
+                            {{ vinyl.year }}</p>
+                        {% if vinyl.reducePrice %}
+                            <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
+                            <p class='vinyl-price'>{{ vinyl.reducePrice }}€
+                            {% else %}
+                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                            {% endif %}
+
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
 {% endblock %}

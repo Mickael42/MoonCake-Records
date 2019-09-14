@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Cart;
 use App\Form\CartType;
 use App\Repository\CartRepository;
+use App\Repository\OrderProductRepository;
+use App\Repository\VinylRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +20,17 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="cart_index", methods={"GET"})
      */
-    public function index(CartRepository $cartRepository): Response
+    public function index(CartRepository $cartRepository, VinylRepository $vinylRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
+        $clientIpAddress = $request->server->get('REMOTE_ADDR');
+        $cart = $cartRepository->findOneBy(array('ipAddress' => $clientIpAddress));
+        $orderProducts = $orderProductRepository->findBy(['cart' => $cart]);
+       
+        
         return $this->render('cart/index.html.twig', [
-            'carts' => $cartRepository->findAll(),
+            'cart' => $cart,
+            'vinyls' => $vinylRepository->findAll(),
+            'orderProducts'=>$orderProducts,
         ]);
     }
 
@@ -83,7 +92,7 @@ class CartController extends AbstractController
      */
     public function delete(Request $request, Cart $cart): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$cart->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cart);
             $entityManager->flush();

@@ -279,7 +279,7 @@ a:focus {
     color : #A4A1A1
 }
 
-.vinyl-artitst{
+.vinyl-artist{
     color : #C26208;
     font-weight: bold;
     margin-bottom : 0px
@@ -360,4 +360,46 @@ border-top: 1px solid #555555
     margin-bottom: 0;
     text-decoration: line-through;
 
+}
+
+.flash-notice{
+    color : green;
+    font-weight: bold;
+    background-color: rgb(110, 224, 110);
+}
+
+.summary-cart{
+    border-left: 1px solid #A4A1A1;
+    
+}
+
+.quantity-summury-cart{
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+
+
+.text-total-summary-cart{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.detail-vat-summary-cart{
+    font-size: 13px
+}
+
+
+.cart-cover-vinyl{
+    width : 100px;
+}
+
+
+.cart-container-order-product{
+    margin-bottom : 8px;
+    height: 160px;
+}
+
+.col-container-order-product{
+    height: 150px;
 }

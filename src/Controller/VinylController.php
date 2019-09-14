@@ -99,6 +99,10 @@ class VinylController extends AbstractController
                 // we check if the cart in progress doesn't have already the product selected
                 $cartWithProductAlreadySelected = $orderProductRepository->findOneBy(['cart' => $cartInProgress, 'vinyl' => $vinyl]);
                 if ($cartWithProductAlreadySelected) {
+                    $this->addFlash(
+                        'notice',
+                        'Le vinyle est déjà dans votre panier!'
+                    );
                     return $this->render('vinyl/show.html.twig', [
                         'vinyl' => $vinyl,
                         'tracks' => $tracks,
@@ -120,7 +124,12 @@ class VinylController extends AbstractController
                 $orderProduct->setQuantity(1);
                 $entityManager->persist($orderProduct);
                 $entityManager->flush();
-                dump("Il y a déja un panier");
+
+                $this->addFlash(
+                    'notice',
+                    'Le vinyle a bien été ajouté au panier!'
+                );
+
                 return $this->render('vinyl/show.html.twig', [
                     'vinyl' => $vinyl,
                     'tracks' => $tracks,
@@ -143,8 +152,11 @@ class VinylController extends AbstractController
             $orderProduct->setQuantity(1);
             $entityManager->persist($orderProduct);
             $entityManager->flush();
+            $this->addFlash(
+                'notice',
+                'Le vinyle a bien été ajouté au panier!'
+            );
         }
-
 
         return $this->render('vinyl/show.html.twig', [
             'vinyl' => $vinyl,
