@@ -291,6 +291,7 @@ a:focus {
 }
 
 .vinyl-price{
+    margin-top:0;
     font-weight: bold;
     color : black;
     font-size: 18px;
@@ -314,7 +315,9 @@ a:focus {
     border-radius: 10px;
     color : #C26208;
 }
-
+.container-product-presentation{
+    margin-top : 20px;
+}
 /* #container-vinyl-main-infos{
     padding-bottom  : 40px;
     border-bottom: 1px solid #555555
@@ -329,6 +332,7 @@ border-top: 1px solid #555555
     color: black;
     margin-left : 15px;
     transition: 0.3s;
+   
 }
 
 .link-back:hover{
@@ -338,4 +342,22 @@ border-top: 1px solid #555555
 }
 .cover-vinyl-large{
     width: 400px;
+}
+
+.banner-discount{
+    position: absolute;
+    background: red;
+    font-weight: bold;
+    color : white;
+    text-align: left;
+    width: 80px;
+    clip-path: polygon(0 0, 100% 0, 62% 100%, 0% 100%);
+}
+
+.vinyl-price-crossed{
+    color: #A4A1A1;
+    margin-top : 0;
+    margin-bottom: 0;
+    text-decoration: line-through;
+
 }

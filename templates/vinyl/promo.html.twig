@@ -24,21 +24,27 @@
 
         <div class="row">
             {% for vinyl in vinyls %}
+
+                {% set discount = (vinyl.reducePrice / vinyl.regularPrice)*100 %}
                 <div class="col s12 m6 l3 center-align ">
-                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    
+                        <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                            <span class=" right banner-discount">-
+                                {{discount}}
+                                %</span><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    
+
+
                     <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                         <div class="container-vinyl-info ">
 
                             <p class='artist-name'>{{ vinyl.artiste }}</p>
                             <p class='vinyl-name'>{{ vinyl.name }}</p>
-                            <p class='label-and-year'>{{ vinyl.label }}
-                                -
-                                {{ vinyl.year }}</p>
-                            {% if vinyl.reducePrice %}
-                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
-                            {% else %}
-                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                            {% endif %}
+                            <p class='label-and-year'>{{ vinyl.label }}-{{ vinyl.year }}</p>
+                            <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
+                            <p class='vinyl-price'>{{ vinyl.reducePrice }}€
+                            </p>
+
 
                         </div>
                     </a>

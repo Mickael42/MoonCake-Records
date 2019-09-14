@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Track;
 use App\Entity\Vinyl;
 use App\Form\VinylType;
+use App\Repository\GenreRepository;
 use App\Repository\TrackRepository;
 use App\Repository\VinylRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,10 +21,14 @@ class VinylController extends AbstractController
     /**
      * @Route("/", name="vinyl_index", methods={"GET"})
      */
-    public function index(VinylRepository $vinylRepository): Response
+    public function index(VinylRepository $vinylRepository, GenreRepository $genreRepository): Response
     {
+
+
+
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $vinylRepository->findAll(),
+            'genres'=>$genreRepository->findAll()
         ]);
     }
 

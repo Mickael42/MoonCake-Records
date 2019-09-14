@@ -9,9 +9,13 @@
         <i class="tiny material-icons">arrow_back</i>Aller au catalogue</a>
 
 
-    <div class="row">
+    <div class="row container-product-presentation ">
 
         <div class="col l6 s12 center-align ">
+            {% if vinyl.reducePrice >0 %}
+            {% set discount = (vinyl.reducePrice / vinyl.regularPrice)*100 %}
+                <span class=" right banner-discount">- {{discount}} %</span>
+            {% endif %}
             <img class="cover-vinyl-large" src="{{vinyl.cover}}" alt="cover-vinyl">
             <h5>Tracklist</h5>
             <ul>
@@ -50,52 +54,54 @@
         {% endif %}
 
 
-        {% if vinyl.reducePrice %}
-            <p class="vinyl-price">Prix :
-                {{ vinyl.reducePrice }}€</p>
-        {% else %}
-            <p class="vinyl-price">Prix :
+        {% if vinyl.reducePrice > 0 %}
+            <p class='vinyl-price-crossed'>
+                Prix initial :
                 {{ vinyl.regularPrice }}€</p>
-        {% endif %}
+            <p class='vinyl-price'>
+                {{ vinyl.reducePrice }}€
+            {% else %}
+                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+            {% endif %}
 
 
-        {% if vinyl.quantityStock >0 %}
-            <div class="stock-green">
-                <i class="tiny material-icons">brightness_1</i>
-                <span>En stock</span>
-            </div>
+            {% if vinyl.quantityStock >0 %}
+                <div class="stock-green">
+                    <i class="tiny material-icons">brightness_1</i>
+                    <span>En stock</span>
+                </div>
 
 
-        {% else %}
-            <div class="stock-red">
-                <i class="tiny material-icons">brightness_1</i>
-                <span>En stock</span>
-            </div>
-        {% endif %}
+            {% else %}
+                <div class="stock-red">
+                    <i class="tiny material-icons">brightness_1</i>
+                    <span>En stock</span>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col s6 ">
+            <ul>
+                <li>Année :
+                    {{vinyl.year}}</li>
+                <li>Format :
+                    {{vinyl.format}}</li>
+                <li>Genre :
+                    {{vinyl.genre.name}}</li>
+                <li>Etat du média :
+                    {{vinyl.mediaCondition}}</li>
+                <li>Année :
+                    {{vinyl.sleeveCondition}}</li>
+                <li>Année :
+                    {{vinyl.year}}</li>
+            </ul>
+            {% if vinyl.description %}
+                <p>{{vinyl.description}}</p>
+            {% endif %}
+        </div>
+
     </div>
-    <div class="col s6 ">
-        <ul>
-            <li>Année :
-                {{vinyl.year}}</li>
-            <li>Format :
-                {{vinyl.format}}</li>
-            <li>Genre :
-                {{vinyl.genre.name}}</li>
-            <li>Etat du média :
-                {{vinyl.mediaCondition}}</li>
-            <li>Année :
-                {{vinyl.sleeveCondition}}</li>
-            <li>Année :
-                {{vinyl.year}}</li>
-        </ul>
-        {% if vinyl.description %}
-            <p>{{vinyl.description}}</p>
-        {% endif %}
-    </div>
 
-</div>
-    
-<div class="section ">
+    <div class="section ">
         <div class="row container container-title-section">
             <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
         </div>
@@ -103,7 +109,11 @@
         <div class="row">
             {% for vinyl in relatedVinyls %}
                 <div class="col s12 m6 l3 center-align ">
-                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                        {% if vinyl.reducePrice >0 %}
+                            <span class=" right banner-discount">PROMO</span>
+                        {% endif %}
+                        <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
                     <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                         <div class="container-vinyl-info ">
 
@@ -113,18 +123,18 @@
                                 -
                                 {{ vinyl.year }}</p>
                             {% if vinyl.reducePrice %}
-                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
-                            {% else %}
-                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                            {% endif %}
+                                <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
+                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€
+                                {% else %}
+                                    <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                                {% endif %}
 
-                        </div>
-                    </a>
-                </div>
-            {% endfor %}
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
-    </div> 
 
 
-
-{% endblock %}
+    {% endblock %}

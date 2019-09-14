@@ -25,7 +25,13 @@
         <div class="row">
             {% for vinyl in vinyls %}
                 <div class="col s12 m6 l3 center-align ">
-                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+
+                    {% if vinyl.reducePrice >0 %}
+                        <span class=" right banner-discount">PROMO</span>
+                    {% endif %}
+                            <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                   
                     <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                         <div class="container-vinyl-info ">
 
@@ -35,46 +41,47 @@
                                 -
                                 {{ vinyl.year }}</p>
                             {% if vinyl.reducePrice %}
-                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
-                            {% else %}
-                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                            {% endif %}
+                                <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
+                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€
+                                {% else %}
+                                    <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                                {% endif %}
 
-                        </div>
-                    </a>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="parallax-container container-brand-promotion">
+            <h3 class="title-call-to-action center-align">Lorem</h3>
+            <p class="text-call-to-action ">Lorem ipsum dolor, sit amet consectetur adipisicing elit dolorum veritatis enim consectetur !</p>
+            <div class="row">
+                <div class="col s12 m12  l4 center-align">
+                    <img class="icon-brand-promotion" src="assets/img/award.png" alt="award">
+                    <h4 class="title-brand-promotion">Lorem</h4>
+                    <p class="text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="parallax-container container-brand-promotion">
-        <h3 class="title-call-to-action center-align">Lorem</h3>
-        <p class="text-call-to-action ">Lorem ipsum dolor, sit amet consectetur adipisicing elit dolorum veritatis enim consectetur !</p>
-        <div class="row">
-            <div class="col s12 m12  l4 center-align">
-                <img class="icon-brand-promotion" src="assets/img/award.png" alt="award">
-                <h4 class="title-brand-promotion">Lorem</h4>
-                <p class="text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
+                <div class="col s12 m12 l4 center-align">
+                    <img class="icon-brand-promotion" src="assets/img/lp.png" alt="vinyl">
+                    <h4 class="title-brand-promotion">Lorem</h4>
+                    <p class="text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
+                </div>
+                <div class="col s12 m12 l4 center-align">
+                    <img class="icon-brand-promotion" src="assets/img/delivery-truck.png" alt="truck">
+                    <h4 class="title-brand-promotion">Lorem</h4>
+                    <p class="text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
+                </div>
+
             </div>
-            <div class="col s12 m12 l4 center-align">
-                <img class="icon-brand-promotion" src="assets/img/lp.png" alt="vinyl">
-                <h4 class="title-brand-promotion">Lorem</h4>
-                <p class="text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
-            </div>
-            <div class="col s12 m12 l4 center-align">
-                <img class="icon-brand-promotion" src="assets/img/delivery-truck.png" alt="truck">
-                <h4 class="title-brand-promotion">Lorem</h4>
-                <p class="text">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut</p>
-            </div>
+
+
+            <div class="parallax"><img class="image-filter-grey" src="assets/img/records-shop.jpg"></div>
+
 
         </div>
 
-
-        <div class="parallax"><img class="image-filter-grey" src="assets/img/records-shop.jpg"></div>
-
-
-    </div>
-
-{% endblock %}
+    {% endblock %}
