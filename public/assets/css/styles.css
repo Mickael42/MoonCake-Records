@@ -2,6 +2,10 @@ html {
     font-family: 'Raleway', sans-serif;
 }
 
+a:focus {
+    outline:none !important;
+}
+
 .main-navbar {
     background: #555555
 }
@@ -110,7 +114,7 @@ html {
 }
 
 
-.button-white{
+.button-white-call-to-action{
     padding : 20px;
     padding-bottom: 10px;
     padding-top : 10px;
@@ -121,7 +125,7 @@ html {
     transition: 0.3s
 
 }
-.button-white:hover{
+.button-white-call-to-action:hover{
     padding : 20px;
     font-weight: bolder;
     padding-bottom: 10px;
@@ -159,6 +163,7 @@ html {
 }
 .vinyl-name{
     margin-top: 0px;
+    color : black;
     margin-bottom :0;
     font-weight: bold;
 }
@@ -211,4 +216,125 @@ html {
 .section-title{
     color : #C26208;
     font-weight: bold
+}
+
+.genres-row{
+    margin-bottom : 40px;
+}
+
+.genre-button-container{
+    margin-bottom: 30px;
+}
+
+
+.button-white{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    background-color: white;
+    border-radius: 10px;
+    border : 1px solid #C26208; 
+    color : black;
+    transition: 0.3s
+
+}
+.button-white:hover{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    border-radius: 10px;
+    border : 1px solid white; 
+    background-color: #C26208;
+    color : white;
+    transition: 0.3s
+    
+}
+
+.button-black{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    background-color: white;
+    border-radius: 10px;
+    border : 1px solid black; 
+    color : black;
+    transition: 0.3s
+
+}
+.button-black:hover{
+    padding : 20px;
+    padding-bottom: 10px;
+    padding-top : 10px;
+    border-radius: 10px;
+    border : 1px solid #A4A1A1; 
+    background-color: #A4A1A1;
+    color : white;
+    transition: 0.3s
+    
+}
+
+
+.duration-track{
+    color : #A4A1A1
+}
+
+.vinyl-artitst{
+    color : #C26208;
+    font-weight: bold;
+    margin-bottom : 0px
+}
+.vinyl-title{
+    margin-top :2px;
+    color : black;
+    font-weight: bold
+}
+
+.vinyl-price{
+    font-weight: bold;
+    color : black;
+    font-size: 18px;
+
+}
+.stock-green{
+    color : green;
+    font-weight: bold
+}
+.stock-red{
+    color : red;
+
+}
+
+.btn-add-cart{
+    background-color : #C26208;
+    border-radius: 10px;
+}
+.btn-add-cart:hover{
+    background-color : white;
+    border-radius: 10px;
+    color : #C26208;
+}
+
+/* #container-vinyl-main-infos{
+    padding-bottom  : 40px;
+    border-bottom: 1px solid #555555
+} */
+
+.container-title-section{
+padding-top : 10px;
+border-top: 1px solid #555555
+}
+
+.link-back{
+    color: black;
+    margin-left : 15px;
+    transition: 0.3s;
+}
+
+.link-back:hover{
+    color: #C26208;
+    margin-left : 15px;
+    transition: 0.3s;
+}
+.cover-vinyl-large{
+    width: 400px;
 }

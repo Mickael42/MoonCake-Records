@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vinyl
+{% endblock %}
+
+{% block body %}
+
+    <a class="link-back" href="{{ path('vinyl_index') }}">
+        <i class="tiny material-icons">arrow_back</i>Aller au catalogue</a>
+
+
+    <div class="row">
+
+        <div class="col l6 s12 center-align ">
+            <img class="cover-vinyl-large" src="{{vinyl.cover}}" alt="cover-vinyl">
+            <h5>Tracklist</h5>
+            <ul>
+                {% for track in tracks %}
+                    <li>{{track.position}}-{{track.name}}
+                        <span class="duration-track">{{track.duration | date("i:s")}}</span>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+
+        <div class="col l6 s12  " id="container-vinyl-main-infos">
+            <h4 class="vinyl-artitst">{{ vinyl.artiste }}</h4>
+            <h5 class="vinyl-title">{{ vinyl.name }}</h5>
+
+            <p>{{vinyl.label}}
+                |
+                {{vinyl.catNum}}
+            </p>
+
+            {% if vinyl.quantityStock >0 %}
+                <div class="right">
+                    <a class="waves-effect waves-light btn-large btn-add-cart">
+                        <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</a>
+                </div>
+
+
+            {% else %}
+                <div class="right">
+                    <a class="btn-large disabled">
+                        <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</a>
+                </a>
+            </div>
+
+        {% endif %}
+
+
+        {% if vinyl.reducePrice %}
+            <p class="vinyl-price">Prix :
+                {{ vinyl.reducePrice }}€</p>
+        {% else %}
+            <p class="vinyl-price">Prix :
+                {{ vinyl.regularPrice }}€</p>
+        {% endif %}
+
+
+        {% if vinyl.quantityStock >0 %}
+            <div class="stock-green">
+                <i class="tiny material-icons">brightness_1</i>
+                <span>En stock</span>
+            </div>
+
+
+        {% else %}
+            <div class="stock-red">
+                <i class="tiny material-icons">brightness_1</i>
+                <span>En stock</span>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col s6 ">
+        <ul>
+            <li>Année :
+                {{vinyl.year}}</li>
+            <li>Format :
+                {{vinyl.format}}</li>
+            <li>Genre :
+                {{vinyl.genre.name}}</li>
+            <li>Etat du média :
+                {{vinyl.mediaCondition}}</li>
+            <li>Année :
+                {{vinyl.sleeveCondition}}</li>
+            <li>Année :
+                {{vinyl.year}}</li>
+        </ul>
+        {% if vinyl.description %}
+            <p>{{vinyl.description}}</p>
+        {% endif %}
+    </div>
+
+</div>
+    
+<div class="section ">
+        <div class="row container container-title-section">
+            <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
+        </div>
+
+        <div class="row">
+            {% for vinyl in relatedVinyls %}
+                <div class="col s12 m6 l3 center-align ">
+                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                        <div class="container-vinyl-info ">
+
+                            <p class='artist-name'>{{ vinyl.artiste }}</p>
+                            <p class='vinyl-name'>{{ vinyl.name }}</p>
+                            <p class='label-and-year'>{{ vinyl.label }}
+                                -
+                                {{ vinyl.year }}</p>
+                            {% if vinyl.reducePrice %}
+                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
+                            {% else %}
+                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                            {% endif %}
+
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div> 
+
+
+
+{% endblock %}
