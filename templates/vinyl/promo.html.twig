@@ -4,127 +4,66 @@
 {% block body %}
 
     <div class="parallax-container container-header-page  ">
-        <h3 class="title-header-page center-align">Le catalogue</h3>
-        <p class="text center-align">Découvrer et filter par genre l'ensemble des vinyles
+        <h3 class="title-header-page center-align">Les promos</h3>
+        <p class="text center-align">Le coin des bonnes affaires !
         </p>
         <div class="parallax ">
-            <img src="/assets/img/imagebackVinyls.jpg">
+            <img src="/assets/img/image.jpg">
         </div>
 
     </div>
-
-    <div class="row container">
-        <h2 class="header section-title center-align">Les genres</h2>
-        <p class="grey-text text-darken-3 lighten-3 center-align">Filter selon le genre souhaité</p>
-    </div>
-
-    <div class="row genres-row">
-        <div class="col s2  genre-button-container ">
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white" data-group="all">genre</a>
-            </div>
-
-        </div>
-        <div class="col s2  genre-button-container ">
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white" data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2 genre-button-container  ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
-            </div>
-        </div>
-        <div class="col s2  genre-button-container ">
-
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white " data-group="all">genre</a>
+    {% if vinyls %}
+        <div class='row'>
+            <div class="col s1 ">
+                <p>
+                    <a href="{{path ('vinyl_index') }}" class="button-black ">Filtrer</a>
+                </p>
             </div>
         </div>
 
-    </div>
 
+        <div class="row">
+            {% for vinyl in vinyls %}
+                <div class="col s12 m6 l3 center-align ">
+                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                        <div class="container-vinyl-info ">
 
-    <div class='row'>
-        <div class="col s2 ">
-            <p>{{vinyls|length}} vinyles</p>
+                            <p class='artist-name'>{{ vinyl.artiste }}</p>
+                            <p class='vinyl-name'>{{ vinyl.name }}</p>
+                            <p class='label-and-year'>{{ vinyl.label }}
+                                -
+                                {{ vinyl.year }}</p>
+                            {% if vinyl.reducePrice %}
+                                <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
+                            {% else %}
+                                <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                            {% endif %}
+
+                        </div>
+                    </a>
+                </div>
+            {% else %}
+                <div class="col s12 m12 l12 center-align">
+                    <p>Oups ! Erreur, il n'y a pas de vinyles à afficher</p>
+                </div>
+            {% endfor %}
         </div>
-        <div class="col s1 ">
-            <p>
-                <a href="{{path ('vinyl_index') }}" class="button-black ">Filtrer</a>
-            </p>
+
+    {% else %}
+
+        <div class="row">
+
+            <div class="col s12 center-align">
+                <i class="material-icons large center-align">mood_bad</i>
+                <p class="center-align">Malheuresment, il n'y a plus de vinyles en promo</p>
+                <div class="center-align">
+
+                    <a href="{{path ('vinyl_index') }}" class="button-white-call-to-action">Retourner au catalogue</a>
+                </div>
+            </div>
         </div>
-    </div>
 
 
-    <div class="row">
-        {% for vinyl in vinyls %}
-            <div class="col s12 m6 l3 center-align ">
-                <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}"><img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
-                <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                    <div class="container-vinyl-info ">
-
-                        <p class='artist-name'>{{ vinyl.artiste }}</p>
-                        <p class='vinyl-name'>{{ vinyl.name }}</p>
-                        <p class='label-and-year'>{{ vinyl.label }}
-                            -
-                            {{ vinyl.year }}</p>
-                        {% if vinyl.reducePrice %}
-                            <p class='vinyl-price'>{{ vinyl.reducePrice }}€</p>
-                        {% else %}
-                            <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                        {% endif %}
-
-                    </div>
-                </a>
-            </div>
-        {% else %}
-            <div class="col s12 m12 l12 center-align">
-                <p>Oups ! Erreur, il n'y a pas de vinyles à afficher</p>
-            </div>
-        {% endfor %}
-    </div>
+    {% endif %}
 {% endblock %}

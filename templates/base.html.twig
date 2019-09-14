@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>
-            {% block title %}Bienvenue sur MoonCake Records!
+            {% block title %}Bienvenue chez MoonCake Records!
             {% endblock %}
         </title>
         {% block stylesheets %}
@@ -29,7 +29,7 @@
                         <a href="{{path ('vinyl_index') }}">Catalogue</a>
                     </li>
                     <li>
-                        <a href="collapsible.html">Promo</a>
+                        <a href="{{path ("vinyl_promo")}}">Promo</a>
                     </li>
                     <li>
                         <a href="{{path ('contact') }}">Contact</a>
@@ -79,7 +79,7 @@
                 </a>
             </li>
             <li>
-                <a href="collapsible.html">
+                <a href="{{path ("vinyl_promo")}}">
                     <span class="text-sidenav">Promo</span>
                 </a>
             </li>

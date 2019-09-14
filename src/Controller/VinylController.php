@@ -33,7 +33,7 @@ class VinylController extends AbstractController
     public function promo(VinylRepository $vinylRepository): Response
     {
         return $this->render('vinyl/promo.html.twig', [
-            'vinyls' => $vinylRepository->findAll(),
+            'vinyls' => $vinylRepository->findAllVinylPromo(),
         ]);
     }
 
