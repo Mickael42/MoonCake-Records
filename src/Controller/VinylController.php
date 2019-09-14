@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Track;
+use App\Entity\Cart;
+use App\Entity\OrderProduct;
 use App\Entity\Vinyl;
 use App\Form\VinylType;
+use App\Repository\CartRepository;
 use App\Repository\GenreRepository;
+use App\Repository\OrderProductRepository;
 use App\Repository\TrackRepository;
 use App\Repository\VinylRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +31,7 @@ class VinylController extends AbstractController
 
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $vinylRepository->findAll(),
-            'genres'=>$genreRepository->findAll()
+            'genres' => $genreRepository->findAll()
         ]);
     }
 
@@ -66,18 +69,81 @@ class VinylController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="vinyl_show", methods={"GET"})
+     * @Route("/{id}", name="vinyl_show", methods={"GET","POST"})
      */
-    public function show(Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository): Response
+    public function show(Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
         $vinylGenre = $vinyl->getGenre();
         $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
 
-
-
         //get all the tracks related to the vinyl
         $vinylId = $vinyl->getId();
         $tracks = $trackRepository->findBy(array('vinyl' => $vinylId));
+
+
+        //if the customer click on 'add to cart', we create a new entry in OrderProduct and a new Cart
+        if ($request->request->get('vinylSelected')) {
+
+            // we check if the vinyl as a discount and we store the price
+            $vinylPrice = 0;
+            if ($vinyl->getReducePrice() > 0) {
+                $vinylPrice = $vinyl->getReducePrice();
+            } else {
+                $vinylPrice = $vinyl->getRegularPrice();
+            }
+
+            // we check if the customer have already an cart in progress
+            $cartInProgress = $cartRepository->findOneBy(['ipAddress' => $request->server->get('REMOTE_ADDR')]);
+
+            if ($cartInProgress) {
+                // we check if the cart in progress doesn't have already the product selected
+                $cartWithProductAlreadySelected = $orderProductRepository->findOneBy(['cart' => $cartInProgress, 'vinyl' => $vinyl]);
+                if ($cartWithProductAlreadySelected) {
+                    return $this->render('vinyl/show.html.twig', [
+                        'vinyl' => $vinyl,
+                        'tracks' => $tracks,
+                        'relatedVinyls' => $vinylRelated
+                    ]);
+                }
+
+                //calculating the new ammount of the cart
+                $newAmmount = $cartInProgress->getTotalAmount() + $vinylPrice;
+                $cartInProgress->setTotalAmount($newAmmount);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($cartInProgress);
+
+                //creating a new order Product 
+                $orderProduct = new OrderProduct();
+                $orderProduct->setVinyl($vinyl);
+                $orderProduct->setCart($cartInProgress);
+                $orderProduct->setPrice($vinylPrice);
+                $orderProduct->setQuantity(1);
+                $entityManager->persist($orderProduct);
+                $entityManager->flush();
+                dump("Il y a déja un panier");
+                return $this->render('vinyl/show.html.twig', [
+                    'vinyl' => $vinyl,
+                    'tracks' => $tracks,
+                    'relatedVinyls' => $vinylRelated
+                ]);
+            }
+
+            //creating a new Cart
+            $cart = new Cart;
+            $cart->setIpAddress($request->server->get('REMOTE_ADDR'));
+            $cart->setTotalAmount($vinylPrice);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($cart);
+
+            //creating a new Order Product
+            $orderProduct = new OrderProduct();
+            $orderProduct->setVinyl($vinyl);
+            $orderProduct->setCart($cart);
+            $orderProduct->setPrice($vinylPrice);
+            $orderProduct->setQuantity(1);
+            $entityManager->persist($orderProduct);
+            $entityManager->flush();
+        }
 
 
         return $this->render('vinyl/show.html.twig', [

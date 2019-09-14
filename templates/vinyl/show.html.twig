@@ -13,8 +13,10 @@
 
         <div class="col l6 s12 center-align ">
             {% if vinyl.reducePrice >0 %}
-            {% set discount = (vinyl.reducePrice / vinyl.regularPrice)*100 %}
-                <span class=" right banner-discount">- {{discount}} %</span>
+                {% set discount = (vinyl.reducePrice / vinyl.regularPrice)*100 %}
+                <span class=" right banner-discount">-
+                    {{discount}}
+                    %</span>
             {% endif %}
             <img class="cover-vinyl-large" src="{{vinyl.cover}}" alt="cover-vinyl">
             <h5>Tracklist</h5>
@@ -37,17 +39,20 @@
                 {{vinyl.catNum}}
             </p>
 
-            {% if vinyl.quantityStock >0 %}
+            {% if vinyl.quantityStock > 0 %}
                 <div class="right">
-                    <a class="waves-effect waves-light btn-large btn-add-cart">
-                        <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</a>
+                    <form method="post" action="{{ path ('vinyl_show',{id : vinyl.id}) }}">
+                    <input type="hidden" name="vinylSelected" value ={{vinyl.id}}>
+                        <button type="submit" class="waves-effect waves-light btn-large btn-add-cart">
+                            <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</button>
+                    </form>
                 </div>
 
 
             {% else %}
                 <div class="right">
-                    <a class="btn-large disabled">
-                        <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</a>
+                    <button class="btn-large disabled">
+                        <i class="material-icons left">add_shopping_cart</i>Ajouter au panier</button>
                 </a>
             </div>
 
