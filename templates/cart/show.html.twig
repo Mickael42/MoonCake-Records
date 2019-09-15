@@ -1,30 +1,71 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cart{% endblock %}
+{% block title %}Cart
+{% endblock %}
 
 {% block body %}
-    <h1>Cart</h1>
+    <a href="{{ path('cart_index') }}">Retourner au panier</a>
+    <div class="row">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ cart.id }}</td>
-            </tr>
-            <tr>
-                <th>IpAddress</th>
-                <td>{{ cart.ipAddress }}</td>
-            </tr>
-            <tr>
-                <th>TotalAmount</th>
-                <td>{{ cart.totalAmount }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <div class="col s8  red">
 
-    <a href="{{ path('cart_index') }}">back to list</a>
 
-    <a href="{{ path('cart_edit', {'id': cart.id}) }}">edit</a>
+{# Forms goes here #}
 
-    {{ include('cart/_delete_form.html.twig') }}
+        </div>
+
+        <div class="col s4 summary-cart">
+            <h5 class="section-title center-align">Résumé de la commande</h5>
+
+            <div class="col s8 ">
+                <p>Nombre d'article</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>{{orderProducts | length }}</p>
+            </div>
+            <div class="col s8 ">
+                <p>Prix total des articles</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>{{cart.totalAmount}}
+                    €</p>
+            </div>
+            <div class="col s8 ">
+                <p>Prix de la livraison</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>0 €</p>
+            </div>
+
+
+            <div class="col s8 ">
+                <p>Prix de la livraison</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p>1 €</p>
+            </div>
+
+            <div class="col s8 total-summary-cart ">
+                <p class="text-total-summary-cart">Montant total</p>
+            </div>
+            <div class="col s4  quantity-summury-cart">
+                <p class="text-total-summary-cart">{{cart.totalAmount}}
+                    €</p>
+            </div>
+            <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
+            <div class="center-align">
+                <a href="{{ path ("cart_show", {id : cart.id})}}">
+                    <button class="waves-effect waves-light btn-large btn-add-cart">
+                        Aller à la caisse</button>
+                </a>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
 {% endblock %}

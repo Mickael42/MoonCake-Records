@@ -60,10 +60,13 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET"})
      */
-    public function show(Cart $cart): Response
+    public function show(Cart $cart, OrderProductRepository $orderProductRepository): Response
     {
+
+        $orderProducts = $orderProductRepository->findBy(['cart' => $cart]);
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
+            'orderProducts'=>$orderProducts
         ]);
     }
 
