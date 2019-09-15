@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/cart")
+ * @Route("/panier")
  */
 class CartController extends AbstractController
 {
@@ -65,8 +65,6 @@ class CartController extends AbstractController
      */
     public function show(Request $request, Cart $cart, Client $client = null): Response
     {
-
-        
         if (!$client) {
             $client = new Client();
         }
@@ -89,7 +87,7 @@ class CartController extends AbstractController
             ]);
         }
 
-
+       
 
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,

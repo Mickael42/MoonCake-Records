@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <h3 class="section-title">Connexion</h3>
+
+    <div class="row">
+        <form axtion={{path ('security_login')}} class="col s12" method="post">
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="email" type="email" require name="_username" class="validate">
+                    <label for="email">Email</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input id="password" type="password" require name="_password" class="validate">
+                    <label for="password">Password</label>
+                </div>
+            </div>
+<button type="submit">Se connecter</button>
+        </form>
+
+
+        <p>Pas encore de compte ?</p>
+        <a href="{{path ('security_registration')}}">S'inscrire</a>
+    </div>
+{% endblock %}

@@ -49,14 +49,31 @@
                     </li>
 
 
-                    <li>
-                        <a href="badges.html">
-                            <i class="material-icons left">account_circle</i>Espace Client</a>
-                    </li>
+                    {% if app.user %}
+                        <li>
+                            <a href="{{path ('security_login') }}">
+                                <i class="material-icons left">account_circle</i>Bonjour,
+                                {{app.user.userName}}</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{path ('security_login') }}">
+                                <i class="material-icons left">account_circle</i>Espace Client</a>
+                        </li>
+
+                    {% endif %}
                     <li>
                         <a href="{{path ("cart_index")}}">
                             <i class="material-icons left">shopping_cart</i>Panier</a>
                     </li>
+
+                    {% if app.user %}
+                        <li>
+                            <a href="{{path ("security_logout")}}">
+                                <i class="material-icons left">clear</i>Déconnexion</a>
+                        </li>
+
+                    {% endif %}
                 </ul>
             </div>
         </nav>
@@ -99,19 +116,37 @@
                 </form>
             </li>
 
+            {% if app.user %}
+                <li>
+                    <a href="{{path ('security_login') }}">
+                        <i class="material-icons left">account_circle</i>
+                        <span class="text-sidenav">Bonjour,{{app.user.userName}}</span>
+                    </a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{path ('security_login') }}">
+                        <i class="material-icons left">account_circle</i>
+                        <span class="text-sidenav">Espace Client</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="badges.html">
-                    <i class="material-icons left ">account_circle</i>
-                    <span class="text-sidenav">Espace Client</span>
-                </a>
-            </li>
+            {% endif %}
             <li>
                 <a href="{{path ("cart_index")}}">
                     <i class="material-icons left ">shopping_cart</i>
                     <span class="text-sidenav">Panier</span>
                 </a>
             </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{path ("security_logout")}}">
+                        <i class="material-icons left">clear</i>
+                        <span class="text-sidenav">Déconnexion</span>
+                    </a>
+                </li>
+
+            {% endif %}
         </ul>
 
 
@@ -167,4 +202,4 @@
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     </body>
-</html>
+</html></body></html>
