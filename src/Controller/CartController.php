@@ -22,17 +22,17 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="cart_index", methods={"GET"})
      */
-    public function index(CartRepository $cartRepository, VinylRepository $vinylRepository, OrderProductRepository $orderProductRepository, Request $request): Response
+    public function index(CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
         $clientIpAddress = $request->server->get('REMOTE_ADDR');
         $cart = $cartRepository->findOneBy(array('ipAddress' => $clientIpAddress));
-        $orderProducts = $orderProductRepository->findBy(['cart' => $cart]);
        
-        
+
+
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findAll(),
-            'orderProducts'=>$orderProducts,
+            
         ]);
     }
 
@@ -44,6 +44,7 @@ class CartController extends AbstractController
         $cart = new Cart();
         $form = $this->createForm(CartType::class, $cart);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -60,29 +61,39 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="cart_show", methods={"GET"})
+     * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null): Response
+    public function show(Request $request, Cart $cart, Client $client = null): Response
     {
+
         
-        $orderProducts = $orderProductRepository->findBy(['cart' => $cart]);
-        if(!$client){
+        if (!$client) {
             $client = new Client();
         }
 
         $form = $this->createForm(ClientType::class, $client);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        $form->handleRequest($request);
+        
 
-            return $this->redirectToRoute('cart_index');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($client);
+
+            //We bind the client and the cart
+            $cart->setClient($client);
+            $entityManager->flush();
+
+            return $this->render('cart/show.html.twig', [
+                'cart' => $cart,
+                'formClient' => $form->createView()
+            ]);
         }
 
 
 
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
-            'orderProducts'=>$orderProducts,
-            'formClient'=>$form->createView()
+            'formClient' => $form->createView()
         ]);
     }
 
@@ -96,7 +107,6 @@ class CartController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
-
             return $this->redirectToRoute('cart_index');
         }
 

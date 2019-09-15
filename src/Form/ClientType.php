@@ -6,6 +6,7 @@ use App\Entity\Client;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ClientType extends AbstractType
 {
@@ -14,13 +15,13 @@ class ClientType extends AbstractType
         $builder
             ->add('firstName')
             ->add('lastName')
-            ->add('phone')
+            ->add('phone', TextType::class)
             ->add('email')
             ->add('adress')
             ->add('adressComplement')
             ->add('city')
             ->add('country')
-            ->add('zipCode')
+            ->add('zipCode', TextType::class)
             
         ;
     }

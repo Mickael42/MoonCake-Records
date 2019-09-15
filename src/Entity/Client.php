@@ -27,27 +27,32 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=2, max=255)
+     * @Assert\Length(min=2, max=255, minMessage="Le nom doit faire au moins 2 caractères")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=2, max=255, minMessage="Le nom doit faire au moins 2 caractères")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas un nombre.")
+     * @Assert\Length(min=10, max=10, minMessage="Le numéro de téléphone doit avoir 10 chiffres", maxMessage="Le numéro de téléphone doit avoir 10 chiffres")
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message = "L'email '{{ value }}' n'est pas une adresse valide.", checkMX = true)
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, max=255, minMessage="L'adresse doit avoir au moins 10 caractères.")
      */
     private $adress;
 
@@ -58,16 +63,20 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=2, max=255, minMessage="Le nom de la ville est incorrecte.")
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=3, max=255, minMessage="Le nom du pays est incorrecte.")
      */
     private $country;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer", message="La valeur {{ value }} est incorrecte.")
+     * @Assert\Length(min=5, max=5, minMessage="Le code postal doit avoir 5 chiffres")
      */
     private $zipCode;
 
@@ -274,5 +283,4 @@ class Client
 
         return $this;
     }
-
 }

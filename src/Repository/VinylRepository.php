@@ -36,7 +36,7 @@ class VinylRepository extends ServiceEntityRepository
     public function findByLastVinyls($value)
     {
         return $this->createQueryBuilder('u')
-            ->orderBy('u.id', 'ASC')
+            ->orderBy('u.id', 'DESC')
             ->setMaxResults($value)
             ->getQuery()
             ->getResult()

@@ -24,7 +24,7 @@
                         Prix
                     </div>
                 </div>
-                {% for product in orderProducts %}
+                {% for product in cart.orderProducts %}
                     <div class="cart-container-order-product">
                         <div class="col s6 col-container-order-product  valign-wrapper">
                             <div class="col s6">
@@ -60,7 +60,7 @@
                     <p>Nombre d'article</p>
                 </div>
                 <div class="col s4  quantity-summury-cart">
-                    <p>{{orderProducts | length }}</p>
+                    <p>{{cart.orderProducts | length }}</p>
                 </div>
                 <div class="col s8 ">
                     <p>Prix total des articles</p>
