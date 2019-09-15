@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
+use App\Entity\Client;
 use App\Form\CartType;
+use App\Form\ClientType;
 use App\Repository\CartRepository;
 use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
@@ -60,13 +62,27 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET"})
      */
-    public function show(Cart $cart, OrderProductRepository $orderProductRepository): Response
+    public function show(Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null): Response
     {
-
+        
         $orderProducts = $orderProductRepository->findBy(['cart' => $cart]);
+        if(!$client){
+            $client = new Client();
+        }
+
+        $form = $this->createForm(ClientType::class, $client);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('cart_index');
+        }
+
+
+
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
-            'orderProducts'=>$orderProducts
+            'orderProducts'=>$orderProducts,
+            'formClient'=>$form->createView()
         ]);
     }
 
