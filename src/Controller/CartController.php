@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Cart;
-use App\Entity\Client;
-use App\Entity\OrderProduct;
 use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Client;
 use App\Form\CartType;
 use App\Form\ClientType;
-use App\Repository\CartRepository;
+use App\Entity\OrderProduct;
 
+use App\Repository\CartRepository;
 use App\Repository\VinylRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/panier")
@@ -24,12 +27,16 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="cart_index", methods={"GET"})
      */
-    public function index(CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
+    public function index(UserInterface $user = null, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
         //We get the id of the cart stored in the cookie
-        $ipCartDecoded = base64_decode($request->cookies->get('ip'));
-        $cart = $cartRepository->find($ipCartDecoded);
-       
+        if ($user) {
+            $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
+        } else {
+            $ipCartDecoded = base64_decode($request->cookies->get('ip'));
+            $cart = $cartRepository->find($ipCartDecoded);
+        }
+
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findAll(),
@@ -64,29 +71,35 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, Client $client = null, User $user = null): Response
+    public function show(Request $request, Cart $cart, Client $client = null, UserInterface $user = null): Response
     {
-        if (!$client && !$user) {
+        if (!$client) {
             $client = new Client();
-            $user = new User();
         }
 
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($client);
+            if ($user) {
+                $client->setUser($user);
+            }
 
-            //We bind the client and the cart
-            $cart->setClient($client);
+            $order = new Order();
+            $order->setClient($client);
+            
+            $order->setOrderDate(new \DateTime());
+            $order->setPaymentMethod('unknow');
+            $order->setStatus("unpaid");
+            $order->setTotalAmount($cart->getTotalAmount());
+            $order->setCart($cart);
+            $entityManager->persist($order);
+            
             $entityManager->flush();
-
-            return $this->render('cart/show.html.twig', [
-                'cart' => $cart,
-                'formClient' => $form->createView()
-            ]);
+            
+            return $this->redirectToRoute('payment');
         }
 
 

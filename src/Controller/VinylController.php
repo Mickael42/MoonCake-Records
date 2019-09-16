@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @Route("/vinyl")
@@ -70,8 +70,9 @@ class VinylController extends AbstractController
     /**
      * @Route("/{id}", name="vinyl_show", methods={"GET","POST"})
      */
-    public function show(Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
+    public function show(UserInterface $user =null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
+      
         $response = new Response();
         $vinylGenre = $vinyl->getGenre();
         $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
@@ -93,6 +94,7 @@ class VinylController extends AbstractController
             }
 
             // we check if the customer have already an cart in progress (id stored in a cookie)
+
             $ipCartDecoded = base64_decode($request->cookies->get('ip'));
             $cartInProgress = $cartRepository->find($ipCartDecoded);
            
@@ -140,6 +142,10 @@ class VinylController extends AbstractController
             //creating a new Cart
             $cart = new Cart;
             $cart->setIsOrder(false);
+            //if the client is logged, we save the data in the data base
+            if ($user){
+                $cart->setUser($user);
+            }
             $cart->setTotalAmount($vinylPrice);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cart);

@@ -19,10 +19,19 @@
                 {{form_row (formClient.lastName,{'label': 'Nom','attr' :{'placeholder' : ' Ex : Flantier'} })}}
             </div>
 
-            <div class="col s8">
-                {{form_errors (formClient.email)}}
-                {{form_row (formClient.email,{'label': 'Adresse mail','attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
-            </div>
+            {% if app.user %}
+                <div class="col s8">
+                    {{form_errors (formClient.email)}}
+                    {{form_row (formClient.email,{'label': 'Adresse mail','value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+                </div>
+            {% else %}
+                <div class="col s8">
+                    {{form_errors (formClient.email)}}
+                    {{form_row (formClient.email,{'label': 'Adresse mail','attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+                </div>
+
+            {% endif %}
+
             <div class="col s4">
                 {{form_errors (formClient.phone)}}
                 {{form_row (formClient.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}

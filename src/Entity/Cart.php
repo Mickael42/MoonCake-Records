@@ -19,11 +19,6 @@ class Cart
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="carts")
-     */
-    private $client;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $totalAmount;
@@ -38,6 +33,11 @@ class Cart
      */
     private $isOrder;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="carts")
+     */
+    private $user;
+
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
@@ -46,18 +46,6 @@ class Cart
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
-
-        return $this;
     }
 
     public function getTotalAmount(): ?int
@@ -111,6 +99,18 @@ class Cart
     public function setIsOrder(bool $isOrder): self
     {
         $this->isOrder = $isOrder;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

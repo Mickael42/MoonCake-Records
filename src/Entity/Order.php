@@ -16,8 +16,6 @@ class Order
      */
     private $id;
 
-
-
     /**
      * @ORM\Column(type="string", length=255)
      */
