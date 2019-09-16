@@ -29,8 +29,6 @@ class CartController extends AbstractController
         $clientIpAddress = $request->server->get('REMOTE_ADDR');
         $cart = $cartRepository->findOneBy(array('ipAddress' => $clientIpAddress));
 
-
-
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findAll(),
