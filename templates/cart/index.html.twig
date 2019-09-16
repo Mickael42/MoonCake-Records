@@ -4,7 +4,8 @@
 {% endblock %}
 
 {% block body %}
-    <h3 class="section-title">Votre panier</h3>
+
+    <h3 class="order-section-title">Votre panier</h3>
 
 
     {% if cart is null %}
@@ -12,8 +13,14 @@
 
             <div class="col s12">
 
-                <p>Vous n'avez pas de panier ! Ajouter des articles !
+                <p class="order-text center-align">Votre panier est vide!
                 </p>
+                <div class="center-align">
+                    <a href="{{ path ("vinyl_index")}}">
+                        <button class="waves-effect waves-light btn-large btn-add-cart">
+                            Aller au catalogue</button>
+                    </a>
+                </div>
 
             </div>
 
@@ -26,21 +33,31 @@
 
                 <div>
                     <div class="col s6 ">
-                        Article
+                        <p class="center-align">
+                            Article
+                        </p>
                     </div>
-                    <div class="col s3 ">
-                        Quantité
-
+                    <div class="col s2 ">
+                        <p class="center-align">
+                            Quantité
+                        </p>
                     </div>
-                    <div class="col s3 ">
-                        Prix
+                    <div class="col s2 ">
+                        <p class="center-align">
+                            Prix
+                        </p>
+                    </div>
+                    <div class="col s2 ">
+                        <p class="center-align">
+                            Supprimer l'article du panier
+                        </p>
                     </div>
                 </div>
                 {% for product in cart.orderProducts %}
                     <div class="cart-container-order-product">
-                        <div class="col s6 col-container-order-product  valign-wrapper">
+                        <div class="col s6 col-container-order-product valign-wrapper">
                             <div class="col s6">
-                                <img class="cart-cover-vinyl" src="{{product.vinyl.cover}}" alt="">
+                                <img class="cart-cover-vinyl" src="{{product.vinyl.cover}}" alt="vinyl-cover">
                             </div>
                             <div class="col s6">
                                 <p class="vinyl-artist">{{product.vinyl.artiste}}</p>
@@ -49,22 +66,30 @@
                             </div>
 
                         </div>
-                        <div class="col s3 col-container-order-product valign-wrapper">
+                        <div class="col s2 col-container-order-product valign-wrapper">
                             <input type="number" name="quantity" min="1" max="5">
 
 
                         </div>
-                        <div class="col s3 col-container-order-product valign-wrapper">
-                            {{product.price}}
-                            €
+                        <div class="col s2 col-container-order-product valign-wrapper center-align">
+
+                            <p>{{product.price}}
+                                €</p>
+                        </div>
+                        <div class="col s2 col-container-order-product valign-wrapper center-align">
                             {{ include('cart/_deleteOneProduct_form.html.twig') }}
                         </div>
                     </div>
 
                 {% endfor %}
-                    <div class="col s1">
+                <div class="col s3">
+
+                    <div class="right">
                         {{ include('cart/_deleteCart_form.html.twig') }}
                     </div>
+
+                    <span class="left">Supprimer tout le panier</span>
+                </div>
             </div>
 
             <div class="col s4 summary-cart">
@@ -152,56 +177,7 @@
                     {% endfor %}
                 </div>
             </div>
-
-        {% else %}
-            <div class="row">
-
-                <div class="col s12">
-
-                    <p>Votre panier est vide !
-                    </p>
-
-                </div>
-
-            </div>
-
         {% endif %}
 
 
-        <div class="section ">
-            <div class="row container container-title-section">
-                <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
-            </div>
-
-            <div class="row">
-                {% for vinyl in vinyls %}
-                    <div class="col s12 m6 l3 center-align ">
-                        <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            {% if vinyl.reducePrice >0 %}
-                                <span class=" right banner-discount">PROMO</span>
-                            {% endif %}
-                            <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
-                        <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            <div class="container-vinyl-info ">
-
-                                <p class='artist-name'>{{ vinyl.artiste }}</p>
-                                <p class='vinyl-name'>{{ vinyl.name }}</p>
-                                <p class='label-and-year'>{{ vinyl.label }}
-                                    -
-                                    {{ vinyl.year }}</p>
-                                {% if vinyl.reducePrice %}
-                                    <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
-                                    <p class='vinyl-price'>{{ vinyl.reducePrice }}€
-                                    {% else %}
-                                        <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                                    {% endif %}
-
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-
-        {% endblock %}
+    {% endblock %}

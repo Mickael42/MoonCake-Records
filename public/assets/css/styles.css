@@ -3,6 +3,15 @@ html {
 
 }
 
+button:focus {
+    color:white !important;
+    background: #C26208 !important;
+  }
+input:focus {
+    border-bottom: 1px solid #C26208 !important;
+    box-shadow: 0 1px 0 0 #C26208 !important;
+  }
+
 a:focus {
     outline:none !important;
 }
@@ -297,6 +306,8 @@ a:focus {
     font-size: 18px;
 
 }
+
+
 .stock-green{
     color : green;
     font-weight: bold
@@ -304,6 +315,10 @@ a:focus {
 .stock-red{
     color : red;
 
+}
+
+.div-btn-add-cart{
+    margin-right :30px;
 }
 
 .btn-add-cart{
@@ -318,10 +333,7 @@ a:focus {
 .container-product-presentation{
     margin-top : 20px;
 }
-/* #container-vinyl-main-infos{
-    padding-bottom  : 40px;
-    border-bottom: 1px solid #555555
-} */
+
 
 .container-title-section{
 padding-top : 10px;
@@ -402,4 +414,26 @@ border-top: 1px solid #555555
 
 .col-container-order-product{
     height: 150px;
+}
+
+.order-section-title{
+    color : #C26208;
+    font-weight: bold;
+    margin-left :20px;
+}
+
+.order-text{
+    color : black;
+    font-size: 18px;
+}
+
+.btn-delete-form{
+    background-color : white;
+    border-radius: 10px;
+    color : #C26208;
+}
+.btn-delete-form:hover{
+    background-color : #C26208;
+    border-radius: 10px;
+    color:white;
 }

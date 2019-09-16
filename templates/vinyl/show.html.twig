@@ -16,7 +16,7 @@
         </div>
     {% endfor %}
 
-    <div class="row container-product-presentation ">
+    <div class="row container-product-presentation">
 
         <div class="col l6 s12 center-align ">
             {% if vinyl.reducePrice >0 %}
@@ -37,9 +37,9 @@
         </div>
 
 
-        <div class="col l6 s12  " id="container-vinyl-main-infos">
+        <div class="col l6 s12" id="container-vinyl-main-infos">
 
-            <h4 class="vinyl-artitst">{{ vinyl.artiste }}</h4>
+            <h4 class="vinyl-artist">{{ vinyl.artiste }}</h4>
             <h5 class="vinyl-title">{{ vinyl.name }}</h5>
 
             <p>{{vinyl.label}}
@@ -149,10 +149,6 @@
             </div>
         </div>
 
-
+    </div>
     {% endblock %}
-{% block javascripts %}
-
-
-
-{% endblock %}
+    {% block javascripts %}{% endblock %}

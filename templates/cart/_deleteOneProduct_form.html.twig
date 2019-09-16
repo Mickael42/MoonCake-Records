@@ -2,5 +2,5 @@
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_idOrderProduct" value="{{ product.id}}">
     <input type="hidden" name="_tokenOrderProduct" value="{{ csrf_token('delete' ~ product.id) }}">
-    <button class="btn"> <i class="material-icons">remove_shopping_cart</i></button>
+    <button  class="btn btn-delete-form"> <i class="material-icons">remove_shopping_cart</i></button>
 </form>
