@@ -3,18 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
-use App\Entity\OrderProduct;
 use App\Entity\Vinyl;
 use App\Form\VinylType;
+use App\Entity\OrderProduct;
 use App\Repository\CartRepository;
 use App\Repository\GenreRepository;
-use App\Repository\OrderProductRepository;
 use App\Repository\TrackRepository;
 use App\Repository\VinylRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\OrderProductRepository;
+use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 /**
  * @Route("/vinyl")
@@ -73,6 +75,7 @@ class VinylController extends AbstractController
      */
     public function show(Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
+        $response = new Response();
         $vinylGenre = $vinyl->getGenre();
         $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
 
@@ -92,9 +95,10 @@ class VinylController extends AbstractController
                 $vinylPrice = $vinyl->getRegularPrice();
             }
 
-            // we check if the customer have already an cart in progress
-            $cartInProgress = $cartRepository->findOneBy(['ipAddress' => $request->server->get('REMOTE_ADDR')]);
-
+            // we check if the customer have already an cart in progress (id stored in a cookie)
+            $ipCartDecoded = base64_decode($request->cookies->get('ip'));
+            $cartInProgress = $cartRepository->find($ipCartDecoded);
+           
             if ($cartInProgress) {
                 // we check if the cart in progress doesn't have already the product selected
                 $cartWithProductAlreadySelected = $orderProductRepository->findOneBy(['cart' => $cartInProgress, 'vinyl' => $vinyl]);
@@ -124,7 +128,6 @@ class VinylController extends AbstractController
                 $orderProduct->setQuantity(1);
                 $entityManager->persist($orderProduct);
                 $entityManager->flush();
-
                 $this->addFlash(
                     'notice',
                     'Le vinyle a bien été ajouté au panier!'
@@ -152,17 +155,27 @@ class VinylController extends AbstractController
             $orderProduct->setQuantity(1);
             $entityManager->persist($orderProduct);
             $entityManager->flush();
+
+            //We save the cart Id in a cookie
+            //But we have to encode the data stored inside the cookie
+            $cartId=$cart->getId();
+            $dataEncoded = base64_encode($cartId);
+            $response->headers->clearCookie("ip");
+            $cookie = new Cookie("ip", $dataEncoded, time() + 3600);
+            $response->headers->setCookie($cookie); 
+
+
             $this->addFlash(
                 'notice',
                 'Le vinyle a bien été ajouté au panier!'
             );
         }
 
-        return $this->render('vinyl/show.html.twig', [
+        return  $this->render('vinyl/show.html.twig', [
             'vinyl' => $vinyl,
             'tracks' => $tracks,
             'relatedVinyls' => $vinylRelated
-        ]);
+        ], $response);
     }
 
     /**

@@ -26,8 +26,9 @@ class CartController extends AbstractController
      */
     public function index(CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
-        $clientIpAddress = $request->server->get('REMOTE_ADDR');
-        $cart = $cartRepository->findOneBy(array('ipAddress' => $clientIpAddress));
+        //We get the id of the cart stored in the cookie
+        $ipCartDecoded = base64_decode($request->cookies->get('ip'));
+        $cart = $cartRepository->find($ipCartDecoded);
 
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
