@@ -19,11 +19,6 @@ class Cart
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $ipAddress;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="carts")
      */
     private $client;
@@ -38,6 +33,11 @@ class Cart
      */
     private $orderProducts;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isOrder;
+
     public function __construct()
     {
         $this->orderProducts = new ArrayCollection();
@@ -46,18 +46,6 @@ class Cart
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getIpAddress(): ?string
-    {
-        return $this->ipAddress;
-    }
-
-    public function setIpAddress(string $ipAddress): self
-    {
-        $this->ipAddress = $ipAddress;
-
-        return $this;
     }
 
     public function getClient(): ?Client
@@ -111,6 +99,18 @@ class Cart
                 $orderProduct->setCart(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsOrder(): ?bool
+    {
+        return $this->isOrder;
+    }
+
+    public function setIsOrder(bool $isOrder): self
+    {
+        $this->isOrder = $isOrder;
 
         return $this;
     }

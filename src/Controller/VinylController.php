@@ -28,9 +28,6 @@ class VinylController extends AbstractController
      */
     public function index(VinylRepository $vinylRepository, GenreRepository $genreRepository): Response
     {
-
-
-
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $vinylRepository->findAll(),
             'genres' => $genreRepository->findAll()
@@ -142,7 +139,7 @@ class VinylController extends AbstractController
 
             //creating a new Cart
             $cart = new Cart;
-            $cart->setIpAddress($request->server->get('REMOTE_ADDR'));
+            $cart->setIsOrder(false);
             $cart->setTotalAmount($vinylPrice);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cart);

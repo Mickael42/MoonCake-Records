@@ -5,10 +5,10 @@ namespace App\Controller;
 use App\Entity\Cart;
 use App\Entity\Client;
 use App\Entity\OrderProduct;
+use App\Entity\User;
 use App\Form\CartType;
 use App\Form\ClientType;
 use App\Repository\CartRepository;
-use App\Repository\OrderProductRepository;;
 
 use App\Repository\VinylRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +29,7 @@ class CartController extends AbstractController
         //We get the id of the cart stored in the cookie
         $ipCartDecoded = base64_decode($request->cookies->get('ip'));
         $cart = $cartRepository->find($ipCartDecoded);
-
+       
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findAll(),
@@ -64,10 +64,11 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, Client $client = null): Response
+    public function show(Request $request, Cart $cart, Client $client = null, User $user = null): Response
     {
-        if (!$client) {
+        if (!$client && !$user) {
             $client = new Client();
+            $user = new User();
         }
 
         $form = $this->createForm(ClientType::class, $client);
