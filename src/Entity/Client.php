@@ -39,7 +39,7 @@ class Client
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas un nombre.")
+     * @Assert\Type(type="numeric", message="La valeur {{ value }} n'est pas un nombre.")
      * @Assert\Length(min=10, max=10, minMessage="Le numéro de téléphone doit avoir 10 chiffres", maxMessage="Le numéro de téléphone doit avoir 10 chiffres")
      */
     private $phone;

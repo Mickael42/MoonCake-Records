@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Cart;
 use App\Entity\Client;
+use App\Entity\OrderProduct;
 use App\Form\CartType;
 use App\Form\ClientType;
 use App\Repository\CartRepository;
-use App\Repository\OrderProductRepository;
+use App\Repository\OrderProductRepository;;
+
 use App\Repository\VinylRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,13 +28,13 @@ class CartController extends AbstractController
     {
         $clientIpAddress = $request->server->get('REMOTE_ADDR');
         $cart = $cartRepository->findOneBy(array('ipAddress' => $clientIpAddress));
-       
+
 
 
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findAll(),
-            
+
         ]);
     }
 
@@ -71,7 +73,7 @@ class CartController extends AbstractController
 
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
-        
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -87,7 +89,7 @@ class CartController extends AbstractController
             ]);
         }
 
-       
+
 
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
@@ -115,11 +117,12 @@ class CartController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="cart_delete", methods={"DELETE"})
+     * @Route("/{id}", name="cart_deleteCart", methods={"DELETE"})
      */
-    public function delete(Request $request, Cart $cart): Response
+    public function deleteCart(Request $request, Cart $cart): Response
     {
         if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cart);
             $entityManager->flush();
