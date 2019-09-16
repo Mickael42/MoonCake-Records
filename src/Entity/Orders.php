@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrdersRepository")
  */
-class Order
+class Orders
 {
     /**
      * @ORM\Id()
@@ -15,6 +15,18 @@ class Order
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $client;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Cart", inversedBy="orders", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $cart;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -36,23 +48,34 @@ class Order
      */
     private $totalAmount;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Cart", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $cart;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="orders")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $client;
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): self
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    public function getCart(): ?Cart
+    {
+        return $this->cart;
+    }
+
+    public function setCart(Cart $cart): self
+    {
+        $this->cart = $cart;
+
+        return $this;
+    }
 
     public function getPaymentMethod(): ?string
     {
@@ -98,30 +121,6 @@ class Order
     public function setTotalAmount(int $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
-
-        return $this;
-    }
-
-    public function getCart(): ?Cart
-    {
-        return $this->cart;
-    }
-
-    public function setCart(Cart $cart): self
-    {
-        $this->cart = $cart;
-
-        return $this;
-    }
-
-    public function getClient(): ?Client
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Client $client): self
-    {
-        $this->client = $client;
 
         return $this;
     }

@@ -81,7 +81,7 @@ class Client
     private $zipCode;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="client")
+     * @ORM\OneToMany(targetEntity="App\Entity\Orders", mappedBy="client", orphanRemoval=true)
      */
     private $orders;
 
@@ -89,6 +89,8 @@ class Client
     {
         $this->orders = new ArrayCollection();
     }
+
+
 
 
     public function getId(): ?int
@@ -215,15 +217,16 @@ class Client
 
         return $this;
     }
+
     /**
-     * @return Collection|Order[]
+     * @return Collection|Orders[]
      */
     public function getOrders(): Collection
     {
         return $this->orders;
     }
 
-    public function addOrder(Order $order): self
+    public function addOrder(Orders $order): self
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
@@ -233,7 +236,7 @@ class Client
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeOrder(Orders $order): self
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);

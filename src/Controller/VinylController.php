@@ -72,7 +72,7 @@ class VinylController extends AbstractController
      */
     public function show(UserInterface $user =null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
-      
+   
         $response = new Response();
         $vinylGenre = $vinyl->getGenre();
         $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
@@ -95,7 +95,7 @@ class VinylController extends AbstractController
 
             // we check if the customer have already an cart in progress (id stored in a cookie)
 
-            $ipCartDecoded = base64_decode($request->cookies->get('ip'));
+            $ipCartDecoded = base64_decode($request->cookies->get('id'));
             $cartInProgress = $cartRepository->find($ipCartDecoded);
            
             if ($cartInProgress) {
@@ -163,11 +163,9 @@ class VinylController extends AbstractController
             //But we have to encode the data stored inside the cookie
             $cartId=$cart->getId();
             $dataEncoded = base64_encode($cartId);
-            $response->headers->clearCookie("ip");
-            $cookie = new Cookie("ip", $dataEncoded, time() + 3600);
-            $response->headers->setCookie($cookie); 
-
-
+            $response->headers->clearCookie("id");
+            $response->headers->setCookie(Cookie::create('id', $dataEncoded));
+            
             $this->addFlash(
                 'notice',
                 'Le vinyle a bien été ajouté au panier!'

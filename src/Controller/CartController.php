@@ -5,13 +5,13 @@ namespace App\Controller;
 use DateTime;
 use App\Entity\Cart;
 use App\Entity\User;
-use App\Entity\Order;
 use App\Entity\Client;
 use App\Form\CartType;
 use App\Form\ClientType;
 use App\Entity\OrderProduct;
-
+use App\Entity\Orders;
 use App\Repository\CartRepository;
+use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,8 +33,8 @@ class CartController extends AbstractController
         if ($user) {
             $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
         } else {
-            $ipCartDecoded = base64_decode($request->cookies->get('ip'));
-            $cart = $cartRepository->find($ipCartDecoded);
+            $idCartDecoded = base64_decode($request->cookies->get('id'));
+            $cart = $cartRepository->find($idCartDecoded);
         }
 
         return $this->render('cart/index.html.twig', [
@@ -71,8 +71,9 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, Client $client = null, UserInterface $user = null): Response
+    public function show(Request $request, Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null, UserInterface $user = null): Response
     {
+        
         if (!$client) {
             $client = new Client();
         }
@@ -87,18 +88,27 @@ class CartController extends AbstractController
                 $client->setUser($user);
             }
 
-            $order = new Order();
+            //Creating an order
+            $order = new Orders;
             $order->setClient($client);
-            
             $order->setOrderDate(new \DateTime());
             $order->setPaymentMethod('unknow');
             $order->setStatus("unpaid");
             $order->setTotalAmount($cart->getTotalAmount());
             $order->setCart($cart);
             $entityManager->persist($order);
+
+            //Changing the status of the cart and cleaning the cookie
+            $cart->setIsOrder(true);
             
+
+            //Deleting from the database all product selected in the cart 
+            $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
+            foreach ($arrayOfOrderProduct as $orderProduct) {
+                $cart->removeOrderProduct($orderProduct);
+            }
             $entityManager->flush();
-            
+
             return $this->redirectToRoute('payment');
         }
 

@@ -32,6 +32,7 @@ class OrderProductController extends AbstractController
 
             $entityManager->remove($orderProductToDelete);
             $entityManager->flush();
+            
             //We check if the cart contians at least one product
             //If not, we remove the cart
             $numberOrderProductsInCart = $cart->getOrderProducts()->getKeys();
