@@ -47,14 +47,29 @@
                             </div>
                         </form>
                     </li>
+                    {#                 {% elseif  is_granted('ROLE_ADMIN') %}
+                                                                                                                        <li>
+                                                                                                                         <a href="{{path ("admin")}}">E</a>
+                                                                                                                        </li>
+                                                                                                    
+                                                                                                                    {% endif %} #}
 
 
-                    {% if app.user %}
+                    {% if not is_granted('ROLE_ADMIN') %}
                         <li>
                             <a href="{{path ('security_login') }}">
                                 <i class="material-icons left">account_circle</i>Bonjour,
                                 {{app.user.userName}}</a>
                         </li>
+
+
+                    {% elseif  is_granted('ROLE_ADMIN') %}
+                        <li>
+
+                            <a href="{{path ("admin")}}">
+                                <i class="material-icons left">view_compact</i>Administrateur</a>
+                        </li>
+
                     {% else %}
                         <li>
                             <a href="{{path ('security_login') }}">
@@ -116,90 +131,84 @@
                 </form>
             </li>
 
-            {% if app.user %}
+            {% if not is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{path ('security_login') }}">
                         <i class="material-icons left">account_circle</i>
                         <span class="text-sidenav">Bonjour,{{app.user.userName}}</span>
                     </a>
                 </li>
-            {% else %}
-                <li>
-                    <a href="{{path ('security_login') }}">
-                        <i class="material-icons left">account_circle</i>
-                        <span class="text-sidenav">Espace Client</span>
-                    </a>
-                </li>
 
-            {% endif %}
+
+            {% elseif  is_granted('ROLE_ADMIN') %}
             <li>
-                <a href="{{path ("cart_index")}}">
-                    <i class="material-icons left ">shopping_cart</i>
-                    <span class="text-sidenav">Panier</span>
+                <a href="{{path ("admin")}}">
+                    <i class="material-icons left">view_compact</i>
+                    <span class="text-sidenav">Administrateur</span>
                 </a>
             </li>
-            {% if app.user %}
-                <li>
-                    <a href="{{path ("security_logout")}}">
-                        <i class="material-icons left">clear</i>
-                        <span class="text-sidenav">Déconnexion</span>
-                    </a>
-                </li>
-
-            {% endif %}
-        </ul>
 
 
-        {% block body %}{% endblock %}
+        {% else %}
+            <li>
+                <a href="{{path ('security_login') }}">
+                    <i class="material-icons left">account_circle</i>
+                    <span class="text-sidenav">Espace Client</span>
+                </a>
+            </li>
 
+        {% endif %}
+        <li>
+            <a href="{{path ("cart_index")}}">
+                <i class="material-icons left ">shopping_cart</i>
+                <span class="text-sidenav">Panier</span>
+            </a>
+        </li>
+        {% if app.user %}
+            <li>
+                <a href="{{path ("security_logout")}}">
+                    <i class="material-icons left">clear</i>
+                    <span class="text-sidenav">Déconnexion</span>
+                </a>
+            </li>
 
-        <footer class="page-footer main-footer">
-            <div class="row">
-                <div class="col s12 m4 l2 center-align">
-                    <a href="http://facebook.com" target="_blank" rel="noopener noreferrer">
-                        <img class="logoSocialMediaFooter" src="/assets/img/facebook-logo-in-circular-button-outlined-social-symbol.png" alt="facebook-logo"></a>
-                    <a href="http://instagram.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="/assets/img/instagram.png" alt="instagram-logo"></a>
-                    <a href="http://twitter.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="/assets/img/twitter-circular-button.png" alt="twitter-logo"></a>
-                </div>
-                <div class="col s12 m4 l8 center-align">
-                    <a href="{{path ('home') }}">
-                        <p class="logoBrandFooter">MoonCakeRecords</p>
-                    </a>
-                </div>
-                <div class="col s12 m4 l2">
-                    <a href="{{path ('mentions') }}">
-                        <span class="white-text">Mentions légales</span>
-                    </a>
-                </div>
-            </div>
-            <div class="footer-copyright">
-                <div class="container">
-                    <div class="col s12 m12 l12 center-align">
-                        <p>Copyright ©2019 -
-                            <a href="https://github.com/Mickael42" target="_blank" rel="noopener noreferrer">
-                                <span class="white-text">MW Agency</span>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-
-        {% block javascripts %}{% endblock %}
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var elems = document.querySelectorAll('.parallax');
-                var instances = M.Parallax.init(elems);
-            });
-        </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                var elems = document.querySelectorAll('.sidenav');
-                var instances = M.Sidenav.init(elems);
-            });
-        </script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        {% endif %}
     </body>
-</html></body></html>
+</html></ul>{% block body %}{% endblock %}<footer class="page-footer main-footer">
+<div class="row">
+    <div class="col s12 m4 l2 center-align">
+        <a href="http://facebook.com" target="_blank" rel="noopener noreferrer">
+            <img class="logoSocialMediaFooter" src="/assets/img/facebook-logo-in-circular-button-outlined-social-symbol.png" alt="facebook-logo"></a>
+        <a href="http://instagram.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="/assets/img/instagram.png" alt="instagram-logo"></a>
+        <a href="http://twitter.com" target="_blank" rel="noopener noreferrer"><img class="logoSocialMediaFooter" src="/assets/img/twitter-circular-button.png" alt="twitter-logo"></a>
+    </div>
+    <div class="col s12 m4 l8 center-align">
+        <a href="{{path ('home') }}">
+            <p class="logoBrandFooter">MoonCakeRecords</p>
+        </a>
+    </div>
+    <div class="col s12 m4 l2">
+        <a href="{{path ('mentions') }}">
+            <span class="white-text">Mentions légales</span>
+        </a>
+    </div>
+</div>
+<div class="footer-copyright">
+    <div class="container">
+        <div class="col s12 m12 l12 center-align">
+            <p>Copyright ©2019 -
+                <a href="https://github.com/Mickael42" target="_blank" rel="noopener noreferrer">
+                    <span class="white-text">MW Agency</span>
+                </a>
+            </p>
+        </div>
+    </div>
+</div></footer>{% block javascripts %}{% endblock %}<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.parallax');
+    var instances = M.Parallax.init(elems);
+});</script><script>
+document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+});</script><script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script></body></body></html></body></html>
