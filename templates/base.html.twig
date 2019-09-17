@@ -47,23 +47,15 @@
                             </div>
                         </form>
                     </li>
-                    {#                 {% elseif  is_granted('ROLE_ADMIN') %}
-                                                                                                                        <li>
-                                                                                                                         <a href="{{path ("admin")}}">E</a>
-                                                                                                                        </li>
-                                                                                                    
-                                                                                                                    {% endif %} #}
-
-
-                    {% if not is_granted('ROLE_ADMIN') %}
+                 
+                    {% if app.user and not is_granted('ROLE_ADMIN') %}
                         <li>
                             <a href="{{path ('security_login') }}">
                                 <i class="material-icons left">account_circle</i>Bonjour,
                                 {{app.user.userName}}</a>
                         </li>
 
-
-                    {% elseif  is_granted('ROLE_ADMIN') %}
+                    {% elseif app.user and  is_granted('ROLE_ADMIN') %}
                         <li>
 
                             <a href="{{path ("admin")}}">
@@ -131,7 +123,7 @@
                 </form>
             </li>
 
-            {% if not is_granted('ROLE_ADMIN') %}
+            {% if app.user and not is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{path ('security_login') }}">
                         <i class="material-icons left">account_circle</i>
@@ -140,7 +132,7 @@
                 </li>
 
 
-            {% elseif  is_granted('ROLE_ADMIN') %}
+            {% elseif app.user and is_granted('ROLE_ADMIN') %}
             <li>
                 <a href="{{path ("admin")}}">
                     <i class="material-icons left">view_compact</i>
