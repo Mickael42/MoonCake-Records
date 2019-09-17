@@ -2,10 +2,12 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>
             {% block title %}Bienvenue chez MoonCake Records!
             {% endblock %}
         </title>
+
         {% block stylesheets %}
             <link href="{{ asset ('assets/img/capture-logo-fond-blanc.png')}}" rel="shortcut icon">
             <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
@@ -47,7 +49,7 @@
                             </div>
                         </form>
                     </li>
-                 
+
                     {% if app.user and not is_granted('ROLE_ADMIN') %}
                         <li>
                             <a href="{{path ('security_login') }}">
@@ -133,38 +135,39 @@
 
 
             {% elseif app.user and is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{path ("admin")}}">
+                        <i class="material-icons left">view_compact</i>
+                        <span class="text-sidenav">Administrateur</span>
+                    </a>
+                </li>
+
+
+            {% else %}
+                <li>
+                    <a href="{{path ('security_login') }}">
+                        <i class="material-icons left">account_circle</i>
+                        <span class="text-sidenav">Espace Client</span>
+                    </a>
+                </li>
+
+            {% endif %}
             <li>
-                <a href="{{path ("admin")}}">
-                    <i class="material-icons left">view_compact</i>
-                    <span class="text-sidenav">Administrateur</span>
+                <a href="{{path ("cart_index")}}">
+                    <i class="material-icons left ">shopping_cart</i>
+                    <span class="text-sidenav">Panier</span>
                 </a>
             </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{path ("security_logout")}}">
+                        <i class="material-icons left">clear</i>
+                        <span class="text-sidenav">Déconnexion</span>
+                    </a>
+                </li>
 
-
-        {% else %}
-            <li>
-                <a href="{{path ('security_login') }}">
-                    <i class="material-icons left">account_circle</i>
-                    <span class="text-sidenav">Espace Client</span>
-                </a>
-            </li>
-
-        {% endif %}
-        <li>
-            <a href="{{path ("cart_index")}}">
-                <i class="material-icons left ">shopping_cart</i>
-                <span class="text-sidenav">Panier</span>
-            </a>
-        </li>
-        {% if app.user %}
-            <li>
-                <a href="{{path ("security_logout")}}">
-                    <i class="material-icons left">clear</i>
-                    <span class="text-sidenav">Déconnexion</span>
-                </a>
-            </li>
-
-        {% endif %}
+            {% endif %}
+        </body>
     </body>
 </html></ul>{% block body %}{% endblock %}<footer class="page-footer main-footer">
 <div class="row">
@@ -203,4 +206,9 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.sidenav');
     var instances = M.Sidenav.init(elems);
-});</script><script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script></body></body></html></body></html>
+});</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="{{asset ('assets/js/main.js')}}"></script>
+</body></html>

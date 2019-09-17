@@ -102,14 +102,14 @@ class CartController extends AbstractController
             $cart->setIsOrder(true);
             
 
-            //Deleting from the database all product selected in the cart 
+            //Deleting in the database all products selected and link to the cart
             $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
             foreach ($arrayOfOrderProduct as $orderProduct) {
                 $cart->removeOrderProduct($orderProduct);
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('payment');
+            return $this->redirectToRoute('payment',["id"=>$order->getId()]);
         }
 
 

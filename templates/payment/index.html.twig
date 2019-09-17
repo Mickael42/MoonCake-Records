@@ -1,20 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PaymentController!{% endblock %}
+{% block title %}Hello PaymentController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/micka/devilbox/data/www/MoonCakeRecords/src/Controller/PaymentController.php'|file_link(0) }}">src/Controller/PaymentController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/micka/devilbox/data/www/MoonCakeRecords/templates/payment/index.html.twig'|file_link(0) }}">templates/payment/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="row">
+        <h1 class="section-title">Paiement</h1>
+
+        <div class="col s6 offset-s3 grey lighten-3">
+
+            <form action="" method="post" id="payment-form">
+                <div class="form-row">
+                    <h4 class="center-align">Information cartes bancaires</h4>
+                    {% for message in app.flashes('error') %}
+                        <div class="card-panel">
+                            <span class="red-text ">{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                    <input id="cardholder-name" type="text" placeholder="Nom du propriétaire de la carte">
+                    <div
+                        id="card-element"><!-- A Stripe Element will be inserted here. -->
+                    </div>
+
+                    <!-- Used to display form errors. -->
+                    <div id="card-errors" role="alert"></div>
+                </div>
+
+                <div class="center-align">
+                    <button id="card-button" class="btn btn-payment" data-secret="{{clientPayment}}">
+                        Paiement
+                    </button>
+                </div>
+
+                <p>J'accepte les
+                    <a href="" target="_blank">conditions générales de vente</a>
+                </p>
+                <div class="center-align">
+                    <img alt="Stripe protège vos achats" class="responsive-img monetico" src="{{ asset ('assets/img/paiement-securise-stripe.jpeg')}}">
+
+
+                </div>
+            </form>
+
+        </div>
+
+
+    </div>
 {% endblock %}
