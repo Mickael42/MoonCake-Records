@@ -1,0 +1,21 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+
+    <div class="container-fluid">
+        <h1 class="section-title">Ajouter un nouveau titre</h1>
+
+
+        {% for message in app.flashes('notice') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
+        <div class="container">
+            {{ include('track/_form.html.twig') }}
+        </div>
+
+    </div>
+
+
+{% endblock %}

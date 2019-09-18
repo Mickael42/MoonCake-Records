@@ -1,0 +1,17 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Modifier un titre {% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <h1 class="section-title">Modifier un titre</h1>
+        <a href="{{ path('track_edit_list') }}">Retour à la liste des vinyles</a>
+        {{ include('track/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+
+    </div>
+
+
+{% endblock %}

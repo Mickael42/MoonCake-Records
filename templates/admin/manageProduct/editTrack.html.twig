@@ -3,7 +3,7 @@
 
     <div class="container-fluid">
 
-        <h1 class="section-title">Liste des vinyles</h1>
+        <h1 class="section-title">Liste des titres</h1>
 
         {% for message in app.flashes('notice') %}
             <div class="alert alert-success">
@@ -15,23 +15,23 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Artiste</th>
-                    <th>Ref vinyle</th>
+                    <th>Titre</th>
+                    <th>Vinyle</th>
+                    <th>Ref titre</th>
                 </tr>
             </thead>
 
-            {% for vinyl in vinyls %}
+            {% for track in tracks %}
 
                 <tr>
-                    <td>{{vinyl.name}}</td>
-                    <td>{{vinyl.artiste}}</td>
-                    <td>{{vinyl.id}}</td>
+                    <td>{{track.name}}</td>
+                    <td>{{track.vinyl.name}}</td>
+                    <td>{{track.id}}</td>
                     <td>
-                        <a class="btn btn-admin" href={{path ('vinyl_edit', {'id': vinyl.id} )}}>Modifier</a>
+                        <a class="btn btn-admin" href={{path ('track_edit', {'id': track.id} )}}>Modifier</a>
                     </td>
 
-                    <td>{{ include('vinyl/_delete_form.html.twig') }}</td>
+                    <td>{{ include('track/_delete_form.html.twig') }}</td>
                 </tr>
 
             {% endfor %}

@@ -25,7 +25,7 @@
                     {{discount}}
                     %</span>
             {% endif %}
-            <img class="cover-vinyl-large" src="{{vinyl.cover}}" alt="cover-vinyl">
+            <img class="cover-vinyl-large" src="{{asset (vinyl.cover)}}" alt="cover-vinyl">
             <h5>Tracklist</h5>
             <ul>
                 {% for track in tracks %}
