@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Genre;
 use App\Entity\Vinyl;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +28,10 @@ class VinylType extends AbstractType
             ->add('reducePrice')
             ->add('cover')
             ->add('description')
-            ->add('genre')
+            ->add('genre', EntityType::class,[
+                'class' => Genre::class,
+                 'choice_label'=>'name'
+            ])
         ;
     }
 

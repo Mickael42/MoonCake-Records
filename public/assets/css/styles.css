@@ -33,7 +33,6 @@ a:focus {
     font-family: Pacifico;
     font-style: normal;
     font-weight: normal;
-    font-size: 2.5rem;
     color: #FFFFFF;
     text-shadow: 2px 2px #C26208;
 }
@@ -62,7 +61,6 @@ a:focus {
     font-family: Pacifico;
     font-style: normal;
     font-weight: normal;
-    font-size: 2rem;
     color: #FFFFFF;
     text-shadow: 2px 2px #C26208;
 }
@@ -283,7 +281,6 @@ a:focus {
     
 }
 
-
 .duration-track{
     color : #A4A1A1
 }
@@ -477,4 +474,14 @@ border-top: 1px solid #555555
     border-radius: 10px;
     color : #C26208;
     margin-top : 10px;
+}
+.btn-admin{
+    background-color : white !important;
+    border-radius: 10px !important;
+    color : #C26208 !important;
+}
+.btn-admin:hover{
+    background-color : #C26208 !important;
+    border-radius: 10px !important;
+    color:white !important;
 }

@@ -1,0 +1,18 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit Vinyl
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+
+        <h1 class="section-title">Modifier un vinyle</h1>
+        <a href="{{ path('vinyl_edit_list') }}">Retour à la liste des vinyles</a>
+        {{ include('vinyl/_form.html.twig', {'button_label': 'Update'}) }}
+
+
+    </div>
+
+
+{% endblock %}

@@ -31,17 +31,13 @@ class OrdersRepository extends ServiceEntityRepository
     //  */
 
 
-
-
-    /*
-    public function findOneBySomeField($value): ?Orders
+    public function findAllStatus($value)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->setParameter('status', $value)
             ->getQuery()
-            ->getOneOrNullResult()
+            
         ;
     }
-    */
+    
 }

@@ -179,37 +179,5 @@ class VinylController extends AbstractController
         ], $response);
     }
 
-    /**
-     * @Route("/{id}/edit", name="vinyl_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Vinyl $vinyl): Response
-    {
-        $form = $this->createForm(VinylType::class, $vinyl);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('vinyl_index');
-        }
-
-        return $this->render('vinyl/edit.html.twig', [
-            'vinyl' => $vinyl,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="vinyl_delete", methods={"DELETE"})
-     */
-    public function delete(Request $request, Vinyl $vinyl): Response
-    {
-        if ($this->isCsrfTokenValid('delete' . $vinyl->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($vinyl);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('vinyl_index');
-    }
 }
