@@ -5,13 +5,32 @@
 
 {% block body %}
 
+
     <div class="container-fluid">
 
-        <h1 class="section-title">Modifier un vinyle</h1>
-        <a href="{{ path('vinyl_edit_list') }}">Retour à la liste des vinyles</a>
-        {{ include('vinyl/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="container">
+            <div class="row">
+                <div class="col col-12"></div>
+            </div>
 
+            <div class="row">
 
+                <div class="col col-12">
+                    <a href="{{ path('vinyl_edit_list') }}">
+                        <i class="fa fa-arrow-left"></i>
+                        <span>Retour à la liste des vinyles</span>
+                    </a>
+                </div>
+            </div>
+            <h1 class="section-title center-align">Modifier un vinyle</h1>
+
+            <div class="row">
+                <div class="col col-8 offset-2">
+
+                    {{ include('vinyl/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                </div>
+            </div>
+        </div>
     </div>
 
 

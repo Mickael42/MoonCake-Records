@@ -6,12 +6,29 @@
 
     <div class="container-fluid">
 
-        <h1 class="section-title">Modifier un titre</h1>
-        <a href="{{ path('track_edit_list') }}">Retour à la liste des vinyles</a>
-        {{ include('track/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        <div class="container">
+            <div class="row">
+                <div class="col col-12"></div>
+            </div>
 
+            <div class="row">
 
+                <div class="col col-12">
+                    <a href="{{ path('track_edit_list') }}">
+                        <i class="fa fa-arrow-left"></i>
+                        <span>Retour à la liste des titres</span>
+                    </a>
+                </div>
+            </div>
+            <h1 class="section-title center-align">Modifier un titre</h1>
+
+            <div class="row">
+                <div class="col col-8 offset-2">
+
+                    {{ include('track/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+                </div>
+            </div>
+        </div>
     </div>
-
 
 {% endblock %}

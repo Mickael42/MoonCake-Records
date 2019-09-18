@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,61 +21,116 @@ class Vinyl
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $artiste;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $label;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $catNum;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $format;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
+     * @Assert\Country
      */
     private $country;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La valeur doit être un nombre."
+     * )
+     * @Assert\Range(
+     *      min = "0",
+     *      max = "2020",
+     *      minMessage="L'année ne peut être inférieur à {{ limit }}.",
+     *      maxMessage="L'année ne peut  être supérieur à {{ limit }}."
+     * )
      */
     private $year;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $mediaCondition;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $sleeveCondition;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(
+     *  value = 0,
+     *  message = "La quantité doit être supérieur ou égal à O."
+     * )
      */
     private $quantityStock;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThanOrEqual(
+     *  value = 1,
+     *  message = "Le prix du vinyle ne peut être inférieur à 1€."
+     * )
      */
     private $regularPrice;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThanOrEqual(
+     *  value = 1,
+     *  message = "Le prix du vinyle ne peut être inférieur à 1€."
+     * )
      */
     private $reducePrice;
 
@@ -85,6 +141,10 @@ class Vinyl
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $description;
 

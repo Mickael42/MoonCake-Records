@@ -1,0 +1,32 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-12"></div>
+        </div>
+
+        <h1 class="section-title">Liste des commandes</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Reférence client</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Montant de la commande</th>
+                </tr>
+            </thead>
+
+            {% for order in orders %}
+                <tr>
+                    <td>{{order.id}}</td>
+                    <td>{{order.orderDate|date("m/d/Y")}}</td>
+                    <td>{{order.status}}</td>
+                    <td>{{order.totalAmount}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

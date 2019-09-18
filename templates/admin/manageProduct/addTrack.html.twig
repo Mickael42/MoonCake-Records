@@ -2,20 +2,30 @@
 {% block body %}
 
     <div class="container-fluid">
-        <h1 class="section-title">Ajouter un nouveau titre</h1>
-
-
-        {% for message in app.flashes('notice') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-
         <div class="container">
-            {{ include('track/_form.html.twig') }}
+            <div class="row">
+                <div class="col col-12"></div>
+            </div>
+ 
+            <h1 class="section-title center-align">Ajouter un nouveau titre</h1>
+
+            {% for message in app.flashes('notice') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="row">
+                <div class="col col-8 offset-2">
+                    {{ include('track/_form.html.twig') }}
+                </div>
+            </div>
         </div>
 
     </div>
+
+
+
 
 
 {% endblock %}
