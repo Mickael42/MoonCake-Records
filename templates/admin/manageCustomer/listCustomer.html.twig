@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+{% block body %}
+
+    <div class="container-fluid">
+
+        <h1 class="section-title">Liste des clients</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Ref Id
+                    </th>
+                    <th>Montant de la commande
+                    </th>
+                </tr>
+            </thead>
+
+            {% for customer in customers %}
+                <tr>
+                    <td>{{customer.firstName}}</td>
+                    <td>{{customer.lastName}}</td>
+                    <td>{{customer.email}}</td>
+                    <td>{{customer.id}}</td>
+                    <td>
+                        {% if customer.orders.values %}
+                            {{customer.orders.values[0].totalAmount}}
+                            €
+                        {% else %}
+                            0 €
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>{% endblock %}
