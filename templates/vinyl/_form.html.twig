@@ -1,11 +1,14 @@
+
+
 {{ form_start(form) }}
 
-<div class="input-field col s12">
-{{form_row(form.genre)}}
 
+{{ form_widget(form) }}
+
+
+
+<div class="center-align">
+<button class="btn btn-admin-form">{{ button_label|default('Save') }}</button>
 </div>
 
-   {{ form_widget(form) }} 
-    
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

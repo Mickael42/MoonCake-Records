@@ -7,6 +7,9 @@ use App\Entity\Orders;
 use App\Form\VinylType;
 use App\Repository\UserRepository;
 
+
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Repository\VinylRepository;
 use App\Repository\OrdersRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,14 +59,12 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($vinyl);
             $entityManager->flush();
 
-            return $this->render('admin/manageProduct/addProduct.html.twig', [
-                'vinyl' => $vinyl,
-                'form' => $form->createView(),
-            ]);
+            return $this->redirectToRoute('add_product');
         }
 
         return $this->render('admin/manageProduct/addProduct.html.twig', [
@@ -90,6 +91,20 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //getting all data from the cover uploaded
+            $cover = $form['cover']->getData();
+            $originalFilename = pathinfo($cover->getClientOriginalName(), PATHINFO_FILENAME);
+            // this is needed to safely include the file name as part of the URL
+            $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $cover->guessExtension();
+            $cover->move(
+                //the directory file is set in config/service.yaml
+                $this->getParameter('cover_directory'),
+                $newFilename
+            );
+            $newPathCover = 'assets/img/Covers/'.$newFilename;
+            $vinyl->setCover($newPathCover);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('vinyl_edit_list');

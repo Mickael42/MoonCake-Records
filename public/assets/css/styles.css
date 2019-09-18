@@ -485,3 +485,21 @@ border-top: 1px solid #555555
     border-radius: 10px !important;
     color:white !important;
 }
+
+.btn-admin-form{
+    margin-top : 30px;
+    margin-bottom : 30px;
+    background-color : #C26208 !important;
+    border-radius: 10px !important;
+    color : white !important;
+}
+.btn-admin-form:hover{   
+    filter: brightness(85%) !important;
+    margin-top : 30px !important;
+    margin-bottom : 30px !important;
+    border-radius: 10px !important;
+}
+
+select {
+    display: flex !important;
+}

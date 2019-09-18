@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Genre;
 use App\Entity\Vinyl;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class VinylType extends AbstractType
 {
@@ -26,7 +28,16 @@ class VinylType extends AbstractType
             ->add('quantityStock')
             ->add('regularPrice')
             ->add('reducePrice')
-            ->add('cover')
+            ->add('cover',FileType::class,[
+                'data_class'=>null,
+                'constraints' => [
+                    new File([
+                        'mimeTypes' => [
+                            'image/*',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez utilisez un format valide pour les images.',])
+                ]
+            ]) 
             ->add('description')
             ->add('genre', EntityType::class,[
                 'class' => Genre::class,
