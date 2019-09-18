@@ -57,7 +57,7 @@
                     <div class="cart-container-order-product">
                         <div class="col s6 col-container-order-product valign-wrapper">
                             <div class="col s6">
-                                <img class="cart-cover-vinyl" src="{{product.vinyl.cover}}" alt="vinyl-cover">
+                                <img class="cart-cover-vinyl" src="{{ asset (product.vinyl.cover)}}" alt="vinyl-cover">
                             </div>
                             <div class="col s6">
                                 <p class="vinyl-artist">{{product.vinyl.artiste}}</p>
@@ -155,7 +155,7 @@
                             {% if vinyl.reducePrice >0 %}
                                 <span class=" right banner-discount">PROMO</span>
                             {% endif %}
-                            <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                            <img class="cover-vinyl" src="{{ asset(vinyl.cover) }}"></a>
                         <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                             <div class="container-vinyl-info ">
 

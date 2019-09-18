@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TrackRepository")
@@ -24,16 +25,32 @@ class Track
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="La valeur doit être un nombre."
+     * )
+     * @Assert\GreaterThanOrEqual(
+     *  value = 1,
+     *  message = "La durée doit être supérieure ou égale à 1 seconde."
+     * )
      */
     private $duration;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $position;
 

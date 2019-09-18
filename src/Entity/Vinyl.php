@@ -128,8 +128,8 @@ class Vinyl
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Assert\GreaterThanOrEqual(
-     *  value = 1,
-     *  message = "Le prix du vinyle ne peut être inférieur à 1€."
+     *  value = 0,
+     *  message = "Le prix du vinyle ne peut être inférieur à 0€."
      * )
      */
     private $reducePrice;

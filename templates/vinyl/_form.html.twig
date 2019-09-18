@@ -1,14 +1,22 @@
-
-
 {{ form_start(form) }}
 
 
-{{ form_widget(form) }}
+{%  for input in form %}
 
+<div class="form-input-container">
+    {{ form_label(input) }}
+    <span class="form-error">
+        {{ form_errors(input) }}
+    </span>
+    {{ form_widget(input) }}
+</div>
+
+
+{% endfor %}
 
 
 <div class="center-align">
-<button class="btn btn-admin-form">{{ button_label|default('Save') }}</button>
+    <button class="btn btn-admin-form">{{ button_label|default('Enregistrer') }}</button>
 </div>
 
 {{ form_end(form) }}

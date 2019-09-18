@@ -27,19 +27,19 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=2, max=255, minMessage="Le nom doit faire au moins 2 caractères")
+     * @Assert\Length(min=2, max=255, minMessage="Le prénom doit avoir au moins 2 caractères.")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=2, max=255, minMessage="Le nom doit faire au moins 2 caractères")
+     * @Assert\Length(min=2, max=255, minMessage="Le nom doit faire au moins 2 caractères.")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="integer")
-     * @Assert\Type(type="numeric", message="La valeur {{ value }} n'est pas un nombre.")
+     * @Assert\Type(type="integer", message="La valeur {{ value }} n'est pas un nombre.")
      * @Assert\Length(min=9, max=10, minMessage="Le numéro de téléphone doit avoir 10 chiffres", maxMessage="Le numéro de téléphone doit avoir 10 chiffres")
      */
     private $phone;
@@ -53,23 +53,35 @@ class Client
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=10, max=255, minMessage="L'adresse doit avoir au moins 10 caractères.")
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $adress;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $adressComplement;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min=2, max=255, minMessage="Le nom de la ville est incorrecte.")
+     * @Assert\Type(
+     *     type="string",
+     *     message="La valeur doit être une chaîne de caractères."
+     * )
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min=3, max=255, minMessage="Le nom du pays est incorrecte.")
+     * @Assert\Country
      */
     private $country;
 

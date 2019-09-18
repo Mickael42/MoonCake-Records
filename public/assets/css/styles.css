@@ -155,7 +155,8 @@ a:focus {
 }
 
 .cover-vinyl{
-    max-width: 250px;
+   width: 250px;
+   height: 250px;
 }
 
 .container-vinyl-info{
@@ -351,6 +352,7 @@ border-top: 1px solid #555555
 }
 .cover-vinyl-large{
     width: 400px;
+    height: 400px;
 }
 
 .banner-discount{
@@ -401,6 +403,7 @@ border-top: 1px solid #555555
 
 .cart-cover-vinyl{
     width : 100px;
+    height: 100px;
 }
 
 
@@ -502,4 +505,14 @@ border-top: 1px solid #555555
 
 select {
     display: flex !important;
+}
+
+.form-error{
+    color : red !important;
+
+}
+
+.form-input-container{
+    margin-top : 15px !important;
+    margin-bottom : 15px !important;
 }

@@ -59,7 +59,7 @@
                         <span class=" right banner-discount">PROMO</span>
                     {% endif %}
 
-                    <img class="cover-vinyl" src="{{ vinyl.cover }}"></a>
+                    <img class="cover-vinyl" src="{{asset (vinyl.cover)}}"></a>
                 <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                     <div class="container-vinyl-info ">
 

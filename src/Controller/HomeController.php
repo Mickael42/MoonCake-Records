@@ -14,8 +14,8 @@ class HomeController extends AbstractController
      */
     public function index(VinylRepository $vinylRepository): Response
     {
-        //custom querry created in the repository to get only 5 last vinyls
-        $lastVinyls = $vinylRepository->findByLastVinyls(5);
+        //custom querry created in the repository to get only 4 last vinyls
+        $lastVinyls = $vinylRepository->findByLastVinyls(4);
 
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
