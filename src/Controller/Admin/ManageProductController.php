@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\Track;
 use App\Entity\Vinyl;
-use App\Entity\Orders;
 use App\Form\TrackType;
 use App\Form\VinylType;
-
 
 
 use App\Repository\UserRepository;
@@ -22,35 +20,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
- * @Route("/admin")
+ * @Route("/admin/gestion-produits")
  */
-class AdminController extends AbstractController
+class ManageProductController extends AbstractController
 {
-    /**
-     * @Route("/", name="admin")
-     */
-    public function index(OrdersRepository $ordersRepository, UserRepository $userRepository, VinylRepository $vinylRepository)
-    {
-
-        //getting the sales revenus of the web store
-        $listOrdersPaid = $ordersRepository->findAllStatus('paid');
-        $salesRevenue = 0;
-        foreach ($listOrdersPaid as $order) {
-            $salesRevenue = $salesRevenue + $order->getTotalAmount();
-        }
-
-        $numberOfOrders = $ordersRepository->findAll();
-        $numberOfUsers = $userRepository->findAll();
-        $numberOfVinyls = $vinylRepository->findAll();
-
-        return $this->render('admin/index.html.twig', [
-            'controller_name' => 'AdminController',
-            'salesRevenue' => $salesRevenue,
-            'numberOfUsers' => count($numberOfUsers),
-            'numberOfVinyls' => count($numberOfVinyls),
-            'numberOfOrders' => count($numberOfOrders),
-        ]);
-    }
 
     /**
      * @Route("/ajout-produit", name="add_product", methods={"GET","POST"})
