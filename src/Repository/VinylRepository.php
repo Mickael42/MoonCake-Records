@@ -22,15 +22,14 @@ class VinylRepository extends ServiceEntityRepository
     // /**
     //  * @return Vinyl[] Returns an array of Vinyl objects
     //  */
-    
+
     public function findAllVinylPromo()
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.reducePrice > 0')
             ->orderBy('v.id', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
     public function findByLastVinyls($value)
@@ -39,10 +38,20 @@ class VinylRepository extends ServiceEntityRepository
             ->orderBy('u.id', 'DESC')
             ->setMaxResults($value)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    
+
+
+    public function finByGenre($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.genre = :val')
+            ->setParameter('val', $value)
+            ->orderBy('u.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Vinyl

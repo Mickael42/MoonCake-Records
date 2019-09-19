@@ -26,8 +26,20 @@ class VinylController extends AbstractController
     /**
      * @Route("/", name="vinyl_index", methods={"GET"})
      */
-    public function index(VinylRepository $vinylRepository, GenreRepository $genreRepository): Response
+    public function index(VinylRepository $vinylRepository, GenreRepository $genreRepository, Request $request): Response
     {
+
+        //we show vinyls by genres
+        if ($request->query->get('genre')) {
+            $idGenre = $request->query->get('genre');
+            $vinylsFiltredByGenre = $vinylRepository->findByGenre($idGenre);
+
+            return $this->render('vinyl/index.html.twig', [
+                'vinyls' => $vinylsFiltredByGenre,
+                'genres' => $genreRepository->findAll()
+            ]);
+
+        };
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $vinylRepository->findAll(),
             'genres' => $genreRepository->findAll()
@@ -70,9 +82,9 @@ class VinylController extends AbstractController
     /**
      * @Route("/{id}", name="vinyl_show", methods={"GET","POST"})
      */
-    public function show(UserInterface $user =null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
+    public function show(UserInterface $user = null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
     {
-   
+
         $response = new Response();
         $vinylGenre = $vinyl->getGenre();
         $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
@@ -98,7 +110,7 @@ class VinylController extends AbstractController
 
             $ipCartDecoded = base64_decode($request->cookies->get('id'));
             $cartInProgress = $cartRepository->find($ipCartDecoded);
-           
+
             if ($cartInProgress) {
                 // we check if the cart in progress doesn't have already the product selected
                 $cartWithProductAlreadySelected = $orderProductRepository->findOneBy(['cart' => $cartInProgress, 'vinyl' => $vinyl]);
@@ -144,7 +156,7 @@ class VinylController extends AbstractController
             $cart = new Cart;
             $cart->setIsOrder(false);
             //if the client is logged, we save the data in the data base
-            if ($user){
+            if ($user) {
                 $cart->setUser($user);
             }
             $cart->setTotalAmount($vinylPrice);
@@ -162,11 +174,11 @@ class VinylController extends AbstractController
 
             //We save the cart Id in a cookie
             //But we have to encode the data stored inside the cookie
-            $cartId=$cart->getId();
+            $cartId = $cart->getId();
             $dataEncoded = base64_encode($cartId);
             $response->headers->clearCookie("id");
             $response->headers->setCookie(Cookie::create('id', $dataEncoded));
-            
+
             $this->addFlash(
                 'notice',
                 'Le vinyle a bien été ajouté au panier!'
@@ -179,6 +191,4 @@ class VinylController extends AbstractController
             'relatedVinyls' => $vinylRelated
         ], $response);
     }
-
-
 }

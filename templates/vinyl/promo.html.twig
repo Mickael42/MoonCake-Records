@@ -25,12 +25,12 @@
         <div class="row">
             {% for vinyl in vinyls %}
 
-                {% set discount = (vinyl.reducePrice / vinyl.regularPrice)*100 %}
-                <div class="col s12 m6 l3 center-align ">
+                 {% set discount = ((vinyl.reducePrice - vinyl.regularPrice)/ vinyl.regularPrice) *100 %}
+                <div class="col s12 m6 l3 container-vinyl-lsit center-align ">
                     
                         <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            <span class=" right banner-discount">-
-                                {{discount}}
+                            <span class=" right banner-discount">
+                                {{discount|round}}
                                 %</span><img class="cover-vinyl" src="{{ asset (vinyl.cover) }}"></a>
                     
 

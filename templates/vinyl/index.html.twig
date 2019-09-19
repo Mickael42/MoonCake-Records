@@ -18,21 +18,27 @@
         <p class="grey-text text-darken-3 lighten-3 center-align">Filter selon le genre souhaité</p>
     </div>
 
+
     <div class="row genres-row">
         <div class="col s2  genre-button-container ">
             <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white" data-group="all">Tout</a>
+                 <button href="{{path ('vinyl_index') }}" class="button-white" >Tout</button>
             </div>
 
         </div>
+
+
         {% for genre in genres %}
-
-         <div class="col s2  genre-button-container ">
-            <div class="center-align">
-                <a href="{{path ('vinyl_index') }}" class="button-white" data-group="{{genre.name}}">{{genre.name}}</a>
-            </div>
-        </div>
+            <form action="{{path ('vinyl_index')}}">
+                <div class="col s2  genre-button-container">
+                    <div class="center-align">
+                        <input type="hidden" name="genre" value="{{genre.id}}">
+                        <button href="{{path ('vinyl_index') }}" class="button-white" type='submit' data-group="{{genre.name}}">{{genre.name}}</button>
+                    </div>
+                </div>
+            </form>
         {% endfor %}
+
 
     </div>
 
@@ -42,17 +48,17 @@
             <p>{{vinyls|length}}
                 vinyles</p>
         </div>
-        <div class="col s1 ">
+{#         <div class="col s1 ">
             <p>
                 <a href="{{path ('vinyl_index') }}" class="button-black ">Filtrer</a>
             </p>
-        </div>
+        </div> #}
     </div>
 
 
     <div class="row">
         {% for vinyl in vinyls %}
-            <div class="col s12 m6 l3 center-align ">
+            <div class="col s12 m6 l3 container-vinyl-lsit center-align  ">
                 <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
 
                     {% if vinyl.reducePrice >0 %}
