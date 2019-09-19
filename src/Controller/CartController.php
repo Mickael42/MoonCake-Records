@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-    
+
 /**
  * @Route("/panier")
  */
@@ -29,17 +29,42 @@ class CartController extends AbstractController
      */
     public function index(UserInterface $user = null, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
-        //We get the id of the cart stored in the cookie
+
+        //If a customer is logged, we get the cart id store in database
+        //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
         if ($user) {
             $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
+            $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+            return $this->render('cart/index.html.twig', [
+                'cart' => $cart,
+                'vinyls' => $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected),
+
+            ]);
+
+            //If the customer is not logged, we get data of cart stored inside a cookie
+            //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
         } else {
             $idCartDecoded = base64_decode($request->cookies->get('id'));
             $cart = $cartRepository->find($idCartDecoded);
+
+            if (!$cart) {
+                $vinylsListMayInterested = $vinylRepository->findByLastVinyls(4);
+            } else {
+                //If the customer delete his cart, we show to him the last vinyls
+                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+                $vinylsListMayInterested = $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
+            };
+
+            return $this->render('cart/index.html.twig', [
+                'cart' => $cart,
+                'vinyls' => $vinylsListMayInterested,
+
+            ]);
         }
 
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
-            'vinyls' => $vinylRepository->findAll(),
+            'vinyls' => $vinylRepository->findByLastVinyls(4),
 
         ]);
     }
@@ -73,7 +98,7 @@ class CartController extends AbstractController
      */
     public function show(Request $request, Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null, UserInterface $user = null): Response
     {
-        
+
         if (!$client) {
             $client = new Client();
         }
@@ -100,7 +125,7 @@ class CartController extends AbstractController
 
             //Changing the status of the cart and cleaning the cookie
             $cart->setIsOrder(true);
-            
+
 
             //Deleting in the database all products selected and link to the cart
             $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
@@ -109,7 +134,7 @@ class CartController extends AbstractController
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('payment',["id"=>$order->getId()]);
+            return $this->redirectToRoute('payment', ["id" => $order->getId()]);
         }
 
 
@@ -146,6 +171,8 @@ class CartController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
 
+            $response = new Response();
+            $response->headers->clearCookie("id");
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cart);
             $entityManager->flush();

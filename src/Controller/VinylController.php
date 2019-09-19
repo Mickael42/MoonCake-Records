@@ -86,13 +86,12 @@ class VinylController extends AbstractController
     {
 
         $response = new Response();
-        $vinylGenre = $vinyl->getGenre();
-        $vinylRelated = $vinylRepository->findBy(array('genre' => $vinylGenre));
+        $vinylRelated = $vinylRepository->findByRelatedVinyls($vinyl->getGenre()->getId());
 
         //get all the tracks related to the vinyl
         $vinylId = $vinyl->getId();
         $tracks = $trackRepository->findBy(array('vinyl' => $vinylId));
-        dump($tracks);
+
 
 
         //if the customer click on 'add to cart', we create a new entry in OrderProduct and a new Cart

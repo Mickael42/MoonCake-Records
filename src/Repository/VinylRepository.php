@@ -41,6 +41,17 @@ class VinylRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByRelatedVinyls($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->orderBy('u.id', 'DESC')
+            ->andWhere('u.genre = :val')
+            ->setParameter('val', $value)
+            ->setMaxResults(4)
+            ->getQuery()
+            ->getResult();
+    }
+
 
     public function finByGenre($value)
     {
