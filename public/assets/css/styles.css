@@ -514,6 +514,8 @@ select {
 
 .form-error{
     color : red !important;
+    background: #eeb3a6 !important;
+    font-weight: bold !important;
 
 }
 
@@ -527,26 +529,52 @@ select {
 }
 
 .container-form-security{
-   width: 700px;
-   padding-bottom : 60px;
+   width: 60%;
+   height: 80%;
+    padding-bottom : 60px; 
    background: rgba(255, 255, 255, 0.658);
+   border-radius: 0px;
 
 }
 
 .background-image-form{
-
+    height: 100vh;
     background-size: cover;
     background-image: url("../img/disque-vinyl-fond-noir.jpg");
-    height: 79vh;
+   
 }
 
 .section-title-form{
     color : #C26208;
-    font-weight: bold;
     margin-top : 0;
     padding-top : 40px;
 }
 
 .label-form{
     color: black!important;
+}
+
+.button-white-form{
+    display: inline-block;
+    padding : 10px;
+    background-color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom : 5px;
+    color : #C26208;
+    transition: 0.3s
+
+}
+.button-white-form:hover{
+    display: inline-block;
+    padding : 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom : 5px;
+    border-radius: 10px;
+    background-color: #C26208;
+    color : white;
+    transition: 0.3s
+    
 }

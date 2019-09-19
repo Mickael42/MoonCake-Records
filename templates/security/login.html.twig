@@ -10,11 +10,23 @@
         <div class="row container-form-security">
             <div class="col s12">
                 <h3 class="section-title-form center-align">Connexion</h3>
-                <div class=" col s6 offset-s3 ">
+                <div class=" col s12 m6 offset-m3 ">
+
+                    {% if error %}
+
+                        <p class="center-align form-error">L'adresse mail ou le mot de passe sont incorrectes ! Veuillez réessayer!</p>
+
+                    {% endif %}
                     <form axtion={{path ('security_login')}} method="post">
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="email" type="email" require name="_username" class="validate" >
+                                {% if last_username %}
+
+                                    <input id="email" type="email" require name="_username" class="validate" value="{{last_username}}">
+
+                                {% else %}
+                                    <input id="email" type="email" require name="_username" class="validate">
+                                {% endif %}
                                 <label class="label-form" for="email">Email</label>
                             </div>
                         </div>
@@ -34,10 +46,9 @@
                 </div>
             </div>
             <div class="col s12 center-align ">
+                <h5 style="margin-bottom: 20px;">Pas encore inscrit ?</h5>
+                <a class="button-white-form" href="{{path ('security_registration')}}">S'inscrire</a>
 
-                <h5>Pas encore inscrit ?</h5>
-                <a  class="button-white-call-to-action"  href="{{path ('security_registration')}}">S'inscrire</a>
-                
             </div>
 
 

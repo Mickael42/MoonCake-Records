@@ -50,6 +50,7 @@ class User implements UserInterface
      *     type="string",
      *     message="La valeur doit être une chaîne de caractères."
      * )
+     * @Assert\Length(min="3", minMessage="Votre nom d'utilisateurs doit avoir au moins 3 caratères")
      */
     private $userName;
     /**
@@ -129,7 +130,7 @@ class User implements UserInterface
         if ($this->admin == true) {
             return ['ROLE_USER', 'ROLE_ADMIN'];
         }
-        
+
         return ['ROLE_USER'];
     }
     /**

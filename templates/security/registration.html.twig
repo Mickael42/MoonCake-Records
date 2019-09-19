@@ -6,11 +6,11 @@
     <div class="background-image-form blue valign-wrapper">
 
         <div class="row container-form-security">
-            <h3 class="section-title center-align">Inscription</h3>
-            <div class="col s12">
+            <h3 class="section-title-form  center-align">Inscription</h3>
+            <div class="col s12 m6 offset-m3">
                 {{form_start (form)}}
 
-                 
+
                 {{form_widget (form)}}
                 <div class="center-align">
                     <button type="submit" class="btn btn-admin-form">Inscription</button>
@@ -18,15 +18,13 @@
 
 
                 {{form_end (form)}}
+            </div>
+            <div class="col s12 center-align ">
 
-                <div class="col s12 center-align ">
+                <h6 style="margin-bottom: 10px;">Déjà inscrit ?</h6>
+                <a class="button-white-form"  href="{{path ('security_login')}}">Se connecter</a>
 
-                    <h5>Vous avez déjà un compte ?</h5>
-                    <a class="button-white-call-to-action" href="{{path ('security_login')}}">Se connecter</a>
-
-                </div>
             </div>
         </div>
     </div>
-
-{% endblock %}
+</div>{% endblock %}

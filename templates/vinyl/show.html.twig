@@ -5,8 +5,10 @@
 
 {% block body %}
 
+
     <a class="link-back" href="{{ path('vinyl_index') }}">
         <i class="tiny material-icons">arrow_back</i>Aller au catalogue</a>
+
 
     {% for message in app.flashes('notice') %}
         <div class="row">
