@@ -12,6 +12,10 @@ input:focus {
     box-shadow: 0 1px 0 0 #C26208 !important;
   }
 
+label{
+    color: rgb(39, 32, 32) !important;
+}
+
 a:focus {
     outline:none !important;
 }
@@ -520,4 +524,29 @@ select {
 
 .container-vinyl-lsit{
     height: 600px;
+}
+
+.container-form-security{
+   width: 700px;
+   padding-bottom : 60px;
+   background: rgba(255, 255, 255, 0.658);
+
+}
+
+.background-image-form{
+
+    background-size: cover;
+    background-image: url("../img/disque-vinyl-fond-noir.jpg");
+    height: 79vh;
+}
+
+.section-title-form{
+    color : #C26208;
+    font-weight: bold;
+    margin-top : 0;
+    padding-top : 40px;
+}
+
+.label-form{
+    color: black!important;
 }

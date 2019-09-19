@@ -3,18 +3,30 @@
 
 {% block body %}
 
-    <h3 class="section-title">Inscription</h3>
+    <div class="background-image-form blue valign-wrapper">
 
-    {{form_start (form)}}
+        <div class="row container-form-security">
+            <h3 class="section-title center-align">Inscription</h3>
+            <div class="col s12">
+                {{form_start (form)}}
 
-    {{form_widget (form)}}
+                 
+                {{form_widget (form)}}
+                <div class="center-align">
+                    <button type="submit" class="btn btn-admin-form">Inscription</button>
+                </div>
 
-    <button type="submit">Inscription</button>
 
-    {{form_end (form)}}
+                {{form_end (form)}}
 
-    <p>Vous avez déjà un compte ?</p>
-    <a href="{{path ('security_login')}}">Se connecter</a>
+                <div class="col s12 center-align ">
 
+                    <h5>Vous avez déjà un compte ?</h5>
+                    <a class="button-white-call-to-action" href="{{path ('security_login')}}">Se connecter</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
