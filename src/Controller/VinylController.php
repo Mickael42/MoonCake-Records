@@ -158,6 +158,8 @@ class VinylController extends AbstractController
             if ($user) {
                 $cart->setUser($user);
             }
+
+
             $cart->setTotalAmount($vinylPrice);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cart);
@@ -166,6 +168,8 @@ class VinylController extends AbstractController
             $orderProduct = new OrderProduct();
             $orderProduct->setVinyl($vinyl);
             $orderProduct->setCart($cart);
+
+            
             $orderProduct->setPrice($vinylPrice);
             $orderProduct->setQuantity(1);
             $entityManager->persist($orderProduct);

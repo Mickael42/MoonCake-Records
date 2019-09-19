@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="parallax-container container-header-page  ">
+        <h3 class="title-header-page center-align">Espace client</h3>
+        <p class="text center-align">Bienvenur sur votre espace
+            <span class="name-user">{{app.user.userName}}</span>
+        </p>
+        <div class="parallax ">
+            <img src="{{asset ('assets/img/records-shop.jpg')}}">
+        </div>
+
+    </div>
+
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="text-center mb-80">
+                <h4 class="section-title text-uppercase center-align">Vos dernière commandes</h4>
+                <p class="section-sub text-center center-align">Vous pouvez ici suivre l'état de toutes vos commandes.
+                </p>
+            </div>
+
+            {% if clientOrders is null %}
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>Numéro de commande</th>
+                            <th>Article acheté</th>
+                            <th>Prix TTC</th>
+                            <th>Date de la commande</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Alvin</td>
+                            <td>Eclair</td>
+                            <td>$0.87</td>
+                        </tr>
+                        <tr>
+                            <td>Alan</td>
+                            <td>Jellybean</td>
+                            <td>$3.76</td>
+                        </tr>
+                        <tr>
+                            <td>Jonathan</td>
+                            <td>Lollipop</td>
+                            <td>$7.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="row">
+
+                    <div class="col s12">
+
+                        <p class="order-text center-align">Vous n'avez pas encore effectué de commande
+                        </p>
+                        <div class="center-align">
+                            <a href="{{ path ("vinyl_index")}}">
+                                <button class="waves-effect waves-light btn-large btn-add-cart">
+                                    Voir le catalogue</button>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        {% endif %}
+    </section>
+
+
+{% endblock %}

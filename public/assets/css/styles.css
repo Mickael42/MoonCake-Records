@@ -529,13 +529,26 @@ select {
 }
 
 .container-form-security{
-   width: 60%;
-   height: 80%;
+   width: 40%;
+   height: 75%;
     padding-bottom : 60px; 
    background: rgba(255, 255, 255, 0.658);
    border-radius: 0px;
+  
 
 }
+
+@media all and (max-width: 900px) 
+{
+.container-form-security{
+    width: 60%;
+    height: 85%;
+     padding-bottom : 60px; 
+    background: rgba(255, 255, 255, 0.658);
+    border-radius: 0px;
+   
+ 
+ }}
 
 .background-image-form{
     height: 100vh;
@@ -576,5 +589,10 @@ select {
     background-color: #C26208;
     color : white;
     transition: 0.3s
+}
+
+
+.name-user{
+    font-weight: bold;
     
 }

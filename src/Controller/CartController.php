@@ -34,12 +34,19 @@ class CartController extends AbstractController
         //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
         if ($user) {
             $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
-            $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+
+            if (!$cart) {
+                $vinylsListMayInterested = $vinylRepository->findByLastVinyls(4);
+            } else {
+                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+                $vinylsListMayInterested = $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
+            };
             return $this->render('cart/index.html.twig', [
                 'cart' => $cart,
-                'vinyls' => $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected),
+                'vinyls' => $vinylsListMayInterested,
 
             ]);
+
 
             //If the customer is not logged, we get data of cart stored inside a cookie
             //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
