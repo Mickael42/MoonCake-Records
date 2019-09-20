@@ -12,42 +12,41 @@
     </div>
 
 
-    <section class="section-padding">
+    <section class="section client-area">
         <div class="container">
             <div class="text-center mb-80">
-                <h4 class="section-title text-uppercase center-align">Vos dernière commandes</h4>
+                <h4 class="section-title text-uppercase center-align">Vos dernières commandes</h4>
                 <p class="section-sub text-center center-align">Vous pouvez ici suivre l'état de toutes vos commandes.
                 </p>
             </div>
 
-            {% if clientOrders is null %}
+            {% if clientOrders is not null %}
                 <table class="highlight">
                     <thead>
                         <tr>
-                            <th>Numéro de commande</th>
-                            <th>Article acheté</th>
-                            <th>Prix TTC</th>
-                            <th>Date de la commande</th>
-                            <th>Status</th>
+                            <th class="center-align">Numéro de commande</th>
+                            <th class="center-align">Prix TTC</th>
+                            <th class="center-align">Date de la commande</th>
+                            <th class="center-align">Statut de la commande</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Alvin</td>
-                            <td>Eclair</td>
-                            <td>$0.87</td>
-                        </tr>
-                        <tr>
-                            <td>Alan</td>
-                            <td>Jellybean</td>
-                            <td>$3.76</td>
-                        </tr>
-                        <tr>
-                            <td>Jonathan</td>
-                            <td>Lollipop</td>
-                            <td>$7.00</td>
-                        </tr>
+                        {% for order in clientOrders %}
+                            <tr>
+                                <td class="center-align">{{order.id}}</td>
+                                <td class="center-align">{{order.totalAmount}} €</td>
+                                <td class="center-align">{{order.orderDate| date("m/d/Y")}}</td>
+
+                                {% if order.status == "unpaid" %}
+                                    <td class="center-align"><span class="message-error center-align">Non payé</span></td>
+                                {% else %}
+                                    <td class="center-align"><span class="message-success center-align">Payée et traitée</span></td></td>
+                                {% endif %}
+
+
+                            </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             {% else %}

@@ -21,7 +21,7 @@ class ClientController extends AbstractController
     public function clientIndex(UserInterface $user, ClientRepository $clientRepository, OrdersRepository $ordersRepository): Response
     {
         $idUser = $user->getId();
-        $clientOrders = $ordersRepository->findBy(['client'=> $idUser], ['orderDate' =>'DESC']);
+        $clientOrders = $ordersRepository->findBy(['user'=> $idUser], ['orderDate' =>'DESC']);
         return $this->render('client/index.html.twig', [
             'clientOrders'=>$clientOrders
         ]);

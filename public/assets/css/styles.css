@@ -1,6 +1,10 @@
 html {
     font-family: 'Raleway', sans-serif;
+    height: 100% !important;
+}
 
+body{
+    min-height: 100% !important;
 }
 
 button:focus {
@@ -519,6 +523,7 @@ select {
 
 }
 
+
 .form-input-container{
     margin-top : 15px !important;
     margin-bottom : 15px !important;
@@ -594,5 +599,21 @@ select {
 
 .name-user{
     font-weight: bold;
-    
 }
+
+.message-error{
+    color : red !important;
+    font-weight: bold !important;
+
+}
+
+.message-success{
+    color : green !important;
+    font-weight: bold !important;
+
+}
+
+.client-area{
+    height: 60vh;
+}
+

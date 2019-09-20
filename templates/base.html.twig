@@ -34,22 +34,15 @@
                     <li>
                         <a href="{{path ("vinyl_promo")}}">Promo</a>
                     </li>
-                    <li>
+                    <li sty>
                         <a href="{{path ('contact') }}">Contact</a>
                     </li>
 
-                    {#        FORM SERACH BAR
-                                 <li>
-                                            <form>
-                                                <div class="input-field">
-                                                    <input id="search" type="search" placeholder="Rechercher" required>
-                                                    <label class="label-icon" for="search">
-                                                        <i class="material-icons">search</i>
-                                                    </label>
-                                                    <i class="material-icons">close</i>
-                                                </div>
-                                            </form>
-                                        </li> #}
+                    <li style="margin-left:70px;">
+                        <a href="">
+                            <i class="material-icons">search</i>
+                        </a>
+                    </li>
 
                     {% if app.user and not is_granted('ROLE_ADMIN') %}
                         <li>
@@ -118,14 +111,14 @@
             </li>
 
             {# FORM SEARCH BAR            
-             <li>
-                            <form>
-                                <div class="input-field">
-                                    <input id="search" type="search" placeholder="Rechercher..." required>
-                                    <i class="material-icons">close</i>
-                                </div>
-                            </form>
-                        </li> #}
+                                     <li>
+                                                    <form>
+                                                        <div class="input-field">
+                                                            <input id="search" type="search" placeholder="Rechercher..." required>
+                                                            <i class="material-icons">close</i>
+                                                        </div>
+                                                    </form>
+                                                </li> #}
 
             {% if app.user and not is_granted('ROLE_ADMIN') %}
                 <li>

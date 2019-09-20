@@ -11,6 +11,7 @@ use App\Form\ClientType;
 use App\Entity\OrderProduct;
 use App\Entity\Orders;
 use App\Repository\CartRepository;
+use App\Repository\ClientRepository;
 use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,14 +104,24 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null, UserInterface $user = null): Response
+    public function show(Request $request, Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository): Response
     {
-
-        if (!$client) {
+        if ($user) {
+            //We check if the user connected have already client data
+            $client = $clientRepository->findOneBy(['user' => $user]);
+            if ($client) {
+                $form = $this->createForm(ClientType::class, $client);
+            } else {
+                //If the user doesn't have client data
+                $client = new Client();
+                $form = $this->createForm(ClientType::class, $client);
+            }
+        } else {
+            //if the customer is not register in the database
             $client = new Client();
+            $form = $this->createForm(ClientType::class, $client);
         }
 
-        $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -126,6 +137,10 @@ class CartController extends AbstractController
             $order->setOrderDate(new \DateTime());
             $order->setPaymentMethod('unknow');
             $order->setStatus("unpaid");
+            if ($user) {
+                $order->setUser($user);
+            }
+
             $order->setTotalAmount($cart->getTotalAmount());
             $order->setCart($cart);
             $entityManager->persist($order);
