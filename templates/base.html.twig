@@ -110,19 +110,9 @@
                 </a>
             </li>
 
-            {# FORM SEARCH BAR            
-                                     <li>
-                                                    <form>
-                                                        <div class="input-field">
-                                                            <input id="search" type="search" placeholder="Rechercher..." required>
-                                                            <i class="material-icons">close</i>
-                                                        </div>
-                                                    </form>
-                                                </li> #}
-
             {% if app.user and not is_granted('ROLE_ADMIN') %}
                 <li>
-                    <a href="{{path ('security_login') }}">
+                    <a href="{{path ('client_index') }}">
                         <i class="material-icons left">account_circle</i>
                         <span class="text-sidenav">Bonjour,{{app.user.userName}}</span>
                     </a>

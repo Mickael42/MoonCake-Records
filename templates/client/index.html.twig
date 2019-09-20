@@ -1,75 +1,142 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    <div class="parallax-container container-header-page  ">
-        <h3 class="title-header-page center-align">Espace client</h3>
-        <p class="text center-align">Bienvenur sur votre espace
-            <span class="name-user">{{app.user.userName}}</span>
-        </p>
-        <div class="parallax ">
-            <img src="{{asset ('assets/img/records-shop.jpg')}}">
-        </div>
 
+
+<div class="parallax-container container-header-page  ">
+    <h3 class="title-header-page center-align">Espace client</h3>
+    <p class="text center-align">Bienvenur sur votre espace
+        <span class="name-user">{{app.user.userName}}</span>
+    </p>
+    <div class="parallax ">
+        <img src="{{asset ('assets/img/records-shop.jpg')}}">
     </div>
 
+</div>
 
-    <section class="section client-area">
-        <div class="container">
-            <div class="text-center mb-80">
-                <h4 class="section-title text-uppercase center-align">Vos dernières commandes</h4>
-                <p class="section-sub text-center center-align">Vous pouvez ici suivre l'état de toutes vos commandes.
-                </p>
-            </div>
 
-            {% if clientOrders is not null %}
-                <table class="highlight">
-                    <thead>
+<section class="section ">
+    <div class="container">
+        <div class="text-center mb-80">
+            <h4 class="section-title text-uppercase center-align">Vos dernières commandes</h4>
+            <p class="section-sub text-center center-align">Vous pouvez ici suivre l'état de toutes vos commandes.
+            </p>
+        </div>
+
+        {% if clientOrders is not empty %}
+            <table class="highlight">
+                <thead>
+                    <tr>
+                        <th class="center-align">Numéro de commande</th>
+                        <th class="center-align">Prix TTC</th>
+                        <th class="center-align">Date de la commande</th>
+                        <th class="center-align">Statut de la commande</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for order in clientOrders %}
                         <tr>
-                            <th class="center-align">Numéro de commande</th>
-                            <th class="center-align">Prix TTC</th>
-                            <th class="center-align">Date de la commande</th>
-                            <th class="center-align">Statut de la commande</th>
-                        </tr>
-                    </thead>
+                            <td class="center-align">{{order.id}}</td>
+                            <td class="center-align">{{order.totalAmount}}
+                                €</td>
+                            <td class="center-align">{{order.orderDate| date("m/d/Y")}}</td>
 
-                    <tbody>
-                        {% for order in clientOrders %}
-                            <tr>
-                                <td class="center-align">{{order.id}}</td>
-                                <td class="center-align">{{order.totalAmount}} €</td>
-                                <td class="center-align">{{order.orderDate| date("m/d/Y")}}</td>
-
-                                {% if order.status == "unpaid" %}
-                                    <td class="center-align"><span class="message-error center-align">Non payé</span></td>
-                                {% else %}
-                                    <td class="center-align"><span class="message-success center-align">Payée et traitée</span></td></td>
-                                {% endif %}
+                            {% if order.status == "unpaid" %}
+                                <td class="center-align">
+                                    <span class="message-error center-align">Non payé</span>
+                                </td>
+                            {% else %}
+                                <td class="center-align">
+                                    <span class="message-success center-align">Payée et traitée</span>
+                                </td>
+                            </td>
+                        {% endif %}
 
 
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <div class="row">
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="row">
 
-                    <div class="col s12">
+            <div class="col s12">
 
-                        <p class="order-text center-align">Vous n'avez pas encore effectué de commande
-                        </p>
-                        <div class="center-align">
-                            <a href="{{ path ("vinyl_index")}}">
-                                <button class="waves-effect waves-light btn-large btn-add-cart">
-                                    Voir le catalogue</button>
-                            </a>
-                        </div>
-
-                    </div>
-
+                <p class="order-text center-align">Vous n'avez pas encore effectué de commande
+                </p>
+                <div class="center-align">
+                    <a href="{{ path ("vinyl_index")}}">
+                        <button class="waves-effect waves-light btn-large btn-add-cart">
+                            Voir le catalogue</button>
+                    </a>
                 </div>
 
             </div>
-        {% endif %}
-    </section>
+
+        </div>
+
+    
+{% endif %}
+
+<div class="row">
+
+    <div class="col s12 ">
+        <h4 class="section-title center-align">Vos informations</h4>
+        {{form_start (form)}}
+        <div class="col s6 ">
+            {{form_errors (form.firstName)}}
+            {{form_row (form.firstName,{'label': 'Prénom','attr' :{'placeholder' : 'Ex : Noël'} })}}
+        </div>
+        <div class="col s6">
+            {{form_errors (form.lastName)}}
+            {{form_row (form.lastName,{'label': 'Nom','attr' :{'placeholder' : ' Ex : Flantier'} })}}
+        </div>
+
+        <div class="col s8">
+            {{form_errors (form.email)}}
+            {{form_row (form.email,{'label': 'Adresse mail','value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+        </div>
 
 
+        <div class="col s4">
+            {{form_errors (form.phone)}}
+            {{form_row (form.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}
+        </div>
+
+        <div class="col s12 ">
+            {{form_errors (form.adress)}}
+            {{form_row (form.adress,{'label': 'Adresse','attr' :{'placeholder' : ' Ex : 5 rue René Coty'} })}}
+        </div>
+
+        <div class="col s12 ">
+            {{form_errors (form.adressComplement)}}
+            {{form_row (form.adressComplement,{'label': 'Complément d\'adresse','attr' :{'placeholder' : ' Ex : 3ème étage'} })}}
+            </div>
+            <div class="col s12 ">
+                {{form_errors (form.city)}}
+                {{form_row (form.city,{'label': 'Ville','attr' :{'placeholder' : ' Ex : Saint-Etienne'} })}}
+            </div>
+            
+            <div class="col s6 ">
+                {{form_errors (form.country)}}
+                {{form_row (form.country,{'label': 'Pays','attr' :{'placeholder' : 'Ex : France'} })}}
+            </div>
+            <div class="col s6">
+                {{form_errors (form.zipCode)}}
+                {{form_row (form.zipCode,{'label': 'Code postal','attr' :{'placeholder' : ' Ex : 42000'} })}}
+            </div>
+
+        </div>
+
+        <div class="center-align">
+
+            <button type="submit" class="waves-effect waves-light btn-large btn-add-cart">
+                Mettre à jour</button>
+
+        </div>
+
+            {{form_end (form)}}
+
+</section>
 {% endblock %}
