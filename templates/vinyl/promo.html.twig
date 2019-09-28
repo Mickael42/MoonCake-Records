@@ -14,25 +14,20 @@
     </div>
     {% if vinyls %}
         <div class='row'>
-            <div class="col s1 ">
-                <p>
-                    <a href="{{path ('vinyl_index') }}" class="button-black ">Filtrer</a>
-                </p>
-            </div>
+            <div class="col s1 "></div>
         </div>
 
 
         <div class="row">
             {% for vinyl in vinyls %}
 
-                 {% set discount = ((vinyl.reducePrice - vinyl.regularPrice)/ vinyl.regularPrice) *100 %}
+                {% set discount = ((vinyl.reducePrice - vinyl.regularPrice)/ vinyl.regularPrice) *100 %}
                 <div class="col s12 m6 l3 container-vinyl-lsit center-align ">
-                    
-                        <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            <span class=" right banner-discount">
-                                {{discount|round}}
-                                %</span><img class="cover-vinyl" src="{{ asset (vinyl.cover) }}"></a>
-                    
+
+                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                        <span class=" right banner-discount">
+                            {{discount|round}}
+                            %</span><img class="cover-vinyl" src="{{ asset (vinyl.cover) }}"></a>
 
 
                     <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
@@ -49,11 +44,13 @@
                         </div>
                     </a>
                 </div>
-            {% else %}
-                <div class="col s12 m12 l12 center-align">
-                    <p>Oups ! Erreur, il n'y a pas de vinyles à afficher</p>
-                </div>
             {% endfor %}
+
+            <div class="col s12 center-align ">
+                <div class="pagination">
+                    {{ knp_pagination_render(vinyls) }}
+                </div>
+            </div>
         </div>
 
     {% else %}

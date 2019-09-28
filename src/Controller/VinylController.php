@@ -11,6 +11,7 @@ use App\Repository\GenreRepository;
 use App\Repository\TrackRepository;
 use App\Repository\VinylRepository;
 use App\Repository\OrderProductRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,22 +27,32 @@ class VinylController extends AbstractController
     /**
      * @Route("/", name="vinyl_index", methods={"GET"})
      */
-    public function index(VinylRepository $vinylRepository, GenreRepository $genreRepository, Request $request): Response
+    public function index(VinylRepository $vinylRepository, PaginatorInterface $paginator, GenreRepository $genreRepository, Request $request): Response
     {
 
         //we show vinyls by genres
         if ($request->query->get('genre')) {
             $idGenre = $request->query->get('genre');
-            $vinylsFiltredByGenre = $vinylRepository->findByGenre($idGenre);
-
+            $vinylsFiltredByGenre = $paginator->paginate(
+                $vinylRepository->finByGenreQuery($idGenre),
+                $request->query->getInt('page', 1),
+                8
+            );
             return $this->render('vinyl/index.html.twig', [
                 'vinyls' => $vinylsFiltredByGenre,
                 'genres' => $genreRepository->findAll()
             ]);
 
         };
+
+
+        $allvinyls = $paginator->paginate(
+            $vinylRepository->findAllQuery(),
+            $request->query->getInt('page', 1),
+            8
+        );
         return $this->render('vinyl/index.html.twig', [
-            'vinyls' => $vinylRepository->findAll(),
+            'vinyls' => $allvinyls,
             'genres' => $genreRepository->findAll()
         ]);
     }
@@ -49,10 +60,17 @@ class VinylController extends AbstractController
     /**
      * @Route("/promo", name="vinyl_promo", methods={"GET"})
      */
-    public function promo(VinylRepository $vinylRepository): Response
+    public function promo(VinylRepository $vinylRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $vinylsPromo = $paginator->paginate(
+            $vinylRepository->findAllVinylPromoQuery(),
+            $request->query->getInt('page', 1),
+            8
+    );
+
+
         return $this->render('vinyl/promo.html.twig', [
-            'vinyls' => $vinylRepository->findAllVinylPromo(),
+            'vinyls' => $vinylsPromo,
         ]);
     }
 

@@ -79,10 +79,13 @@
                         </div>
                     </a>
                 </div>
-            {% else %}
-                <div class="col s12 m12 l12 center-align">
-                    <p>Oups ! Erreur, il n'y a pas de vinyles à afficher</p>
-                </div>
+
             {% endfor %}
+                        <div class="col s12 center-align ">
+                <div class="pagination">
+                    {{ knp_pagination_render(vinyls) }}
+                </div>
+            </div>
+        </div>
         </div>
     {% endblock %}
