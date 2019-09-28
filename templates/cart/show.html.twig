@@ -11,60 +11,88 @@
             <h4 class="section-title">Informations contact</h4>
             {{form_start (formClient)}}
             <div class="col s6 ">
-                {{form_errors (formClient.firstName)}}
-                {{form_row (formClient.firstName,{'label': 'Prénom','attr' :{'placeholder' : 'Ex : Noël'} })}}
+                {{form_label(formClient.firstName, 'Prénom')}}
+                <div class="form-error">
+                    {{form_errors (formClient.firstName)}}
+                </div>
+                {{form_widget (formClient.firstName,{'attr' :{'placeholder' : 'Ex : Noël'} })}}
             </div>
             <div class="col s6">
+                {{form_label(formClient.lastName, 'Nom')}}
+                <div class="form-error">
+                    {{form_errors (formClient.lastName)}}
+                </div>
                 {{form_errors (formClient.lastName)}}
-                {{form_row (formClient.lastName,{'label': 'Nom','attr' :{'placeholder' : ' Ex : Flantier'} })}}
+                {{form_widget (formClient.lastName,{'attr' :{'placeholder' : ' Ex : Flantier'} })}}
             </div>
 
             {% if app.user %}
                 <div class="col s8">
-                    {{form_errors (formClient.email)}}
-                    {{form_row (formClient.email,{'label': 'Adresse mail','value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+                    {{form_label(formClient.email, 'email')}}
+                    <div class="form-error">
+                        {{form_errors (formClient.email)}}
+                    </div>
+                    {{form_widget (formClient.email,{'value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
                 </div>
             {% else %}
                 <div class="col s8">
-                    {{form_errors (formClient.email)}}
-                    {{form_row (formClient.email,{'label': 'Adresse mail','attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+                    {{form_label(formClient.email, 'Email')}}
+                    <div class="form-error">
+                        {{form_errors (formClient.email)}}
+                    </div>
+                    {{form_widget (formClient.email,{'label': 'Adresse mail','attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
                 </div>
 
             {% endif %}
 
             <div class="col s4">
-                {{form_errors (formClient.phone)}}
-                {{form_row (formClient.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}
+
+                {{form_label(formClient.phone, 'Téléphone')}}
+                <div class="form-error">
+                    {{form_errors (formClient.phone, {'attr': {'class': 'form-error'}})}}
+                </div>
+                {{form_widget (formClient.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}
             </div>
 
             <h4 class="section-title">Addresse de livraison</h4>
 
             <div class="col s12 ">
-                {{form_errors (formClient.adress)}}
-                {{form_row (formClient.adress,{'label': 'Adresse','attr' :{'placeholder' : ' Ex : 5 rue René Coty'} })}}
+                {{form_label(formClient.adress, 'Adresse')}}
+                <div class="form-error">
+                    {{form_errors (formClient.adress)}}
+                </div>
+                {{form_widget (formClient.adress,{'attr' :{'placeholder' : ' Ex : 5 rue René Coty'} })}}
             </div>
 
             <div class="col s12 ">
-                {{form_errors (formClient.adressComplement)}}
-                {{form_row (formClient.adressComplement,{'label': 'Complément d\'adresse','attr' :{'placeholder' : ' Ex : 3ème étage'} })}}
+                {{form_label(formClient.adressComplement, 'Complément d\'adresse')}}
+                <div class="form-error">
+                    {{form_errors (formClient.adressComplement)}}
+                </div>
+                {{form_widget (formClient.adressComplement,{'attr' :{'placeholder' : ' Ex : 3ème étage'} })}}
             </div>
             <div class="col s12 ">
-                {{form_errors (formClient.city)}}
-                {{form_row (formClient.city,{'label': 'Ville','attr' :{'placeholder' : ' Ex : Saint-Etienne'} })}}
+                {{form_label(formClient.city, 'Ville')}}
+                <div class="form-error">
+                    {{form_errors (formClient.city)}}
+                </div>
+                {{form_widget (formClient.city,{'attr' :{'placeholder' : ' Ex : Saint-Etienne'} })}}
             </div>
             
             <div class="col s6 ">
-                {{form_errors (formClient.country)}}
-                {{form_row (formClient.country,{'label': 'Pays','attr' :{'placeholder' : 'Ex : France'} })}}
+                {{form_label(formClient.country, 'Pays')}}
+                <div class="form-error">
+                    {{form_errors (formClient.country)}}
+                </div>
+                {{form_widget (formClient.country,{'attr' :{'placeholder' : 'Ex : France'} })}}
             </div>
             <div class="col s6">
-                {{form_errors (formClient.zipCode)}}
-                {{form_row (formClient.zipCode,{'label': 'Code postal','attr' :{'placeholder' : ' Ex : 42000'} })}}
+                 {{form_label(formClient.zipCode, 'Code Postal')}}
+                <div class="form-error">
+                    {{form_errors (formClient.zipCode)}}
+                </div>
+                {{form_widget (formClient.zipCode,{'attr' :{'placeholder' : ' Ex : 42000'} })}}
             </div>
-
-
-
-            
         </div>
 
         <div class="col s4  summary-cart">

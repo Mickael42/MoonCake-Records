@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PaymentController!
+{% block title %}Paiement | MoonCake Records
 {% endblock %}
 
 {% block body %}
@@ -11,7 +11,7 @@
 
         <div class="col s6 offset-s3 grey lighten-3">
 
-            <form action="" method="post" id="payment-form">
+            <form action="{{path ('payment', {'id' : order.id})}}" method="post" id="payment-form">
                 <div class="form-row">
                     <h4 class="center-align">Information cartes bancaires</h4>
                     {% for message in app.flashes('error') %}
@@ -19,7 +19,7 @@
                             <span class="red-text ">{{ message }}</span>
                         </div>
                     {% endfor %}
-                    <input id="cardholder-name" type="text" placeholder="Nom du propriétaire de la carte">
+                    <input required id="cardholder-name" type="text" name='cartHolder' placeholder="Nom du propriétaire de la carte">
                     <div
                         id="card-element"><!-- A Stripe Element will be inserted here. -->
                     </div>
@@ -29,13 +29,18 @@
                 </div>
 
                 <div class="center-align">
-                    <button id="card-button" class="btn btn-payment" data-secret="{{clientPayment}}">
+                    <button id="card-button" class="waves-effect waves-light btn-large btn-payment" data-secret="{{clientPayment}}">
                         Paiement
                     </button>
                 </div>
-
-                <p>J'accepte les
-                    <a href="" target="_blank">conditions générales de vente</a>
+                <p>
+                    <label>
+                        <input name='check' required type="checkbox"/>
+                        <span> J'accepte les <a href="{{path ('mentions')}}" target="_blank">conditions générales de vente</a></span>
+                    </label>
+                </p>
+                <p>
+                    
                 </p>
                 <div class="center-align">
                     <img alt="Stripe protège vos achats" class="responsive-img monetico" src="{{ asset ('assets/img/paiement-securise-stripe.jpeg')}}">

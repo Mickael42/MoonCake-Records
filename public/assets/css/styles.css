@@ -138,7 +138,8 @@ a:focus {
     font-weight: bolder;
     border-radius: 10px;
     color : #C26208;
-    transition: 0.3s
+    transition: 0.3s;
+    cursor: pointer;
 
 }
 .button-white-call-to-action:hover{
@@ -149,7 +150,8 @@ a:focus {
     border-radius: 10px;
     background-color: #C26208;
     color : white;
-    transition: 0.3s
+    transition: 0.3s;
+    cursor: pointer;
     
 }
 
@@ -253,7 +255,8 @@ a:focus {
     border-radius: 10px;
     border : 1px solid #C26208; 
     color : black;
-    transition: 0.3s
+    transition: 0.3s;
+    cursor: pointer;
 
 }
 .button-white:hover{
@@ -264,7 +267,8 @@ a:focus {
     border : 1px solid white; 
     background-color: #C26208;
     color : white;
-    transition: 0.3s
+    transition: 0.3s;
+    cursor: pointer;
     
 }
 
@@ -341,6 +345,11 @@ a:focus {
     margin-top : 20px;
 }
 
+.container-input-quantity{
+    width: 200px;
+}
+
+
 
 .container-title-section{
 padding-top : 10px;
@@ -363,6 +372,17 @@ border-top: 1px solid #555555
     width: 400px;
     height: 400px;
 }
+
+
+
+
+@media all and (max-width: 500px) 
+{
+.cover-vinyl-large{
+
+    width: 200px;
+    height: 200px;
+ }}
 
 .banner-discount{
     position: absolute;
@@ -414,6 +434,13 @@ border-top: 1px solid #555555
     width : 100px;
     height: 100px;
 }
+
+@media all and (max-width: 991px) 
+{
+    .cart-cover-vinyl{
+        width : 20px;
+        height: 20px;
+    }}
 
 
 .cart-container-order-product{
@@ -475,13 +502,16 @@ border-top: 1px solid #555555
     background-color: #fefde5 !important;
   }
 
+  #cardholder-name::placeholder{
+      color : rgb(56, 55, 55);
+  }
 
 .btn-payment{
     background-color : #C26208;
     border-radius: 10px;
     margin-top : 10px;
 }
-.btn-payment{
+.btn-payment:hover{
     background-color : white;
     border-radius: 10px;
     color : #C26208;
@@ -617,3 +647,16 @@ select {
     height: 60vh;
 }
 
+/* For Firefox */
+input[type='number'] {
+    -moz-appearance:textfield;
+}/* Webkit browsers like Safari and Chrome */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.full-screen{
+    height: 70vh;
+}

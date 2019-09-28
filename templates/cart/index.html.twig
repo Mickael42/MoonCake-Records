@@ -5,179 +5,153 @@
 
 {% block body %}
 
-    <h3 class="order-section-title">Votre panier</h3>
+<h3 class="order-section-title">Votre panier</h3>
 
 
-    {% if cart is null %}
-        <div class="row">
+{% if cart is null %}
+    <div class="row">
 
-            <div class="col s12">
+        <div class="col s12">
 
-                <p class="order-text center-align">Votre panier est vide!
-                </p>
-                <div class="center-align">
-                    <a href="{{ path ("vinyl_index")}}">
-                        <button class="waves-effect waves-light btn-large btn-add-cart">
-                            Aller au catalogue</button>
-                    </a>
-                </div>
-
+            <p class="order-text center-align">Votre panier est vide!
+            </p>
+            <div class="center-align">
+                <a href="{{ path ("vinyl_index")}}">
+                    <button class="waves-effect waves-light btn-large btn-add-cart">
+                        Aller au catalogue</button>
+                </a>
             </div>
 
         </div>
 
-    {% elseif cart.orderProducts|length > 0  %}
-        <div class="row">
+    </div>
 
-            <div class="col s8 ">
+{% elseif cart.orderProducts|length > 0  %}
+    <div class="row">
 
-                <div>
-                    <div class="col s6 ">
-                        <p class="center-align">
-                            Article
-                        </p>
-                    </div>
-                    <div class="col s2 ">
-                        <p class="center-align">
-                            Quantité
-                        </p>
-                    </div>
-                    <div class="col s2 ">
-                        <p class="center-align">
-                            Prix
-                        </p>
-                    </div>
-                    <div class="col s2 ">
-                        <p class="center-align">
-                            Supprimer l'article du panier
-                        </p>
-                    </div>
-                </div>
-                {% for product in cart.orderProducts %}
-                    <div class="cart-container-order-product">
-                        <div class="col s6 col-container-order-product valign-wrapper">
-                            <div class="col s6">
+        <div class="col s12 m12 l8 ">
+
+            <table class="responsive-table">
+                <thead>
+                    <tr>
+                        <th>Article</th>
+                        <th>Ref article</th>
+                        <th>Quantité</th>
+                        <th>Prix</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for product in cart.orderProducts %}
+                        <tr>
+                            <td>
                                 <img class="cart-cover-vinyl" src="{{ asset (product.vinyl.cover)}}" alt="vinyl-cover">
-                            </div>
-                            <div class="col s6">
-                                <p class="vinyl-artist">{{product.vinyl.artiste}}</p>
-                                <p>{{product.vinyl.name}}</p>
-                                <p>{{product.vinyl.catNum}}</p>
-                            </div>
+                                {{product.vinyl.name}}-{{product.vinyl.artiste}}
+                            </td>
+                            <td>{{product.vinyl.id}}</td>
+                            <td class="container-input-quantity"><input type="number" name="quantity" min="1" max="5"></td>
+                            <td>{{product.price}}
+                                €</td>
 
-                        </div>
-                        <div class="col s2 col-container-order-product valign-wrapper">
-                            <input type="number" name="quantity" min="1" max="5">
+                            <td>
+                                {{ include('cart/_deleteOneProduct_form.html.twig') }}</td>
+                        </tr>
 
-
-                        </div>
-                        <div class="col s2 col-container-order-product valign-wrapper center-align">
-
-                            <p>{{product.price}}
-                                €</p>
-                        </div>
-                        <div class="col s2 col-container-order-product valign-wrapper center-align">
-                            {{ include('cart/_deleteOneProduct_form.html.twig') }}
-                        </div>
-                    </div>
-
-                {% endfor %}
-                <div class="col s3">
-
-                    <div class="right">
-                        {{ include('cart/_deleteCart_form.html.twig') }}
-                    </div>
-
-                    <span class="left">Supprimer tout le panier</span>
-                </div>
-            </div>
-
-            <div class="col s4 summary-cart">
-                <h5 class="section-title center-align">Résumé de la commande</h5>
-
-                <div class="col s8 ">
-                    <p>Nombre d'article</p>
-                </div>
-                <div class="col s4  quantity-summury-cart">
-                    <p>{{cart.orderProducts | length }}</p>
-                </div>
-                <div class="col s8 ">
-                    <p>Prix total des articles</p>
-                </div>
-                <div class="col s4  quantity-summury-cart">
-                    <p>{{cart.totalAmount}}
-                        €</p>
-                </div>
-                <div class="col s8 ">
-                    <p>Prix de la livraison</p>
-                </div>
-                <div class="col s4  quantity-summury-cart">
-                    <p>0 €</p>
-                </div>
-
-
-                <div class="col s8 ">
-                    <p>Prix de la livraison</p>
-                </div>
-                <div class="col s4  quantity-summury-cart">
-                    <p>1 €</p>
-                </div>
-
-                <div class="col s8 total-summary-cart ">
-                    <p class="text-total-summary-cart">Montant total</p>
-                </div>
-                <div class="col s4  quantity-summury-cart">
-                    <p class="text-total-summary-cart">{{cart.totalAmount}}
-                        €</p>
-                </div>
-                <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
-                <div class="center-align">
-                    <a href="{{ path ("cart_show", {id : cart.id})}}">
-                        <button class="waves-effect waves-light btn-large btn-add-cart">
-                            Aller à la caisse</button>
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-{% endif %}
-
-        <div class="section ">
-            <div class="row container container-title-section">
-                <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
-            </div>
-
-            <div class="row">
-                {% for vinyl in vinyls %}
-                    <div class="col s12 m6 l3 center-align ">
-                        <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            {% if vinyl.reducePrice >0 %}
-                                <span class=" right banner-discount">PROMO</span>
-                            {% endif %}
-                            <img class="cover-vinyl" src="{{ asset(vinyl.cover) }}"></a>
-                        <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
-                            <div class="container-vinyl-info ">
-
-                                <p class='artist-name'>{{ vinyl.artiste }}</p>
-                                <p class='vinyl-name'>{{ vinyl.name }}</p>
-                                <p class='label-and-year'>{{ vinyl.label }}
-                                    -
-                                    {{ vinyl.year }}</p>
-                                {% if vinyl.reducePrice %}
-                                    <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
-                                    <p class='vinyl-price'>{{ vinyl.reducePrice }}€
-                                    {% else %}
-                                        <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
-                                    {% endif %}
-
-                                </div>
-                            </a>
-                        </div>
                     {% endfor %}
-                </div>
+                </tbody>
+            </tbody>
+        </table>
+        <div class="col s12 m12 l3">
+
+            <div class="right">
+                {{ include('cart/_deleteCart_form.html.twig') }}
             </div>
-        
+
+            <span class="left">Supprimer tout le panier</span>
+        </div>
+    </div>
+
+    <div class="col s12 m12 l4 summary-cart">
+        <h5 class="section-title center-align">Résumé de la commande</h5>
+
+        <div class="col s8 ">
+            <p>Nombre d'article</p>
+        </div>
+        <div class="col s4  quantity-summury-cart">
+            <p>{{cart.orderProducts | length }}</p>
+        </div>
+        <div class="col s8 ">
+            <p>Prix total des articles</p>
+        </div>
+        <div class="col s4  quantity-summury-cart">
+            <p>{{cart.totalAmount}}
+                €</p>
+        </div>
+        <div class="col s8 ">
+            <p>Prix de la livraison</p>
+        </div>
+        <div class="col s4  quantity-summury-cart">
+            <p>0 €</p>
+        </div>
 
 
-    {% endblock %}
+        <div class="col s8 ">
+            <p>Prix de la livraison</p>
+        </div>
+        <div class="col s4  quantity-summury-cart">
+            <p>0 €</p>
+        </div>
+
+        <div class="col s8 total-summary-cart ">
+            <p class="text-total-summary-cart">Montant total</p>
+        </div>
+        <div class="col s4  quantity-summury-cart">
+            <p class="text-total-summary-cart">{{cart.totalAmount}}
+                €</p>
+        </div>
+        <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
+        <div class="center-align">
+            <a href="{{ path ("cart_show", {id : cart.id})}}">
+                <button class="waves-effect waves-light btn-large btn-add-cart">
+                    Aller à la caisse</button>
+            </a>
+
+        </div>
+
+    </div>
+</div>{% endif %}<div class="section ">
+<div class="row container container-title-section">
+    <h5 class="section-title center-align">Ces vinyles pourraient aussi vous intéresser</h5>
+</div>
+
+<div class="row">
+    {% for vinyl in vinyls %}
+        <div class="col s12 m6 l3 center-align ">
+            <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                {% if vinyl.reducePrice >0 %}
+                    <span class=" right banner-discount">PROMO</span>
+                {% endif %}
+                <img class="cover-vinyl" src="{{ asset(vinyl.cover) }}"></a>
+            <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                <div class="container-vinyl-info ">
+
+                    <p class='artist-name'>{{ vinyl.artiste }}</p>
+                    <p class='vinyl-name'>{{ vinyl.name }}</p>
+                    <p class='label-and-year'>{{ vinyl.label }}
+                        -
+                        {{ vinyl.year }}</p>
+                    {% if vinyl.reducePrice %}
+                        <p class='vinyl-price-crossed'>{{ vinyl.regularPrice }}€</p>
+                        <p class='vinyl-price'>{{ vinyl.reducePrice }}€
+                        {% else %}
+                            <p class='vinyl-price'>{{ vinyl.regularPrice }}€</p>
+                        {% endif %}
+
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>{% endblock %}
