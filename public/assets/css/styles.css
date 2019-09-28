@@ -573,10 +573,10 @@ select {
 
 }
 
-@media all and (max-width: 900px) 
+@media all and (max-width: 1200px) 
 {
 .container-form-security{
-    width: 60%;
+    width: 40%;
     height: 85%;
      padding-bottom : 60px; 
     background: rgba(255, 255, 255, 0.658);
