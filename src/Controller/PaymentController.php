@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use Stripe\Customer;
 use App\Entity\Orders;
+use App\Entity\Vinyl;
+use App\Repository\OrderProductRepository;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,14 +43,11 @@ class PaymentController extends AbstractController
         $checkbox = $request->request->get('check');
         $nameCartHolder = $request->request->get('cartHolder');
 
-         if (!empty($checkbox) and !empty($nameCartHolder)) {
+        if (!empty($checkbox) and !empty($nameCartHolder)) {
             return $this->redirectToRoute('payment_confirmation', [
                 'id' => $order->getId()
             ]);
-        } 
-
-
-
+        }
 
         return $this->render('payment/index.html.twig', [
             'controller_name' => 'PaymentController',
@@ -61,8 +60,30 @@ class PaymentController extends AbstractController
     /**
      * @Route("/confirmation/{id}", name="payment_confirmation", methods={"POST", "GET"})
      */
-    public function paymentConfirmation(Orders $order, Request $request)
+    public function paymentConfirmation(Orders $order, Request $request, OrderProductRepository $orderProductRepository)
     {
+        $cart = $order->getCart();
+        $entityManager = $this->getDoctrine()->getManager();
+
+
+        //Deleting in the database all products selected and link to the cart
+        //also updating the available quantity stock for each purchased vinyl 
+
+
+        $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
+        foreach ($arrayOfOrderProduct as $orderProduct) {
+            $quantityOrder = $orderProduct->getQuantity();
+            $vinyl = new Vinyl();
+            $vinyl = $orderProduct->getVinyl();
+            $quantityVinylStock = $vinyl->getQuantityStock();
+            $newQuantityStock = $quantityVinylStock - $quantityOrder;
+            $vinyl->setQuantityStock($newQuantityStock);
+            $cart->removeOrderProduct($orderProduct);
+        }
+
+        $entityManager->flush();
+
+
         return $this->render('payment/confirmation.html.twig');
     }
 }

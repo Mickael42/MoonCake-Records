@@ -76,31 +76,59 @@ class CartController extends AbstractController
 
         ]);
     }
-
     /**
-     * @Route("/new", name="cart_new", methods={"GET","POST"})
+     * @Route("/updateQuantityCart/{id}", name="updating_quantity_order", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+
+    public function updateQuantityCart(Request $request, OrderProduct $orderProduct): Response
     {
-        $cart = new Cart();
-        $form = $this->createForm(CartType::class, $cart);
-        $form->handleRequest($request);
 
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($cart);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('cart_index');
+        //checking the unit price to choose (reduce or regular price)
+        $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
+        if (empty($vinylReducePrice) || $vinylReducePrice === 0) {
+            $unitPrice = $orderProduct->getVinyl()->getRegularPrice();
+        } else {
+            $unitPrice = $vinylReducePrice;
         }
 
-        return $this->render('cart/new.html.twig', [
-            'cart' => $cart,
-            'form' => $form->createView(),
-        ]);
-    }
+        //updating quantity stock in orderProduct
+        $quantityOrderRequest = $request->request->get('quantity');
+        $previousQuantity = $orderProduct->getQuantity();
+        $quantityOrderUpdated = $quantityOrderRequest += $previousQuantity;
 
+
+        //checking if the quantity request don't exceed the available stock
+        $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
+        if($quantityOrderUpdated >= $quantityStockVinyl){
+            $newQuantityOrder = $quantityStockVinyl;
+        } else {
+            $newQuantityOrder = $quantityOrderUpdated;
+        }
+
+        //updating price and total amount in the cart
+        $previousAmount = $orderProduct->getPrice();
+        $newPrice = $newQuantityOrder * $unitPrice;
+        $amountUpdated = $previousAmount += $newPrice;
+
+        $previousTotalAmount = $orderProduct->getCart()->getTotalAmount();
+        $totalAmountUpdated = $previousTotalAmount += $amountUpdated;
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $orderProduct->setPrice($amountUpdated);
+        $orderProduct->setQuantity($newQuantityOrder);
+        $entityManager->persist($orderProduct);
+
+
+        //updating the cart's total amount 
+        $cart = new Cart();
+        $cart = $orderProduct->getCart();
+        $cart->setTotalAmount($totalAmountUpdated);
+        $entityManager->persist($cart);
+
+        $entityManager->flush();
+
+        return $this->redirectToRoute('cart_index');
+    }
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
@@ -149,41 +177,20 @@ class CartController extends AbstractController
             $cart->setIsOrder(true);
 
 
-            //Deleting in the database all products selected and link to the cart
+/*             //Deleting in the database all products selected and link to the cart
             $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
             foreach ($arrayOfOrderProduct as $orderProduct) {
                 $cart->removeOrderProduct($orderProduct);
-            }
+            } */
             $entityManager->flush();
 
             return $this->redirectToRoute('payment', ["id" => $order->getId()]);
         }
 
-
-
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
             'formClient' => $form->createView(),
-            
-        ]);
-    }
 
-    /**
-     * @Route("/{id}/edit", name="cart_edit", methods={"GET","POST"})
-     */
-    public function edit(Request $request, Cart $cart): Response
-    {
-        $form = $this->createForm(CartType::class, $cart);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-            return $this->redirectToRoute('cart_index');
-        }
-
-        return $this->render('cart/edit.html.twig', [
-            'cart' => $cart,
-            'form' => $form->createView(),
         ]);
     }
 
