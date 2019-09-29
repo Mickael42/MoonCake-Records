@@ -1,4 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block title %}Espace client de
+    {{app.user.userName}}
+    | MoonCake Records
+{% endblock %}
+
+
 {% block body %}
 
 
@@ -12,6 +18,11 @@
     </div>
 
 </div>
+{% for message in app.flashes('notice') %}
+    <div class="flash-notice center-align">
+        {{ message }}
+    </div>
+{% endfor %}
 
 
 <section class="section ">
@@ -76,42 +87,42 @@
 
         </div>
 
-    
-{% endif %}
 
-<div class="row">
+    {% endif %}
 
-    <div class="col s12 ">
-        <h4 class="section-title center-align">Vos informations</h4>
-        {{form_start (form)}}
-        <div class="col s6 ">
-            {{form_errors (form.firstName)}}
-            {{form_row (form.firstName,{'label': 'Prénom','attr' :{'placeholder' : 'Ex : Noël'} })}}
-        </div>
-        <div class="col s6">
-            {{form_errors (form.lastName)}}
-            {{form_row (form.lastName,{'label': 'Nom','attr' :{'placeholder' : ' Ex : Flantier'} })}}
-        </div>
-
-        <div class="col s8">
-            {{form_errors (form.email)}}
-            {{form_row (form.email,{'label': 'Adresse mail','value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
-        </div>
-
-
-        <div class="col s4">
-            {{form_errors (form.phone)}}
-            {{form_row (form.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}
-        </div>
+    <div class="row">
 
         <div class="col s12 ">
-            {{form_errors (form.adress)}}
-            {{form_row (form.adress,{'label': 'Adresse','attr' :{'placeholder' : ' Ex : 5 rue René Coty'} })}}
-        </div>
+            <h4 class="section-title center-align">Vos informations</h4>
+            {{form_start (form)}}
+            <div class="col s6 ">
+                {{form_errors (form.firstName)}}
+                {{form_row (form.firstName,{'label': 'Prénom','attr' :{'placeholder' : 'Ex : Noël'} })}}
+            </div>
+            <div class="col s6">
+                {{form_errors (form.lastName)}}
+                {{form_row (form.lastName,{'label': 'Nom','attr' :{'placeholder' : ' Ex : Flantier'} })}}
+            </div>
 
-        <div class="col s12 ">
-            {{form_errors (form.adressComplement)}}
-            {{form_row (form.adressComplement,{'label': 'Complément d\'adresse','attr' :{'placeholder' : ' Ex : 3ème étage'} })}}
+            <div class="col s8">
+                {{form_errors (form.email)}}
+                {{form_row (form.email,{'label': 'Adresse mail','value' : app.user.email,'attr' :{'placeholder' : ' Ex : noelflantier@exemple.com'} })}}
+            </div>
+
+
+            <div class="col s4">
+                {{form_errors (form.phone)}}
+                {{form_row (form.phone,{'label': 'Numéro de téléphone','attr' :{'placeholder' : ' Ex : 0600000000'} })}}
+            </div>
+
+            <div class="col s12 ">
+                {{form_errors (form.adress)}}
+                {{form_row (form.adress,{'label': 'Adresse','attr' :{'placeholder' : ' Ex : 5 rue René Coty'} })}}
+            </div>
+
+            <div class="col s12 ">
+                {{form_errors (form.adressComplement)}}
+                {{form_row (form.adressComplement,{'label': 'Complément d\'adresse','attr' :{'placeholder' : ' Ex : 3ème étage'} })}}
             </div>
             <div class="col s12 ">
                 {{form_errors (form.city)}}

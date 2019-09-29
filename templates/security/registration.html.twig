@@ -1,13 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Inscription | MoonCake Records
+{% endblock %}
 
 {% block body %}
 
     <div class="background-image-form blue valign-wrapper">
 
-        <div class="row container-form-security">
-            <h3 class="section-title-form  center-align">Inscription</h3>
-            <div class="col s12 m6 offset-m3">
+        <div class="row container-form-security-registration ">
+        <div class="col s12 ">
+        
+        <h3 class="section-title-form  center-align ">Inscription</h3>
+            <div class="col s12 m8 offset-m2 ">
                 {{form_start (form)}}
 
                 {{form_label (form.email, 'Votre email')}}
@@ -35,20 +39,23 @@
                 {{form_widget (form.confirm_password)}}
 
 
-
                 <div class="center-align">
                     <button type="submit" class="btn btn-admin-form">Inscription</button>
                 </div>
 
 
                 {{form_end (form)}}
-            </div>
-            <div class="col s12 center-align ">
+                <div class="center-align">
 
-                <h6 style="margin-bottom: 10px;">Déjà inscrit ?</h6>
-                <a class="button-white-form" href="{{path ('security_login')}}">Se connecter</a>
+                    <h6 style="margin-bottom: 10px;">Déjà inscrit ?</h6>
+                    <a class="button-white-form" href="{{path ('security_login')}}">Se connecter</a>
 
+                </div>
             </div>
+        
+        </div>
+            
+
         </div>
     </div>
 </div>{% endblock %}

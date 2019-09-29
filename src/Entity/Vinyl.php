@@ -131,6 +131,10 @@ class Vinyl
      *  value = 0,
      *  message = "Le prix du vinyle ne peut être inférieur à 0€."
      * )
+     * @Assert\Expression(
+     *     "this.getReducePrice() < this.getRegularPrice()",
+     *     message="Le prix réduit doit être inférieur au prix standard."
+     *  )
      */
     private $reducePrice;
 

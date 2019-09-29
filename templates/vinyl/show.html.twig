@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Vinyl
+{% block title %}{{vinyl.name}}- {{vinyl.artiste}} | MoonCake Records
 {% endblock %}
 
 {% block body %}
@@ -90,7 +90,7 @@
             {% else %}
                 <div class="stock-red">
                     <i class="tiny material-icons">brightness_1</i>
-                    <span>En stock</span>
+                    <span>Epuisé</span>
                 </div>
             {% endif %}
         </div>

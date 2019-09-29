@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
-
+{% block title %}Connexion | MoonCake Records
+{% endblock %}
 
 {% block body %}
 
 
-    <div class="background-image-form blue valign-wrapper">
+    <div class="background-image-form  valign-wrapper">
 
 
-        <div class="row container-form-security">
-            <div class="col s12">
+        <div class="row container-form-security ">
+            <div class="col s12 ">
                 <h3 class="section-title-form center-align">Connexion</h3>
                 <div class=" col s12 m6 offset-m3 ">
 
@@ -45,13 +46,10 @@
 
                 </div>
             </div>
-            <div class="col s12 center-align ">
+            <div class="center-align ">
                 <h5 style="margin-bottom: 20px;">Pas encore inscrit ?</h5>
                 <a class="button-white-form" href="{{path ('security_registration')}}">S'inscrire</a>
-
             </div>
-
-
         </div>
 
 

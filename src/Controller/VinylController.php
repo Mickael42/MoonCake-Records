@@ -51,8 +51,10 @@ class VinylController extends AbstractController
             $request->query->getInt('page', 1),
             8
         );
+        $numberAllVinyls = $allvinyls->getTotalItemCount();
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $allvinyls,
+            'numberAllVinyls'=>$numberAllVinyls,
             'genres' => $genreRepository->findAll()
         ]);
     }
@@ -176,7 +178,6 @@ class VinylController extends AbstractController
             if ($user) {
                 $cart->setUser($user);
             }
-
 
             $cart->setTotalAmount($vinylPrice);
             $entityManager = $this->getDoctrine()->getManager();

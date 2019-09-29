@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cart
+{% block title %}Votre commande| MoonCake Records
 {% endblock %}
 
 {% block body %}
-    <a href="{{ path('cart_index') }}">Retourner au panier</a>
+
+<div class='link-back-container'>
+
+      <a class="link-back"  href="{{ path('cart_index') }}">
+        <i class="tiny material-icons">arrow_back</i>Retourner au panier</a>
+
+</div>
+
     <div class="row ">
 
-        <div class="col s8  ">
+
+  
+
+        <div class="col s12 m12 l8  ">
             <h4 class="section-title">Informations contact</h4>
             {{form_start (formClient)}}
             <div class="col s6 ">
@@ -95,7 +105,7 @@
             </div>
         </div>
 
-        <div class="col s4  summary-cart">
+        <div class="col s12 m12 l4  summary-cart">
             <h5 class="section-title center-align">Résumé de la commande</h5>
 
             <div class="col s8 ">

@@ -39,6 +39,7 @@ a:focus {
 .logoBrand {
     margin-left: 40px;
     font-family: Pacifico;
+    font-size: 1.8rem;
     font-style: normal;
     font-weight: normal;
     color: #FFFFFF;
@@ -166,7 +167,17 @@ a:focus {
 
 .cover-vinyl{
    width: 250px;
-   height: 250px;
+   height: 250px; 
+   box-shadow: 2px 2px 2px #555555;
+   border: solid 0px #C26208;
+   transition: 0.2s;
+   transition-timing-function: ease-out;
+}
+
+.cover-vinyl:hover{
+    border: solid 4px #C26208;
+    transition: 0.2s;
+    transition-timing-function: ease-out;
 }
 
 .container-vinyl-info{
@@ -330,11 +341,13 @@ a:focus {
 
 .div-btn-add-cart{
     margin-right :30px;
+    
 }
 
 .btn-add-cart{
     background-color : #C26208;
     border-radius: 10px;
+    margin-bottom: 10px;
 }
 .btn-add-cart:hover{
     background-color : white;
@@ -360,6 +373,7 @@ border-top: 1px solid #555555
     color: black;
     margin-left : 15px;
     transition: 0.3s;
+    
    
 }
 
@@ -409,7 +423,8 @@ border-top: 1px solid #555555
 }
 
 .summary-cart{
-    border-left: 1px solid #A4A1A1;
+    background :  #dfdfdf;
+    
     
 }
 
@@ -465,13 +480,17 @@ border-top: 1px solid #555555
 
 .btn-delete-form{
     background-color : white;
-    border-radius: 10px;
+    border-radius: 5px;
     color : #C26208;
 }
 .btn-delete-form:hover{
-    background-color : #C26208;
-    border-radius: 10px;
-    color:white;
+    background-color : rgb(243, 243, 243);
+    border-radius: 5px;
+    color : #C26208;
+}
+
+.container-delete-cart{
+    margin-top : 10px;
 }
 
 .StripeElement {
@@ -563,27 +582,62 @@ select {
     height: 600px;
 }
 
+.container-form-security-registration{
+    padding-bottom: 5px;
+    background: rgba(255, 255, 255, 0.658);
+    border-radius: 0px;
+ }
+
+
 .container-form-security{
-   width: 40%;
+   width: 60%;
    height: 75%;
     padding-bottom : 60px; 
    background: rgba(255, 255, 255, 0.658);
    border-radius: 0px;
-  
-
 }
 
-@media all and (max-width: 1200px) 
+@media all and (max-width: 1025px), all and (max-height : 769px)
 {
 .container-form-security{
-    width: 40%;
-    height: 85%;
+    width: 90%;
+    height: 90%;
      padding-bottom : 60px; 
     background: rgba(255, 255, 255, 0.658);
     border-radius: 0px;
    
  
  }}
+
+
+@media all and (max-width: 1200px), all and (max-height : 769px)
+{
+.container-form-security{
+    width: 60%;
+    height: 60%;
+     padding-bottom : 60px; 
+    background: rgba(255, 255, 255, 0.658);
+    border-radius: 0px;
+   
+ 
+ }}
+
+
+
+
+
+ @media all and (max-width: 520px) , all and (max-height : 769px)
+{
+.container-form-security{
+    width: 60%;
+    height: 80%;
+     padding-bottom : 60px; 
+    background: rgba(255, 255, 255, 0.658);
+    border-radius: 0px;
+   
+ 
+ }}
+
 
 .background-image-form{
     height: 100vh;
@@ -664,4 +718,19 @@ input[type=number]::-webkit-outer-spin-button {
 
 .pagination{
     font-size: large;
+}
+
+.link-back-container{
+    margin-top: 20px;
+}
+
+
+
+.btn-update-quantity-order{
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
 }

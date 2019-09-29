@@ -42,6 +42,10 @@ class ClientController extends AbstractController
             $client->setUser($user);
             $entityManager->persist($client);
             $entityManager->flush();
+            $this->addFlash(
+                'notice',
+                'Vos informations ont été mises à jour!');
+
             return $this->redirectToRoute('client_index');
         }
 

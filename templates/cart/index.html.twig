@@ -33,12 +33,12 @@
 
         <div class="col s12 m12 l8 ">
 
-            <table class="responsive-table">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Article</th>
                         <th>Ref article</th>
-                        <th>Quantité</th>
+                        <th class="center-align">Quantité</th>
                         <th>Prix</th>
                         <th></th>
                     </tr>
@@ -60,15 +60,14 @@
                                         <div class="col s8  offset-s2 ">
                                             <input type="number" name="quantity" value="{{product.quantity}}" min="1" max="{{product.vinyl.quantityStock}}">
                                        
-                                     <button type="submit">Ajouter</button>
+                                     <button class ="btn orange darken-4 " type="submit">Ajouter</button>
                                         </div>
                                     </div>
                                 </form>
 
                             </td>
 
-                            <td>{{product.price}}
-                                €</td>
+                            <td>{{product.price}} €</td>
                             <td>
                                 {{ include('cart/_deleteOneProduct_form.html.twig') }}</td>
                         </tr>
@@ -78,7 +77,7 @@
 
         {% endfor %}
     </tbody>
-</tbody></table><div class="col s12 m12 l3">
+</tbody></table><div class="col s12 m12 l5 container-delete-cart">
 
 <div class="right">
     {{ include('cart/_deleteCart_form.html.twig') }}

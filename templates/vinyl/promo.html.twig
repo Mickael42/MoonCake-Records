@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-
+{% block title %}Les promos | MoonCake Records
+{% endblock %}
 {% block body %}
 
     <div class="parallax-container container-header-page  ">
@@ -24,13 +25,14 @@
                 {% set discount = ((vinyl.reducePrice - vinyl.regularPrice)/ vinyl.regularPrice) *100 %}
                 <div class="col s12 m6 l3 container-vinyl-lsit center-align ">
 
-                    <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                    <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                         <span class=" right banner-discount">
                             {{discount|round}}
-                            %</span><img class="cover-vinyl" src="{{ asset (vinyl.cover) }}"></a>
+                            %</span>
+                            <img class="cover-vinyl" src="{{ asset (vinyl.cover) }}"></a>
 
 
-                    <a class="link-vinyl" href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
+                    <a  href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
                         <div class="container-vinyl-info ">
 
                             <p class='artist-name'>{{ vinyl.artiste }}</p>
