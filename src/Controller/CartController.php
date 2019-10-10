@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use DateTime;
 use App\Entity\Cart;
-use App\Entity\User;
 use App\Entity\Client;
-use App\Form\CartType;
 use App\Form\ClientType;
 use App\Entity\OrderProduct;
 use App\Entity\Orders;
@@ -14,6 +11,7 @@ use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
 use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
+use App\Manager\CartManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -80,8 +78,13 @@ class CartController extends AbstractController
      * @Route("/updateQuantityCart/{id}", name="updating_quantity_order", methods={"GET","POST"})
      */
 
-    public function updateQuantityCart(Request $request, OrderProduct $orderProduct): Response
+    public function updateQuantityCart(Request $request, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
+
+        
+        $quantityWanted = $request->request->get('quantity');
+        $previousQuantity = $orderProduct->getQuantity();
+        $potentialNewQuantityOrderProduct = $quantityWanted += $previousQuantity;
 
         //checking the unit price to choose (reduce or regular price)
         $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
@@ -90,42 +93,11 @@ class CartController extends AbstractController
         } else {
             $unitPrice = $vinylReducePrice;
         }
-
-        //updating quantity stock in orderProduct
-        $quantityOrderRequest = $request->request->get('quantity');
-        $previousQuantity = $orderProduct->getQuantity();
-        $quantityOrderUpdated = $quantityOrderRequest += $previousQuantity;
-
-
-        //checking if the quantity request don't exceed the available stock
+        
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
-        if($quantityOrderUpdated >= $quantityStockVinyl){
-            $newQuantityOrder = $quantityStockVinyl;
-        } else {
-            $newQuantityOrder = $quantityOrderUpdated;
+        if ($potentialNewQuantityOrderProduct <= $quantityStockVinyl) {
+            $cartManager->updateQuantityCart($orderProduct, $quantityWanted, $unitPrice);
         }
-
-        //updating price and total amount in the cart
-        $previousAmount = $orderProduct->getPrice();
-        $newPrice = $newQuantityOrder * $unitPrice;
-        $amountUpdated = $previousAmount += $newPrice;
-
-        $previousTotalAmount = $orderProduct->getCart()->getTotalAmount();
-        $totalAmountUpdated = $previousTotalAmount += $amountUpdated;
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $orderProduct->setPrice($amountUpdated);
-        $orderProduct->setQuantity($newQuantityOrder);
-        $entityManager->persist($orderProduct);
-
-
-        //updating the cart's total amount 
-        $cart = new Cart();
-        $cart = $orderProduct->getCart();
-        $cart->setTotalAmount($totalAmountUpdated);
-        $entityManager->persist($cart);
-
-        $entityManager->flush();
 
         return $this->redirectToRoute('cart_index');
     }
@@ -177,7 +149,7 @@ class CartController extends AbstractController
             $cart->setIsOrder(true);
 
 
-/*             //Deleting in the database all products selected and link to the cart
+            /*             //Deleting in the database all products selected and link to the cart
             $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
             foreach ($arrayOfOrderProduct as $orderProduct) {
                 $cart->removeOrderProduct($orderProduct);

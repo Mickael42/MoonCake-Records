@@ -51,7 +51,7 @@ class ManageProductController extends AbstractController
             $entityManager->flush();
             $this->addFlash(
                 'notice',
-                'Le vinyle est a bien été créé!'
+                'Le vinyle est a bien été créé! N\'oubliez pas d\'ajouter des titres au vinyle ! '
             );
 
             return $this->redirectToRoute('vinyl_edit_list');
@@ -83,6 +83,7 @@ class ManageProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             //getting all data from the cover uploaded
+            
             $cover = $form['cover']->getData();
             $originalFilename = pathinfo($cover->getClientOriginalName(), PATHINFO_FILENAME);
             // this is needed to safely include the file name as part of the URL

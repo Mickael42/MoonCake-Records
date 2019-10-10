@@ -58,7 +58,7 @@
 
     <div class="row">
         {% for vinyl in vinyls %}
-            <div class="col s12 m6 l3 container-vinyl-lsit center-align  ">
+            <div class="col s12 m3 l3 container-vinyl-lsit center-align  ">
                 <a href="{{ path('vinyl_show', {'id': vinyl.id}) }}">
 
                     {% if vinyl.reducePrice >0 %}

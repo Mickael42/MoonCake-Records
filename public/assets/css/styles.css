@@ -366,7 +366,7 @@ a:focus {
 
 .container-title-section{
 padding-top : 10px;
-border-top: 1px solid #555555
+
 }
 
 .link-back{
@@ -423,9 +423,9 @@ border-top: 1px solid #555555
 }
 
 .summary-cart{
-    background :  #dfdfdf;
-    
-    
+-webkit-box-shadow: 3px 2px 5px 2px rgba(0,0,0,0.31); 
+box-shadow: 3px 2px 5px 2px rgba(0,0,0,0.31);
+   
 }
 
 .quantity-summury-cart{
@@ -579,7 +579,7 @@ select {
 }
 
 .container-vinyl-lsit{
-    height: 600px;
+    height: 500px;
 }
 
 .container-form-security-registration{
@@ -643,6 +643,13 @@ select {
     height: 100vh;
     background-size: cover;
     background-image: url("../img/disque-vinyl-fond-noir.jpg");
+   
+}
+
+
+.section{
+    margin-top : 30px;
+    background: #f8f7f7b4;
    
 }
 
