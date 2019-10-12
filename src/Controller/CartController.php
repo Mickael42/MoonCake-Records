@@ -27,49 +27,17 @@ class CartController extends AbstractController
      */
     public function index(UserInterface $user = null, CartManager $cartManager, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
+        $dataStoredInCookie = base64_decode($request->cookies->get('id'));
+        //we use the showCart() method of the CartMAnager to the show the cart in Progress depending if it is stored in the database or in a cookie
+        $arrayCartData = $cartManager->showCart($user, $dataStoredInCookie);
 
-        //If a customer is logged, we get the cart id store in database
-        //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
-        if ($user) {
-            $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
-            if (!$cart) {
-                $vinylsListMayInterested = $vinylRepository->findByLastVinyls(4);
-            } else {
-                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
-                $vinylsListMayInterested = $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
-            };
-            return $this->render('cart/index.html.twig', [
-                'cart' => $cart,
-                'vinyls' => $vinylsListMayInterested,
+        //getting total number of vinyls in the cart using CartManger
+        $quantityOrder = $cartManager->showQuantityTotal($arrayCartData[0]);
 
-            ]);
-            //If the customer is not logged, we get data of cart stored inside a cookie
-            //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
-        } else {
-            $idCartDecoded = base64_decode($request->cookies->get('id'));
-            $cart = $cartRepository->find($idCartDecoded);
-
-            if (!$cart) {
-                $vinylsListMayInterested = $vinylRepository->findByLastVinyls(4);
-            } else {
-                //If the customer delete his cart, we show to him the last vinyls
-                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
-                $vinylsListMayInterested = $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
-            };
-
-            //getting total number of vinyls in the cart using CartManger
-            $quantityOrder = $cartManager->showQuantityTotal($cart);
-
-            return $this->render('cart/index.html.twig', [
-                'cart' => $cart,
-                'totalQuantityVinylOrder' => $quantityOrder,
-                'vinyls' => $vinylsListMayInterested,
-            ]);
-        }
         return $this->render('cart/index.html.twig', [
-            'cart' => $cart,
-            'vinyls' => $vinylRepository->findByLastVinyls(4),
-
+            'cart' => $arrayCartData[0],
+            'totalQuantityVinylOrder' => $quantityOrder,
+            'vinyls' => $arrayCartData[1],
         ]);
     }
     /**

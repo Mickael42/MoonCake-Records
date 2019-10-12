@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Manager;
+
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\OrderProduct;
 use App\Entity\Cart;
@@ -17,13 +18,13 @@ class CartManager
         $this->orderProductRepository = $orderProductRepository;
         $this->vinylRepository = $vinylRepository;
         $this->cartRepository = $cartRepository;
-    }    
+    }
 
     public function updateQuantityCart(OrderProduct $orderProduct, $newQuantityOrderProduct, $unitPrice)
     {
-         //updating price and total amount in the cart
+        //updating price and total amount in the cart
         $amountUpdated = $newQuantityOrderProduct * $unitPrice;
-        
+
         // get all others OrderProduct in the cart to update correctly the totalAmount
         $cart = new Cart();
         $cart = $orderProduct->getCart();
@@ -36,40 +37,56 @@ class CartManager
 
         $totalAmountUpdated = $othersOrderProductTotalAmount + $amountUpdated;
 
-       //updating OrderProduct
+        //updating OrderProduct
         $orderProduct->setPrice($amountUpdated);
         $orderProduct->setQuantity($newQuantityOrderProduct);
         $this->entityManager->persist($orderProduct);
-       
+
         //updating the cart's total amount 
         $cart->setTotalAmount($totalAmountUpdated);
         $this->entityManager->persist($cart);
         $this->entityManager->flush();
-
     }
 
-    public function showQuantityTotal($cart){
-        $listOrderProduct = $this->orderProductRepository->findBy(['cart'=> $cart]);
+    public function showQuantityTotal($cart)
+    {
+        $listOrderProduct = $this->orderProductRepository->findBy(['cart' => $cart]);
         $quantityOrder = 0;
-          foreach ($listOrderProduct as $orderProduct) {
-             $quantityOrder += $orderProduct->getQuantity();  
-            }
-            return $quantityOrder;
+        foreach ($listOrderProduct as $orderProduct) {
+            $quantityOrder += $orderProduct->getQuantity();
+        }
+        return $quantityOrder;
     }
 
-    public function getCartUser ($cart, $dataStoredInCookie){
-
-        if ($cart) {
-            $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
-            $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
-             
-        } else if ($dataStoredInCookie){
+    public function showCart($user, $dataStoredInCookie)
+    {
+        //if a user if logged, first we check if he has a cart in progress stored in database
+        if ($user) {
+            $cart = $this->cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
+            if ($cart) {
+                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+                $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
+            } else {
+                //if not, we check if the user has a cart stored in a cookie
+                $cart = $this->cartRepository->find($dataStoredInCookie);
+                if ($cart) {
+                    $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+                    $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
+                } else {
+                    $vinylsListMayInterested = $this->vinylRepository->findByLastVinyls(4);
+                }
+            }
+        } else {
+            //if the visitor is not logged, we check if a cart is stored in a cookie
             $cart = $this->cartRepository->find($dataStoredInCookie);
-            $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
-            $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
-        }else{
-            $vinylsListMayInterested = $this->vinylRepository->findByLastVinyls(4);
-        };
-        return [$cart, $vinylsListMayInterested, $idGenreFirstVinylSelected];
+            if ($cart) {
+                $cart = $this->cartRepository->find($dataStoredInCookie);
+                $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
+                $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
+            } else {
+                $vinylsListMayInterested = $this->vinylRepository->findByLastVinyls(4);
+            };
+        }
+        return [$cart, $vinylsListMayInterested];
     }
 }
