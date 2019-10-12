@@ -80,11 +80,14 @@ class CartController extends AbstractController
 
     public function updateQuantityCart(Request $request, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
-
-        
         $quantityWanted = $request->request->get('quantity');
-        $previousQuantity = $orderProduct->getQuantity();
-        $potentialNewQuantityOrderProduct = $quantityWanted += $previousQuantity;
+        $initialQuantityOrder = $orderProduct->getQuantity();
+        $potentialNewQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
+
+
+
+
+//////////////////////////ADD IN A VINYL MANAGER, method getSellPrice() wi
 
         //checking the unit price to choose (reduce or regular price)
         $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
@@ -93,14 +96,17 @@ class CartController extends AbstractController
         } else {
             $unitPrice = $vinylReducePrice;
         }
+
+//////////////////////////////////////////////////////////////////////////        
         
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
         if ($potentialNewQuantityOrderProduct <= $quantityStockVinyl) {
-            $cartManager->updateQuantityCart($orderProduct, $quantityWanted, $unitPrice);
+            //calling the CartManager to update the quantity cart
+            $cartManager->updateQuantityCart($orderProduct, $initialQuantityOrder, $quantityWanted, $unitPrice);
         }
-
         return $this->redirectToRoute('cart_index');
     }
+
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */

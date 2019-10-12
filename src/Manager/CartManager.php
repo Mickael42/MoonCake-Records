@@ -13,9 +13,8 @@ class CartManager
         $this->entityManager = $entityManager;
     }    
 
-    public function updateQuantityCart(OrderProduct $orderProduct, $quantityWanted, $unitPrice)
+    public function updateQuantityCart(OrderProduct $orderProduct, $initialQuantityOrder, $quantityWanted, $unitPrice)
     {
-        $initialQuantityOrder = $orderProduct->getQuantity();
         $newQuantityOrder = $quantityWanted += $initialQuantityOrder;
 
          //updating price and total amount in the cart
@@ -34,7 +33,6 @@ class CartManager
         $cart->setTotalAmount($totalAmountUpdated);
         $this->entityManager->persist($cart);
         $this->entityManager->flush();
-
 
     }
 }
