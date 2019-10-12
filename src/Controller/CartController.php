@@ -9,7 +9,6 @@ use App\Entity\OrderProduct;
 use App\Entity\Orders;
 use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
-use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
 use App\Manager\CartManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,14 +25,13 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="cart_index", methods={"GET"})
      */
-    public function index(UserInterface $user = null, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
+    public function index(UserInterface $user = null, CartManager $cartManager, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
     {
 
         //If a customer is logged, we get the cart id store in database
         //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
         if ($user) {
             $cart = $cartRepository->findOneBy(['user' => $user, 'isOrder' => '0']);
-
             if (!$cart) {
                 $vinylsListMayInterested = $vinylRepository->findByLastVinyls(4);
             } else {
@@ -59,13 +57,15 @@ class CartController extends AbstractController
                 $vinylsListMayInterested = $vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
             };
 
+            //getting total number of vinyls in the cart using CartManger
+            $quantityOrder = $cartManager->showQuantityTotal($cart);
+
             return $this->render('cart/index.html.twig', [
                 'cart' => $cart,
+                'totalQuantityVinylOrder' => $quantityOrder,
                 'vinyls' => $vinylsListMayInterested,
-
             ]);
         }
-
         return $this->render('cart/index.html.twig', [
             'cart' => $cart,
             'vinyls' => $vinylRepository->findByLastVinyls(4),
@@ -79,16 +79,8 @@ class CartController extends AbstractController
     public function updateQuantityCart(Request $request, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
         $quantityWanted = $request->request->get('quantity');
-       
         $initialQuantityOrder = $orderProduct->getQuantity();
-      
         $newQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
-       
-
-
-
-
-//////////////////////////ADD IN A VINYL MANAGER, method getSellPrice() wich return the unitPrice value
 
         //checking the unit price to choose (reduce or regular price)
         $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
@@ -98,8 +90,6 @@ class CartController extends AbstractController
             $unitPrice = $vinylReducePrice;
         }
 
-//////////////////////////////////////////////////////////////////////////        
-        
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
         if ($newQuantityOrderProduct <= $quantityStockVinyl) {
             //calling the CartManager to update the quantity cart
@@ -111,8 +101,10 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, OrderProductRepository $orderProductRepository, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository): Response
+    public function show(Request $request, Cart $cart, CartManager $cartManager, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository): Response
     {
+
+
         if ($user) {
             //We check if the user connected have already client data
             $client = $clientRepository->findOneBy(['user' => $user]);
@@ -156,18 +148,21 @@ class CartController extends AbstractController
             $cart->setIsOrder(true);
 
 
-            /*             //Deleting in the database all products selected and link to the cart
+            /* //Deleting in the database all products selected and link to the cart
             $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
             foreach ($arrayOfOrderProduct as $orderProduct) {
                 $cart->removeOrderProduct($orderProduct);
             } */
             $entityManager->flush();
-
             return $this->redirectToRoute('payment', ["id" => $order->getId()]);
         }
 
+        //getting total number of vinyls in the cart using CartManger
+        $quantityOrder = $cartManager->showQuantityTotal($cart);
+
         return $this->render('cart/show.html.twig', [
             'cart' => $cart,
+            'totalQuantityVinylOrder' => $quantityOrder,
             'formClient' => $form->createView(),
 
         ]);

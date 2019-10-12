@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use Stripe\Customer;
 use App\Entity\Orders;
 use App\Entity\Vinyl;
 use App\Repository\OrderProductRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,6 +42,11 @@ class PaymentController extends AbstractController
         $nameCartHolder = $request->request->get('cartHolder');
 
         if (!empty($checkbox) and !empty($nameCartHolder)) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $order->setStatus("paid");
+            $entityManager->persist($order);
+            $entityManager->flush();
+
             return $this->redirectToRoute('payment_confirmation', [
                 'id' => $order->getId()
             ]);

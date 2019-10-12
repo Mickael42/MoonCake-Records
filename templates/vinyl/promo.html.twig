@@ -9,19 +9,15 @@
         <p class="text center-align">Le coin des bonnes affaires !
         </p>
         <div class="parallax ">
-            <img src="/assets/img/image.jpg">
+            <img src="{{asset ('assets/img/image.jpg')}}">
         </div>
-
     </div>
     {% if vinyls %}
         <div class='row'>
             <div class="col s1 "></div>
         </div>
-
-
         <div class="row">
             {% for vinyl in vinyls %}
-
                 {% set discount = ((vinyl.reducePrice - vinyl.regularPrice)/ vinyl.regularPrice) *100 %}
                 <div class="col s12 m6 l3 container-vinyl-lsit center-align ">
 

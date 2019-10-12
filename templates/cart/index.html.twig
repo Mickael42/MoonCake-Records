@@ -55,7 +55,7 @@
                                     <form action="{{path ('updating_quantity_order', {'id': product.id} )}}" method="post">
 
                                         <div class="col s8  offset-s2 ">
-                                            <input type="number" name="quantity" value="{{product.quantity}}" min="1" max="{{product.vinyl.quantityStock}}">
+                                            <input type="number" name="quantity" value="{{product.quantity}}" min="1" max="{{product.vinyl.quantityStock - 1}}">
 
                                             <button class="btn orange darken-4 " type="submit">Ajouter</button>
                                         </div>
@@ -82,11 +82,16 @@
             <div class="col s12 m12 l3  summary-cart">
                 <h5 class="section-title center-align">Résumé de la commande</h5>
                 <div class="col s8 ">
-                    <p>Nombre d'article</p>
+                    <p>Nombre d'articles</p>
                 </div>
                 <div class="col s4  quantity-summury-cart">
-               
                     <p>{{cart.orderProducts | length }}</p>
+                </div>
+                <div class="col s8 ">
+                    <p>Quantité totale </p>
+                </div>
+                <div class="col s4  quantity-summury-cart">
+                    <p>{{totalQuantityVinylOrder}}</p>
                 </div>
                 <div class="col s8 ">
                     <p>Prix total des articles</p>
