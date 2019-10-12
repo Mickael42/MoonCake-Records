@@ -19,22 +19,25 @@ class OrderProductRepository extends ServiceEntityRepository
         parent::__construct($registry, OrderProduct::class);
     }
 
+
+
     // /**
     //  * @return OrderProduct[] Returns an array of OrderProduct objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findByCartExceptOne($value, $id)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
+            ->andWhere('o.cart = :val')
+            ->andWhere('o.id != :id')
             ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+            ->setParameter('id', $id)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
+
 
     /*
     public function findOneBySomeField($value): ?OrderProduct

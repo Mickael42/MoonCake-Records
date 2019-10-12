@@ -45,8 +45,6 @@ class CartController extends AbstractController
                 'vinyls' => $vinylsListMayInterested,
 
             ]);
-
-
             //If the customer is not logged, we get data of cart stored inside a cookie
             //Also the get the genre Id of the first vinyl in cart and the show vinyls related 
         } else {
@@ -81,13 +79,16 @@ class CartController extends AbstractController
     public function updateQuantityCart(Request $request, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
         $quantityWanted = $request->request->get('quantity');
+       
         $initialQuantityOrder = $orderProduct->getQuantity();
-        $potentialNewQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
+      
+        $newQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
+       
 
 
 
 
-//////////////////////////ADD IN A VINYL MANAGER, method getSellPrice() wi
+//////////////////////////ADD IN A VINYL MANAGER, method getSellPrice() wich return the unitPrice value
 
         //checking the unit price to choose (reduce or regular price)
         $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
@@ -100,9 +101,9 @@ class CartController extends AbstractController
 //////////////////////////////////////////////////////////////////////////        
         
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
-        if ($potentialNewQuantityOrderProduct <= $quantityStockVinyl) {
+        if ($newQuantityOrderProduct <= $quantityStockVinyl) {
             //calling the CartManager to update the quantity cart
-            $cartManager->updateQuantityCart($orderProduct, $initialQuantityOrder, $quantityWanted, $unitPrice);
+            $cartManager->updateQuantityCart($orderProduct, $newQuantityOrderProduct, $unitPrice);
         }
         return $this->redirectToRoute('cart_index');
     }

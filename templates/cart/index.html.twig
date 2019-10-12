@@ -102,12 +102,16 @@
                 </div>
                 <div class="col s8 total-summary-cart ">
                     <p class="text-total-summary-cart">Montant total</p>
+                     
                 </div>
                 <div class="col s4  quantity-summury-cart">
                     <p class="text-total-summary-cart">{{cart.totalAmount}}€</p>
                 </div>
-                <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
-                <div class="center-align">
+                 <div class="col s12">
+                    <p class="detail-vat-summary-cart">Les prix sont indiqués avec la TVA comprise.</p>
+                </div>
+               
+                <div class="center-align ">
                     <a href="{{ path ("cart_show", {id : cart.id})}}">
                         <button class="waves-effect waves-light btn-large btn-add-cart">Aller à la caisse</button>
                     </a>
