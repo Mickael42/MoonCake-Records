@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\Cart;
+
 use App\Entity\Vinyl;
 use App\Form\VinylType;
-use App\Entity\OrderProduct;
+use App\Manager\CartManager;
+use App\Manager\OrderProductManager;
+use App\Manager\VinylManager;
 use App\Repository\CartRepository;
 use App\Repository\GenreRepository;
 use App\Repository\TrackRepository;
@@ -44,8 +46,6 @@ class VinylController extends AbstractController
             ]);
 
         };
-
-
         $allvinyls = $paginator->paginate(
             $vinylRepository->findAllQuery(),
             $request->query->getInt('page', 1),
@@ -69,8 +69,6 @@ class VinylController extends AbstractController
             $request->query->getInt('page', 1),
             8
     );
-
-
         return $this->render('vinyl/promo.html.twig', [
             'vinyls' => $vinylsPromo,
         ]);
@@ -102,7 +100,7 @@ class VinylController extends AbstractController
     /**
      * @Route("/{id}", name="vinyl_show", methods={"GET","POST"})
      */
-    public function show(UserInterface $user = null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request): Response
+    public function show(UserInterface $user = null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request, VinylManager $vinylManager, OrderProductManager $orderProductManager, CartManager $cartManager): Response
     {
 
         $response = new Response();
@@ -112,21 +110,13 @@ class VinylController extends AbstractController
         $vinylId = $vinyl->getId();
         $tracks = $trackRepository->findBy(array('vinyl' => $vinylId));
 
-
-
         //if the customer click on 'add to cart', we create a new entry in OrderProduct and a new Cart
         if ($request->request->get('vinylSelected')) {
 
             // we check if the vinyl as a discount and we store the price
-            $vinylPrice = 0;
-            if ($vinyl->getReducePrice() > 0) {
-                $vinylPrice = $vinyl->getReducePrice();
-            } else {
-                $vinylPrice = $vinyl->getRegularPrice();
-            }
+            $vinylPrice = $vinylManager->getUnitPrice($vinyl);
 
             // we check if the customer have already an cart in progress (id stored in a cookie)
-
             $ipCartDecoded = base64_decode($request->cookies->get('id'));
             $cartInProgress = $cartRepository->find($ipCartDecoded);
 
@@ -146,19 +136,10 @@ class VinylController extends AbstractController
                 }
 
                 //calculating the new ammount of the cart
-                $newAmmount = $cartInProgress->getTotalAmount() + $vinylPrice;
-                $cartInProgress->setTotalAmount($newAmmount);
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($cartInProgress);
+                $cartManager->persistingUpdateTotalAmount($cartInProgress, $vinylPrice);
 
                 //creating a new order Product 
-                $orderProduct = new OrderProduct();
-                $orderProduct->setVinyl($vinyl);
-                $orderProduct->setCart($cartInProgress);
-                $orderProduct->setPrice($vinylPrice);
-                $orderProduct->setQuantity(1);
-                $entityManager->persist($orderProduct);
-                $entityManager->flush();
+                $orderProductManager->createOrderProduct($vinyl, $cartInProgress,$vinylPrice);
                 $this->addFlash(
                     'notice',
                     'Le vinyle a bien été ajouté au panier!'
@@ -172,27 +153,10 @@ class VinylController extends AbstractController
             }
 
             //creating a new Cart
-            $cart = new Cart;
-            $cart->setIsOrder(false);
-            //if the client is logged, we save the data in the data base
-            if ($user) {
-                $cart->setUser($user);
-            }
-
-            $cart->setTotalAmount($vinylPrice);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($cart);
+            $cart = $cartManager->createInitialCart($user, $vinylPrice);
 
             //creating a new Order Product
-            $orderProduct = new OrderProduct();
-            $orderProduct->setVinyl($vinyl);
-            $orderProduct->setCart($cart);
-
-            
-            $orderProduct->setPrice($vinylPrice);
-            $orderProduct->setQuantity(1);
-            $entityManager->persist($orderProduct);
-            $entityManager->flush();
+            $orderProductManager->createOrderProduct($vinyl, $cart,$vinylPrice);
 
             //We save the cart Id in a cookie
             //But we have to encode the data stored inside the cookie

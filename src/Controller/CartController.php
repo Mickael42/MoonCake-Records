@@ -11,6 +11,7 @@ use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
 use App\Repository\VinylRepository;
 use App\Manager\CartManager;
+use App\Manager\VinylManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,19 +45,15 @@ class CartController extends AbstractController
      * @Route("/updateQuantityCart/{id}", name="updating_quantity_order", methods={"GET","POST"})
      */
 
-    public function updateQuantityCart(Request $request, OrderProduct $orderProduct, CartManager $cartManager): Response
+    public function updateQuantityCart(Request $request, VinylManager $vinylManager, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
         $quantityWanted = $request->request->get('quantity');
         $initialQuantityOrder = $orderProduct->getQuantity();
         $newQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
 
         //checking the unit price to choose (reduce or regular price)
-        $vinylReducePrice = $orderProduct->getVinyl()->getReducePrice();
-        if (empty($vinylReducePrice) || $vinylReducePrice === 0) {
-            $unitPrice = $orderProduct->getVinyl()->getRegularPrice();
-        } else {
-            $unitPrice = $vinylReducePrice;
-        }
+        $vinyl = $orderProduct->getVinyl();
+        $unitPrice = $vinylManager->getUnitPrice($vinyl);
 
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
         if ($newQuantityOrderProduct <= $quantityStockVinyl) {
@@ -71,8 +68,6 @@ class CartController extends AbstractController
      */
     public function show(Request $request, Cart $cart, CartManager $cartManager, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository): Response
     {
-
-
         if ($user) {
             //We check if the user connected have already client data
             $client = $clientRepository->findOneBy(['user' => $user]);

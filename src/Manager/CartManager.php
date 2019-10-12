@@ -5,6 +5,7 @@ namespace App\Manager;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\OrderProduct;
 use App\Entity\Cart;
+use App\Entity\User;
 use App\Repository\OrderProductRepository;
 use App\Repository\VinylRepository;
 use App\Repository\CartRepository;
@@ -20,6 +21,20 @@ class CartManager
         $this->cartRepository = $cartRepository;
     }
 
+    public function createInitialCart(User $user = null, $unitPrice)
+    {
+        $cart = new Cart;
+        $cart->setIsOrder(false);
+        //if the client is logged, we save the data in the data base
+        if ($user) {
+            $cart->setUser($user);
+        }
+        $cart->setTotalAmount($unitPrice);
+        $this->entityManager->persist($cart);
+
+        return $cart;
+    }
+
     public function updateQuantityCart(OrderProduct $orderProduct, $newQuantityOrderProduct, $unitPrice)
     {
         //updating price and total amount in the cart
@@ -31,10 +46,10 @@ class CartManager
 
         $allOtherOrderProducts = $this->orderProductRepository->findByCartExceptOne($cart, $orderProduct);
         $othersOrderProductTotalAmount = 0;
+
         foreach ($allOtherOrderProducts as $otherOrderProduct) {
             $othersOrderProductTotalAmount += $otherOrderProduct->getPrice();
         }
-
         $totalAmountUpdated = $othersOrderProductTotalAmount + $amountUpdated;
 
         //updating OrderProduct
@@ -88,5 +103,12 @@ class CartManager
             };
         }
         return [$cart, $vinylsListMayInterested];
+    }
+
+    public function persistingUpdateTotalAmount($cart, $vinylPrice)
+    {
+        $newAmmount = $cart->getTotalAmount() + $vinylPrice;
+        $cart->setTotalAmount($newAmmount);
+        $this->entityManager->persist($cart);
     }
 }
