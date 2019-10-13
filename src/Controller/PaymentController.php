@@ -68,10 +68,8 @@ class PaymentController extends AbstractController
         $cart = $order->getCart();
         $entityManager = $this->getDoctrine()->getManager();
 
-
         //Deleting in the database all products selected and link to the cart
         //also updating the available quantity stock for each purchased vinyl 
-
 
         $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
         foreach ($arrayOfOrderProduct as $orderProduct) {

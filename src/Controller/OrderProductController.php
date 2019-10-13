@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cart;
+use App\Manager\SessionManager;
 use App\Repository\OrderProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +15,7 @@ class OrderProductController extends AbstractController
     /**
      * @Route("/{id}", name="cart_deleteOrderProduct", methods={"DELETE"})
      */
-    public function deleteOrderProduct(Request $request, Cart $cart, OrderProductRepository $orderProductRepository): Response
+    public function deleteOrderProduct(Request $request, SessionManager $sessionManager, Cart $cart, OrderProductRepository $orderProductRepository): Response
     {
 
         $idOrderProduct = $request->request->get('_idOrderProduct');
@@ -29,7 +30,6 @@ class OrderProductController extends AbstractController
             $cart->setTotalAmount($newAmmount);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cart);
-
             $entityManager->remove($orderProductToDelete);
             $entityManager->flush();
             
@@ -37,8 +37,10 @@ class OrderProductController extends AbstractController
             //If not, we remove the cart
             $numberOrderProductsInCart = $cart->getOrderProducts()->getKeys();
             if (empty($numberOrderProductsInCart)) {
+                $sessionManager->delete();
                 $entityManager->remove($cart);
                 $entityManager->flush();
+
             }
         }
 

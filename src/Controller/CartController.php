@@ -7,10 +7,9 @@ use App\Entity\Client;
 use App\Form\ClientType;
 use App\Entity\OrderProduct;
 use App\Entity\Orders;
-use App\Repository\CartRepository;
 use App\Repository\ClientRepository;
-use App\Repository\VinylRepository;
 use App\Manager\CartManager;
+use App\Manager\SessionManager;
 use App\Manager\VinylManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,11 +25,11 @@ class CartController extends AbstractController
     /**
      * @Route("/", name="cart_index", methods={"GET"})
      */
-    public function index(UserInterface $user = null, CartManager $cartManager, CartRepository $cartRepository, VinylRepository $vinylRepository, Request $request): Response
+    public function index(UserInterface $user = null, SessionManager $sessionManager, CartManager $cartManager): Response
     {
-        $dataStoredInCookie = base64_decode($request->cookies->get('id'));
-        //we use the showCart() method of the CartMAnager to the show the cart in Progress depending if it is stored in the database or in a cookie
-        $arrayCartData = $cartManager->showCart($user, $dataStoredInCookie);
+      
+        //we use the showCart() method of the CartMAnager to the show the cart in Progress depending if it is stored in the database or in the session
+        $arrayCartData = $cartManager->showCart($user, $sessionManager->getCartSession());
 
         //getting total number of vinyls in the cart using CartManger
         $quantityOrder = $cartManager->showQuantityTotal($arrayCartData[0]);
@@ -48,12 +47,10 @@ class CartController extends AbstractController
     public function updateQuantityCart(Request $request, VinylManager $vinylManager, OrderProduct $orderProduct, CartManager $cartManager): Response
     {
         $quantityWanted = $request->request->get('quantity');
-        $initialQuantityOrder = $orderProduct->getQuantity();
-        $newQuantityOrderProduct = $quantityWanted += $initialQuantityOrder;
+        $newQuantityOrderProduct = $quantityWanted += $orderProduct->getQuantity();
 
         //checking the unit price to choose (reduce or regular price)
-        $vinyl = $orderProduct->getVinyl();
-        $unitPrice = $vinylManager->getUnitPrice($vinyl);
+        $unitPrice = $vinylManager->getUnitPrice($orderProduct->getVinyl());
 
         $quantityStockVinyl = $orderProduct->getVinyl()->getQuantityStock();
         if ($newQuantityOrderProduct <= $quantityStockVinyl) {
@@ -102,7 +99,6 @@ class CartController extends AbstractController
             if ($user) {
                 $order->setUser($user);
             }
-
             $order->setTotalAmount($cart->getTotalAmount());
             $order->setCart($cart);
             $entityManager->persist($order);
@@ -110,12 +106,6 @@ class CartController extends AbstractController
             //Changing the status of the cart and cleaning the cookie
             $cart->setIsOrder(true);
 
-
-            /* //Deleting in the database all products selected and link to the cart
-            $arrayOfOrderProduct = $orderProductRepository->findByCart($cart);
-            foreach ($arrayOfOrderProduct as $orderProduct) {
-                $cart->removeOrderProduct($orderProduct);
-            } */
             $entityManager->flush();
             return $this->redirectToRoute('payment', ["id" => $order->getId()]);
         }
@@ -134,17 +124,16 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_deleteCart", methods={"DELETE"})
      */
-    public function deleteCart(Request $request, Cart $cart): Response
+    public function deleteCart(Request $request, Cart $cart, SessionManager $sessionManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
-
-            $response = new Response();
-            $response->headers->clearCookie("id");
+            //delete the cart data stored in the session
+            $sessionManager->delete();
+             //delete the cart data stored in the database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cart);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('cart_index');
     }
 }

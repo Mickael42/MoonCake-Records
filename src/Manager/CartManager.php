@@ -12,6 +12,10 @@ use App\Repository\CartRepository;
 
 class CartManager
 {
+    protected $entityManager;
+    protected $orderProductRepository;
+    protected $vinylRepository;
+    protected $cartRepository;
 
     public function __construct(ObjectManager $entityManager, OrderProductRepository $orderProductRepository, VinylRepository $vinylRepository, CartRepository $cartRepository)
     {
@@ -21,7 +25,7 @@ class CartManager
         $this->cartRepository = $cartRepository;
     }
 
-    public function createInitialCart(User $user = null, $unitPrice)
+    public function createInitialCart(User $user = null, int $unitPrice) : Cart
     {
         $cart = new Cart;
         $cart->setIsOrder(false);
@@ -35,7 +39,7 @@ class CartManager
         return $cart;
     }
 
-    public function updateQuantityCart(OrderProduct $orderProduct, $newQuantityOrderProduct, $unitPrice)
+    public function updateQuantityCart(OrderProduct $orderProduct,int $newQuantityOrderProduct, int $unitPrice)
     {
         //updating price and total amount in the cart
         $amountUpdated = $newQuantityOrderProduct * $unitPrice;
@@ -63,7 +67,7 @@ class CartManager
         $this->entityManager->flush();
     }
 
-    public function showQuantityTotal($cart)
+    public function showQuantityTotal(Cart $cart = null) : int
     {
         $listOrderProduct = $this->orderProductRepository->findBy(['cart' => $cart]);
         $quantityOrder = 0;
@@ -73,7 +77,7 @@ class CartManager
         return $quantityOrder;
     }
 
-    public function showCart($user, $dataStoredInCookie)
+    public function showCart(User $user = null, $dataStoredInCookie) : array
     {
         //if a user if logged, first we check if he has a cart in progress stored in database
         if ($user) {
@@ -105,7 +109,7 @@ class CartManager
         return [$cart, $vinylsListMayInterested];
     }
 
-    public function persistingUpdateTotalAmount($cart, $vinylPrice)
+    public function persistingUpdateTotalAmount(Cart $cart, int $vinylPrice)
     {
         $newAmmount = $cart->getTotalAmount() + $vinylPrice;
         $cart->setTotalAmount($newAmmount);
