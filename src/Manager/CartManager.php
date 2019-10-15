@@ -35,6 +35,7 @@ class CartManager
         }
         $cart->setTotalAmount($unitPrice);
         $this->entityManager->persist($cart);
+        $this->entityManager->flush();
 
         return $cart;
     }

@@ -44,7 +44,6 @@ class VinylController extends AbstractController
                 'vinyls' => $vinylsFiltredByGenre,
                 'genres' => $genreRepository->findAll()
             ]);
-
         };
         $allvinyls = $paginator->paginate(
             $vinylRepository->findAllQuery(),
@@ -54,7 +53,7 @@ class VinylController extends AbstractController
         $numberAllVinyls = $allvinyls->getTotalItemCount();
         return $this->render('vinyl/index.html.twig', [
             'vinyls' => $allvinyls,
-            'numberAllVinyls'=>$numberAllVinyls,
+            'numberAllVinyls' => $numberAllVinyls,
             'genres' => $genreRepository->findAll()
         ]);
     }
@@ -68,7 +67,7 @@ class VinylController extends AbstractController
             $vinylRepository->findAllVinylPromoQuery(),
             $request->query->getInt('page', 1),
             8
-    );
+        );
         return $this->render('vinyl/promo.html.twig', [
             'vinyls' => $vinylsPromo,
         ]);
@@ -100,8 +99,9 @@ class VinylController extends AbstractController
     /**
      * @Route("/{id}", name="vinyl_show", methods={"GET","POST"})
      */
-    public function show(SessionManager $sessionManager ,UserInterface $user = null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request, VinylManager $vinylManager, OrderProductManager $orderProductManager, CartManager $cartManager): Response
+    public function show(SessionManager $sessionManager, UserInterface $user = null, Vinyl $vinyl, TrackRepository $trackRepository, VinylRepository $vinylRepository, CartRepository $cartRepository, OrderProductRepository $orderProductRepository, Request $request, VinylManager $vinylManager, OrderProductManager $orderProductManager, CartManager $cartManager): Response
     {
+        
         $vinylRelated = $vinylRepository->findByRelatedVinyls($vinyl->getGenre()->getId());
 
         //get all the tracks related to the vinyl
@@ -113,13 +113,13 @@ class VinylController extends AbstractController
 
             // we check if the vinyl as a discount and we store the price
             $vinylPrice = $vinylManager->getUnitPrice($vinyl);
-
             // we check if the customer have already an cart in progress (id stored in the session)
-            $cartInProgress = $cartRepository->find($sessionManager->getCartSession());
+            if (!empty($sessionManager->getCartSession())) {
 
-            if ($cartInProgress) {
+                $cartInProgress = $cartRepository->find($sessionManager->getCartSession());
                 // we check if the cart in progress doesn't have already the product selected
                 $cartWithProductAlreadySelected = $orderProductRepository->findOneBy(['cart' => $cartInProgress, 'vinyl' => $vinyl]);
+
                 if ($cartWithProductAlreadySelected) {
                     $this->addFlash(
                         'notice',
@@ -131,17 +131,15 @@ class VinylController extends AbstractController
                         'relatedVinyls' => $vinylRelated
                     ]);
                 }
-
                 //calculating the new ammount of the cart
                 $cartManager->persistingUpdateTotalAmount($cartInProgress, $vinylPrice);
 
                 //creating a new order Product 
-                $orderProductManager->createOrderProduct($vinyl, $cartInProgress,$vinylPrice);
+                $orderProductManager->createOrderProduct($vinyl, $cartInProgress, $vinylPrice);
                 $this->addFlash(
                     'notice',
                     'Le vinyle a bien été ajouté au panier!'
                 );
-
                 return $this->render('vinyl/show.html.twig', [
                     'vinyl' => $vinyl,
                     'tracks' => $tracks,
@@ -149,20 +147,18 @@ class VinylController extends AbstractController
                 ]);
             }
 
-            //creating a new Cart
+            //creating a new Cart and we save the cart Id in the session
             $cart = $cartManager->createInitialCart($user, $vinylPrice);
+            $sessionManager->create($cart->getId());
 
             //creating a new Order Product
-            $orderProductManager->createOrderProduct($vinyl, $cart,$vinylPrice);
+            $orderProductManager->createOrderProduct($vinyl, $cart, $vinylPrice);
 
-            //We save the cart Id in the session
-           $sessionManager->create($cart->getId());
             $this->addFlash(
                 'notice',
                 'Le vinyle a bien été ajouté au panier!'
             );
         }
-
         return  $this->render('vinyl/show.html.twig', [
             'vinyl' => $vinyl,
             'tracks' => $tracks,

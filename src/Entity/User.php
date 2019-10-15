@@ -50,7 +50,7 @@ class User implements UserInterface
      *     type="string",
      *     message="La valeur doit être une chaîne de caractères."
      * )
-     * @Assert\Length(min="3", minMessage="Votre nom d'utilisateurs doit avoir au moins 3 caratères")
+     * @Assert\Length(min="3", minMessage="Votre nom d'utilisateurs doit avoir au moins 3 caractères.")
      */
     private $userName;
     /**

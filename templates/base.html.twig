@@ -60,11 +60,12 @@
 
                     {% endif %}
                     <li>
-                        <a href="{{path ("cart_index")}}">
-                            {% if app.session.get("cart") > 0 %}
+                        <a id="link-cart" href="{{path ("cart_index")}}">
+                            <i class="material-icons left">shopping_cart</i>Panier
+                             {% if app.session.get("cart") > 0 %}
                             <span id="dot"></span>
                             {% endif %}
-                            <i class="material-icons left">shopping_cart</i>Panier</a>
+                            </a>
                     </li>
 
                     {% if app.user %}

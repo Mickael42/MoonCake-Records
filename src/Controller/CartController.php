@@ -6,9 +6,9 @@ use App\Entity\Cart;
 use App\Entity\Client;
 use App\Form\ClientType;
 use App\Entity\OrderProduct;
-use App\Entity\Orders;
 use App\Repository\ClientRepository;
 use App\Manager\CartManager;
+use App\Manager\OrderManager;
 use App\Manager\SessionManager;
 use App\Manager\VinylManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,8 +27,9 @@ class CartController extends AbstractController
      */
     public function index(UserInterface $user = null, SessionManager $sessionManager, CartManager $cartManager): Response
     {
-      
-        //we use the showCart() method of the CartMAnager to the show the cart in Progress depending if it is stored in the database or in the session
+
+        //we use the showCart() method of the CartManager to the show the cart in Progress depending if it is stored in the database or in the session
+        //arrayCartData[0] = data about the cart and arrayCartData[1] is the list of vinyls who might interesed the customer
         $arrayCartData = $cartManager->showCart($user, $sessionManager->getCartSession());
 
         //getting total number of vinyls in the cart using CartManger
@@ -63,7 +64,7 @@ class CartController extends AbstractController
     /**
      * @Route("/{id}", name="cart_show", methods={"GET","POST"})
      */
-    public function show(Request $request, Cart $cart, CartManager $cartManager, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository): Response
+    public function show(Request $request, Cart $cart, CartManager $cartManager, Client $client = null, UserInterface $user = null, ClientRepository $clientRepository, OrderManager $orderManager): Response
     {
         if ($user) {
             //We check if the user connected have already client data
@@ -89,24 +90,8 @@ class CartController extends AbstractController
             if ($user) {
                 $client->setUser($user);
             }
+            $order = $orderManager->create($client, $user, $cart);
 
-            //Creating an order
-            $order = new Orders;
-            $order->setClient($client);
-            $order->setOrderDate(new \DateTime());
-            $order->setPaymentMethod('unknow');
-            $order->setStatus("unpaid");
-            if ($user) {
-                $order->setUser($user);
-            }
-            $order->setTotalAmount($cart->getTotalAmount());
-            $order->setCart($cart);
-            $entityManager->persist($order);
-
-            //Changing the status of the cart and cleaning the cookie
-            $cart->setIsOrder(true);
-
-            $entityManager->flush();
             return $this->redirectToRoute('payment', ["id" => $order->getId()]);
         }
 
@@ -129,7 +114,7 @@ class CartController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $cart->getId(), $request->request->get('_token'))) {
             //delete the cart data stored in the session
             $sessionManager->delete();
-             //delete the cart data stored in the database
+            //delete the cart data stored in the database
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($cart);
             $entityManager->flush();

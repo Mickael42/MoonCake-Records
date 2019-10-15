@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Orders;
 use App\Entity\Vinyl;
+use App\Manager\SessionManager;
 use App\Repository\OrderProductRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,7 +64,7 @@ class PaymentController extends AbstractController
     /**
      * @Route("/confirmation/{id}", name="payment_confirmation", methods={"POST", "GET"})
      */
-    public function paymentConfirmation(Orders $order, Request $request, OrderProductRepository $orderProductRepository)
+    public function paymentConfirmation(Orders $order, OrderProductRepository $orderProductRepository, SessionManager $sessionManager)
     {
         $cart = $order->getCart();
         $entityManager = $this->getDoctrine()->getManager();
@@ -83,6 +84,8 @@ class PaymentController extends AbstractController
         }
 
         $entityManager->flush();
+        //Deleteing the cart stored in the session
+        $sessionManager->delete();
 
 
         return $this->render('payment/confirmation.html.twig');

@@ -734,13 +734,18 @@ input[type=number]::-webkit-outer-spin-button {
     cursor: pointer;
 }
 
+#link-cart{
+    position: relative;
+}
+
 #dot {
-    position: absolute;
+    position : absolute;
+    display: inline-block ;
     top : 13px;
     right: 10px;
     height: 10px;
     width: 10px;
     background-color: red;
     border-radius: 50%;
-    display: inline-block;
+    
   }
