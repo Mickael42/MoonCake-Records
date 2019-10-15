@@ -98,12 +98,13 @@ class CartManager
             }
         } else {
             //if the visitor is not logged, we check if a cart is stored in a cookie
-            $cart = $this->cartRepository->find($dataStoredInCookie);
-            if ($cart) {
+           
+            if (!empty($dataStoredInCookie)) {
                 $cart = $this->cartRepository->find($dataStoredInCookie);
                 $idGenreFirstVinylSelected = $cart->getOrderProducts()[0]->getVinyl()->getGenre();
                 $vinylsListMayInterested = $this->vinylRepository->findByRelatedVinyls($idGenreFirstVinylSelected);
             } else {
+                $cart= null;
                 $vinylsListMayInterested = $this->vinylRepository->findByLastVinyls(4);
             };
         }
