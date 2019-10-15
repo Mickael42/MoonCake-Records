@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: mysql
--- Generation Time: Oct 12, 2019 at 08:10 AM
+-- Generation Time: Oct 15, 2019 at 08:27 PM
 -- Server version: 10.3.13-MariaDB-1:10.3.13+maria~bionic
 -- PHP Version: 7.2.19
 
@@ -68,7 +68,11 @@ INSERT INTO `cart` (`id`, `total_amount`, `is_order`, `user_id`) VALUES
 (150, 186, 1, NULL),
 (151, 50, 1, NULL),
 (156, 799, 0, NULL),
-(174, 195, 0, NULL);
+(174, 195, 0, NULL),
+(175, 5, 0, NULL),
+(178, 9, 1, NULL),
+(180, 80, 0, NULL),
+(182, 9, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -124,7 +128,10 @@ INSERT INTO `client` (`id`, `first_name`, `last_name`, `phone`, `email`, `adress
 (51, 'vdddd', 'Turner', 1010101009, 'guro@mailinator.com', 'Et corporis voluptatem omnis veritatis sit sit et', 'Possimus nemo dolor sint libero magna ad voluptatem Dolorum nobis corporis quas dolore tempora eius est ut et lorem', 'Eveniet elit voluptatem autem enim culpa quis tempor quos consequatur irure doloremque qui', 'SM', 96057, NULL),
 (53, 'Igor', 'Elliott', 1234567890, 'gogoros@mailinator.com', 'Voluptates nulla ut adipisci nulla commodo perferendis corrupti non et ipsum qui eiusmod', 'Voluptas sequi quis aliquam officia veniam consequat Amet perferendis dolor aut', 'Autem ad sunt necessitatibus temporibus dolores veniam obcaecati natus saepe adipisicing veniam et amet Nam aut odio', 'FO', 25150, NULL),
 (54, 'Eden', 'Cruz', 1234567890, 'coca@mailinator.net', 'Tempore aute in odit velit amet reprehenderit Nam eum eu ea molestias incidunt reiciendis dolorum tempor nisi est animi eveniet', 'Odio consequuntur iste reprehenderit autem amet voluptate dolores delectus voluptas id animi at quas sunt et et', 'Magna ab a qui et non eos quia vero vel quod voluptate tempore et', 'YE', 54793, NULL),
-(55, 'William', 'Holmes', 1234567887, 'huxyhiqaka@mailinator.com', 'Enim aut sint aliqua Hic mollitia sed tempora totam et est ad temporibus', 'Ipsum recusandae Repudiandae facere mollitia omnis reiciendis ea nemo necessitatibus maxime quam fugiat voluptas quis nostrud enim voluptas', 'Eu quo maiores iusto aut', 'SE', 52740, NULL);
+(55, 'William', 'Holmes', 1234567887, 'huxyhiqaka@mailinator.com', 'Enim aut sint aliqua Hic mollitia sed tempora totam et est ad temporibus', 'Ipsum recusandae Repudiandae facere mollitia omnis reiciendis ea nemo necessitatibus maxime quam fugiat voluptas quis nostrud enim voluptas', 'Eu quo maiores iusto aut', 'SE', 52740, NULL),
+(56, 'Hedley', 'Fuentes', 123344554, 'hypeto@mailinator.com', 'Dolore vel odit voluptate ex cum ut in ad sit', 'Officia magnam repudiandae molestiae nulla tempora dolor quod deserunt deserunt aspernatur ut ex ullam fuga', 'Cum dolore aut enim ipsum nulla dicta iusto non ratione qui rerum', 'CZ', 67930, NULL),
+(58, 'Kay', 'Talley', 123344556, 'byxymykize@mailinator.net', 'Molestiae ut iure expedita dignissimos voluptatum amet reprehenderit itaque repudiandae consectetur natus mollitia do', 'Consectetur tempor sint magna est sequi fuga Exercitationem nisi consequatur cumque eius ab consequatur Quo hic', 'Sit et illum dolor aut explicabo Eum inventore alias reprehenderit magni animi recusandae Dolorem eos enim', 'FM', 39587, NULL),
+(59, 'Elijah', 'Roach', 123456789, 'fegywino@mailinator.com', 'Corporis eum nesciunt cum dolore voluptas nostrud totam occaecat aut quas ea dolore est quo accusamus sint sunt commodo tenetur', 'Est mollitia laborum deserunt est exercitationem ratione similique expedita eveniet recusandae', 'Mollitia officia autem incididunt suscipit cumque qui in rem anim voluptatem officia velit deserunt est voluptatibus impedit laborum', 'PL', 63244, NULL);
 
 -- --------------------------------------------------------
 
@@ -228,7 +235,9 @@ INSERT INTO `orders` (`id`, `client_id`, `cart_id`, `payment_method`, `order_dat
 (31, 51, 141, 'unknow', '2019-09-28 16:31:09', 'unpaid', 70, NULL),
 (33, 53, 142, 'unknow', '2019-09-28 16:37:51', 'unpaid', 10, NULL),
 (34, 54, 150, 'unknow', '2019-09-29 09:04:25', 'unpaid', 186, NULL),
-(35, 55, 151, 'unknow', '2019-09-29 09:12:36', 'unpaid', 50, NULL);
+(35, 55, 151, 'unknow', '2019-09-29 09:12:36', 'unpaid', 50, NULL),
+(38, 58, 178, 'unknow', '2019-10-15 18:30:12', 'paid', 9, NULL),
+(39, 59, 182, 'unknow', '2019-10-15 19:06:07', 'paid', 9, NULL);
 
 -- --------------------------------------------------------
 
@@ -250,7 +259,8 @@ CREATE TABLE `order_product` (
 
 INSERT INTO `order_product` (`id`, `vinyl_id`, `cart_id`, `price`, `quantity`) VALUES
 (246, 24, 174, 27, 3),
-(249, 17, 174, 81, 27);
+(249, 17, 174, 81, 27),
+(254, 25, 180, 80, 1);
 
 -- --------------------------------------------------------
 
@@ -323,7 +333,23 @@ INSERT INTO `track` (`id`, `vinyl_id`, `name`, `duration`, `position`) VALUES
 (61, 26, 'The Rhythm of Vision (Robert Hood)', 515, 'C1'),
 (62, 26, 'Science Fiction (Daniel Bell)', 511, 'C2'),
 (63, 26, 'Allerseelen (DJ Hell/ Jeff Mills remix)', 529, 'D1'),
-(64, 26, 'Energizer (Blake Baxter)', 357, 'D2');
+(64, 26, 'Energizer (Blake Baxter)', 357, 'D2'),
+(65, 27, 'Juicy', 503, 'A1'),
+(66, 27, 'Gimme The Loot', 453, 'A2'),
+(67, 27, 'Machine Gun Funk', 411, 'A3'),
+(68, 27, 'Warning', 343, 'A4'),
+(69, 27, 'Unbelievable', 346, 'B1'),
+(70, 27, 'The What', 358, 'B2'),
+(71, 27, 'Respect', 436, 'B3'),
+(72, 27, 'One More Chance', 442, 'B4'),
+(73, 27, 'Big Poppa', 414, 'B5'),
+(74, 28, 'Magica Illusion (KenLou)', 851, 'A1'),
+(75, 28, 'In Pursuit Of The Pimp Mobile (Albert Cabrera)', 708, 'B1'),
+(76, 28, 'A Place In The Sun (Frankie Feliciano)', 550, 'B2'),
+(77, 28, 'That\'s Happiness (The Backroom Project)', 515, 'C1'),
+(78, 28, 'C-Room (Benji Candelario)', 808, 'C2'),
+(79, 28, 'Lost In Paradise', 837, 'D1'),
+(80, 28, 'Like Morning (Johnny \"D\" & Nicky \"P\")', 530, 'D2');
 
 -- --------------------------------------------------------
 
@@ -350,7 +376,8 @@ INSERT INTO `user` (`id`, `email`, `password`, `admin`, `user_name`) VALUES
 (11, 'mybyh@mailinator.net', '$2y$13$AtmRBmtemH8gz7FMYPO7HugBE2gH5IVeLesIqJZmJ9jVCR0QMgobq', 0, 'we'),
 (12, 'micka@gmail.com', '$2y$13$0UlcVk7fy3sDYIyxxQTx.uApBHizEKKPyPfCHheCOGUygenL8sB.m', 0, 'mick'),
 (13, 'jeanne@gmail.com', '$2y$13$GWRvuRdMPAuciNun95Cove1wVCdBg/fIvKwspsRY8Gyko3DMkYewG', 0, 'jeanne'),
-(14, 'testPanier@gmail.com', '$2y$13$6M4aOQT/2/ZC.d6eFHo8Ge4HO0etXxNaMft3IbHi3Oi/hglKMWIi.', 0, 'sefunyripy');
+(14, 'testPanier@gmail.com', '$2y$13$6M4aOQT/2/ZC.d6eFHo8Ge4HO0etXxNaMft3IbHi3Oi/hglKMWIi.', 0, 'sefunyripy'),
+(15, 'zucosivam@mailinator.com', '$2y$13$mdtW3tv.kB.vxdrtQ3tfOeBfroK7U6s2muxdnGvEg1gpulJI253J6', 0, 'gafet');
 
 -- --------------------------------------------------------
 
@@ -390,9 +417,11 @@ INSERT INTO `vinyl` (`id`, `name`, `artiste`, `label`, `cat_num`, `format`, `cou
 (21, 'Symphony', 'Donell Rush', 'ID Records', '658797 6', '12\", 33 ⅓ RPM, Single', 'GB', 1992, 'Très bien (VG+)', 'Bien (G)', 6, 5, 3, 'assets/img/Covers/donellrush-5d9ce4f12dc09.jpeg', NULL, 4),
 (22, 'Illmatic', 'Nas', 'Get On Down', 'GET 51297 LP', '12\", LP, Album', 'US', 1994, 'Excellent (M)', 'Excellent (M)', 2, 25, 22, 'assets/img/Covers/nas-5d9ce5f559043.jpeg', NULL, 7),
 (23, 'Tourist', 'St Germain', 'Parlophone', '5099963622010', '2 × Vinyl, 12\", Album, Reissue, Remastered, 180gram, Gatefold', 'FR', 2001, 'Excellent (M)', 'Excellent (M)', 10, 29, NULL, 'assets/img/Covers/stgermain-5d9ce732d8f5f.jpeg', NULL, 1),
-(24, 'You Got The Love (Erens Bootleg Mix)', 'The Source Featuring Candi Staton', 'ZYX Records', 'ZYX 6468-12', '12\", 45 RPM', 'DE', 1990, 'Bien (VG)', 'Bien (VG)', 3, 9, NULL, 'assets/img/Covers/love-5d9ce8e769db7.jpeg', NULL, 1),
+(24, 'You Got The Love (Erens Bootleg Mix)', 'The Source Featuring Candi Staton', 'ZYX Records', 'ZYX 6468-12', '12\", 45 RPM', 'DE', 1990, 'Bien (VG)', 'Bien (VG)', 1, 9, NULL, 'assets/img/Covers/love-5d9ce8e769db7.jpeg', NULL, 1),
 (25, 'Love Comes At Ya / The Sound Of Music', 'Melba Moore / Dayton ‎', 'Dance Classics', 'MM 711', '12\", 33 ⅓ RPM, Unofficial Release', 'US', 1983, 'Bien (VG)', 'Bien (VG)', 1, 80, NULL, 'assets/img/Covers/lovecomesatya-5d9ce9ba78882.jpeg', NULL, 3),
-(26, 'Tresor III Compilation', 'Various', 'Tresor', 'Tresor 97', '2 × Vinyl, 12\", Compilation', 'DE', 2000, 'Bien (VG)', 'Bien (G)', 5, 15, 10, 'assets/img/Covers/tresor-5d9ceb2dc175f.jpeg', NULL, 5);
+(26, 'Tresor III Compilation', 'Various', 'Tresor', 'Tresor 97', '2 × Vinyl, 12\", Compilation', 'DE', 2000, 'Bien (VG)', 'Bien (G)', 5, 15, 10, 'assets/img/Covers/tresor-5d9ceb2dc175f.jpeg', NULL, 5),
+(27, 'Ready To Die', 'The Notorious B.I.G', 'Bad Boy Entertainment', '78612-73000-1', 'LP, Album, Repress', 'US', 1994, 'Excellent (M)', 'Excellent (M)', 6, 80, NULL, 'assets/img/Covers/notoriousbig-5da624dbf17b3.jpeg', 'Un des plus grands album de hip-hop jamais composé', 7),
+(28, 'MAW All-Star Sampler', 'Various', 'MAW Records', 'MAW-808', '2 × Vinyl, 12\", 33 ⅓ RPM, Sampler', 'US', 2000, 'Très bien (VG+)', 'Très bien (VG+)', 10, 15, 10, 'assets/img/Covers/maw-5da628e98f5bf.jpeg', 'Cette compilation est un petit bijoux pour tous le fans de house ! Le duo mythique des Masters At Work ont réuni sur ce double vinyle des morceaux de leurs amis membres du label MAW Records. On y retrouve notamment Frankie Feliciano et Johnny De Mairo  et Nicholas Palermo Jr. \r\nChez MoonCake Records, nous sommes fan de cette compilation qui est un mélange de house, de future jazz, de deep house... Bref, du bon grrove !', 4);
 
 --
 -- Indexes for dumped tables
@@ -469,13 +498,13 @@ ALTER TABLE `vinyl`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=175;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=185;
 
 --
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `genre`
@@ -487,31 +516,31 @@ ALTER TABLE `genre`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=250;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=260;
 
 --
 -- AUTO_INCREMENT for table `track`
 --
 ALTER TABLE `track`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `vinyl`
 --
 ALTER TABLE `vinyl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables

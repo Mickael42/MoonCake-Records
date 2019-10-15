@@ -353,7 +353,10 @@ a:focus {
 }
 .btn-add-cart:hover{
     background-color :#C26208;
-    transform: scale(1.05);
+    -webkit-transform: scale(1.03);
+    -ms-transform: scale(1.03);
+    transform: scale(1.03);
+    backface-visibility: hidden;
     border-radius: 5px;
     color : white;
     filter: brightness(85%);

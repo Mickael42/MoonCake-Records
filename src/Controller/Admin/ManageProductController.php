@@ -12,7 +12,6 @@ use App\Repository\TrackRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -49,12 +48,8 @@ class ManageProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($vinyl);
             $entityManager->flush();
-            $this->addFlash(
-                'notice',
-                'Le vinyle est a bien été créé! N\'oubliez pas d\'ajouter des titres au vinyle ! '
-            );
 
-            return $this->redirectToRoute('vinyl_edit_list');
+            return $this->redirectToRoute('add_track');
         }
 
         return $this->render('admin/manageProduct/addProduct.html.twig', [

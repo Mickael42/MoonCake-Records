@@ -28,7 +28,7 @@ class AdminController extends AbstractController
         $listOrdersPaid = $ordersRepository->findAllStatus('paid');
         $salesRevenue = 0;
         foreach ($listOrdersPaid as $order) {
-            $salesRevenue = $salesRevenue + $order->getTotalAmount();
+          $salesRevenue = $salesRevenue + $order->getTotalAmount();
         }
 
         $numberOfOrders = $ordersRepository->findAll();

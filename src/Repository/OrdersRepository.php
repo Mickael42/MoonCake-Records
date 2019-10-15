@@ -34,8 +34,10 @@ class OrdersRepository extends ServiceEntityRepository
     public function findAllStatus($value)
     {
         return $this->createQueryBuilder('o')
-            ->setParameter('status', $value)
+            ->andWhere('o.status = :val')
+            ->setParameter('val', $value)
             ->getQuery()
+            ->getResult();
             
         ;
     }
