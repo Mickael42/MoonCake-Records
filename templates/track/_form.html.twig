@@ -1,18 +1,34 @@
 {{ form_start(form) }}
 
 
-{%  for input in form %}
+<div class="form-input-container">
 
-    <div class="form-input-container">
-        {{ form_label(input) }}
-        <span class="form-error">
-            {{ form_errors(input) }}
-        </span>
-        {{ form_widget(input) }}
+    {{form_label (form.vinyl, 'Choisir le vinyle')}}
+    <div class="form-error">
+        {{form_errors (form.vinyl)}}
     </div>
+    {{form_widget (form.vinyl)}}
 
 
-{% endfor %}
+    {{form_label (form.name, 'Nom du titre')}}
+    <div class="form-error">
+        {{form_errors (form.name)}}
+    </div>
+    {{form_widget (form.name)}}
+
+    {{form_label (form.position, 'Position du titre dans le vinyle')}}
+    <div class="form-error">
+        {{form_errors (form.position)}}
+    </div>
+    {{form_widget (form.position)}}
+
+
+    {{form_label (form.duration, 'Durée du morceau')}}
+    <div class="form-error">
+        {{form_errors (form.duration)}}
+    </div>
+    {{form_widget (form.duration , {'attr': {'placeholder': 'Exemple : pour un titre  de 3:30, entrez 330'}})  }}
+</div>
 
 
 <div class="center-align">
@@ -20,3 +36,5 @@
 </div>
 
 {{ form_end(form) }}
+
+

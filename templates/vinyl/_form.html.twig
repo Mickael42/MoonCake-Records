@@ -1,18 +1,112 @@
 {{ form_start(form) }}
 
 
-{%  for input in form %}
-
 <div class="form-input-container">
-    {{ form_label(input) }}
-    <span class="form-error">
-        {{ form_errors(input) }}
-    </span>
-    {{ form_widget(input) }}
+
+
+    {{form_label (form.name, 'Nom du vinyle')}}
+    <div class="form-error">
+        {{form_errors (form.name)}}
+    </div>
+    {{form_widget (form.name)}}
+
+    {{form_label (form.artiste, 'Nom de l\'artiste')}}
+        <div class="form-error">
+            {{form_errors (form.artiste)}}
+        </div>
+        {{form_widget (form.artiste)}}
+
+
+        {{form_label (form.label, 'Nom du label')}}
+        <div class="form-error">
+            {{form_errors (form.label)}}
+        </div>
+        {{form_widget (form.label)}}
+
+        {{form_label (form.catNum, 'Numéro du vinyle')}}
+        <div class="form-error">
+            {{form_errors (form.catNum)}}
+        </div>
+        {{form_widget (form.catNum)}}
+
+
+        {{form_label (form.format, 'Format du vinyl')}}
+        <div class="form-error">
+            {{form_errors (form.format)}}
+        </div>
+        {{form_widget (form.format)}}
+
+
+        {{form_label (form.country, 'Pays')}}
+        <div class="form-error">
+            {{form_errors (form.country)}}
+        </div>
+        {{form_widget (form.country)}}
+
+
+        {{form_label (form.year, 'Année')}}
+        <div class="form-error">
+            {{form_errors (form.year)}}
+        </div>
+        {{form_widget (form.year)}}
+
+
+        {{form_label (form.mediaCondition, 'Etat du vinyl')}}
+        <div class="form-error">
+            {{form_errors (form.mediaCondition)}}
+        </div>
+        {{form_widget (form.mediaCondition)}}
+
+
+        {{form_label (form.sleeveCondition, 'Etat de la pochette')}}
+        <div class="form-error">
+            {{form_errors (form.sleeveCondition)}}
+        </div>
+        {{form_widget (form.sleeveCondition)}}
+
+
+        {{form_label (form.quantityStock, 'Nombre de vinyle en stock')}}
+        <div class="form-error">
+            {{form_errors (form.quantityStock)}}
+        </div>
+        {{form_widget (form.quantityStock)}}
+
+
+        {{form_label (form.regularPrice, 'Prix de vente')}}
+        <div class="form-error">
+            {{form_errors (form.regularPrice)}}
+        </div>
+        {{form_widget (form.regularPrice)}}
+
+
+        {{form_label (form.reducePrice, 'Prix de vente promotionnel')}}
+        <div class="form-error">
+            {{form_errors (form.reducePrice)}}
+        </div>
+        {{form_widget (form.reducePrice)}}
+
+
+        {{form_label (form.description, 'Description vinyle')}}
+        <div class="form-error">
+            {{form_errors (form.description)}}
+        </div>
+        {{form_widget (form.description)}}
+
+        {{form_label (form.genre, 'Genre du vinyle')}}
+        <div class="form-error">
+            {{form_errors (form.genre)}}
+        </div>
+        {{form_widget (form.genre)}}
+
+
+        {{form_label (form.cover, 'Téléchargé la pochette de l\'album ')}}
+    <div class="form-error">
+        {{form_errors (form.cover)}}
+    </div>
+    {{form_widget (form.cover)}}
+
+
 </div>
-
-
-{% endfor %}
 
 
 <div class="center-align">

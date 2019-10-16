@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class VinylType extends AbstractType
 {
@@ -23,27 +24,47 @@ class VinylType extends AbstractType
             ->add('format')
             ->add('country')
             ->add('year')
-            ->add('mediaCondition')
-            ->add('sleeveCondition')
+            ->add('mediaCondition', ChoiceType::class, [
+                'choices' => [
+                    'Excellent (Mint)' => 'mint',
+                    'Presque excellent (Near mint)' => 'near mint',
+                    'Très bon état (VG++)'   => 'vg++',
+                    'Bon état (VG + ou VG)' => 'vg+',
+                    'Etat moyen (VG- ou G)'   => 'g',
+                    'Mauvais état (VG + ou VG)' => 'b',
+
+                ],
+            ])
+            ->add('sleeveCondition', ChoiceType::class, [
+                'choices' => [
+                    'Excellent (Mint)' => 'mint',
+                    'Presque excellent (Near mint)' => 'near mint',
+                    'Très bon état (VG++)'   => 'vg++',
+                    'Bon état (VG + ou VG)' => 'vg+',
+                    'Etat moyen (VG- ou G)'   => 'g',
+                    'Mauvais état (VG + ou VG)' => 'b',
+
+                ],
+            ])
             ->add('quantityStock')
             ->add('regularPrice')
             ->add('reducePrice')
-            ->add('cover',FileType::class,[
-                'data_class'=>null,
+            ->add('cover', FileType::class, [
+                'data_class' => null,
                 'constraints' => [
                     new File([
                         'mimeTypes' => [
                             'image/*',
                         ],
-                        'mimeTypesMessage' => 'Veuillez utilisez un format valide pour les images.',])
+                        'mimeTypesMessage' => 'Veuillez utilisez un format valide pour les images.',
+                    ])
                 ]
-            ]) 
-            ->add('description')
-            ->add('genre', EntityType::class,[
-                'class' => Genre::class,
-                 'choice_label'=>'name'
             ])
-        ;
+            ->add('description')
+            ->add('genre', EntityType::class, [
+                'class' => Genre::class,
+                'choice_label' => 'name'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
