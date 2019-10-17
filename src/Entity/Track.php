@@ -33,10 +33,10 @@ class Track
     private $name;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="float")
      * @Assert\Type(
-     *     type="integer",
-     *     message="La valeur doit être un nombre."
+     *     type="float",
+     *     message="La valeur doit être un nombre à virgule."
      * )
      * @Assert\GreaterThanOrEqual(
      *  value = 1,
@@ -83,12 +83,12 @@ class Track
         return $this;
     }
 
-    public function getDuration(): ?int
+    public function getDuration(): ?float
     {
         return $this->duration;
     }
 
-    public function setDuration(int $duration): self
+    public function setDuration(float $duration): self
     {
         $this->duration = $duration;
 

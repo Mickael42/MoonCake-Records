@@ -7,7 +7,6 @@ use App\Entity\Vinyl;
 use App\Manager\SessionManager;
 use App\Repository\OrderProductRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -18,9 +17,6 @@ class PaymentController extends AbstractController
      */
     public function paymentForm(Orders $order, Request $request)
     {
-        //deleting the cookie who stores data about the cart
-        $response = new Response();
-        $response->headers->clearCookie("id");
 
         $amount = $order->getTotalAmount() * 100;
 
@@ -57,7 +53,7 @@ class PaymentController extends AbstractController
             'controller_name' => 'PaymentController',
             'order' => $order,
             'clientPayment' => $intent->client_secret
-        ], $response);
+        ]);
     }
 
 

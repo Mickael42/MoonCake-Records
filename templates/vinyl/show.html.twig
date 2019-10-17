@@ -32,7 +32,8 @@
             <ul>
                 {% for track in tracks %}
                     <li>{{track.position}}-{{track.name}}
-                        <span class="duration-track">{{track.duration | date("i:s")}}</span>
+                    {% set  trackDurationMinute = track.duration| number_format(2) %}
+                        <span class="duration-track">{{trackDurationMinute|replace({'.': ':'})}}</span>
                     </li>
                 {% endfor %}
             </ul>

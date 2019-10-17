@@ -1,6 +1,7 @@
 html {
     font-family: 'Raleway', sans-serif;
     height: 100% !important;
+    scroll-behavior: smooth;
 }
 
 body{
