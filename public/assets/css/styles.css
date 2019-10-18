@@ -75,9 +75,8 @@ a:focus {
     text-shadow: 2px 2px #C26208;
 }
 
-#search{
-    margin : 0;
-}
+
+
 
 .container-call-to-action{
     height: 40vh;
@@ -232,7 +231,7 @@ a:focus {
 
 .container-header-page{
     background: rgba(0, 0, 0, 0.685);
-    height: 200px;
+    height: 225px;
 }
 
 .title-header-page{
