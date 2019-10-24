@@ -9,7 +9,7 @@
         </title>
 
         {% block stylesheets %}
-            <link href="{{ asset ('assets/img/capture-logo-fond-blanc.png')}}" rel="shortcut icon">
+            <link href="{{ asset ('assets/img/mini-logo MCR.png')}}" rel="shortcut icon">
             <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
             <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
@@ -62,10 +62,10 @@
                     <li>
                         <a id="link-cart" href="{{path ("cart_index")}}">
                             <i class="material-icons left">shopping_cart</i>Panier
-                             {% if app.session.get("cart") > 0 %}
-                            <span id="dot"></span>
+                            {% if app.session.get("cart") > 0 %}
+                                <span id="dot"></span>
                             {% endif %}
-                            </a>
+                        </a>
                     </li>
 
                     {% if app.user %}
@@ -181,10 +181,7 @@
             </p>
         </div>
     </div>
-</div></footer>{% block javascripts %}
-
-
-{% endblock %}<script>
+</div></footer>{% block javascripts %}{% endblock %}<script>
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('.parallax');
     var instances = M.Parallax.init(elems);
@@ -197,4 +194,5 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', function () {
     var elems = document.querySelectorAll('select');
     var instances = M.FormSelect.init(elems);
-});</script><script src="https://js.stripe.com/v3/"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="{{asset ('assets/js/main.js')}}"></script></body></html>
+});</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script><script src="{{asset ('assets/js/main.js')}}"></script></body></html>

@@ -11,46 +11,51 @@
 
         <div class="col s12 m6 L6 offset-m3 grey lighten-3">
 
-            <form action="{{path ('payment', {'id' : order.id})}}" method="post" id="payment-form">
-                <div class="form-row">
-                    <h4 class="center-align">Information cartes bancaires</h4>
-                    {% for message in app.flashes('error') %}
-                        <div class="card-panel">
-                            <span class="red-text ">{{ message }}</span>
-                        </div>
-                    {% endfor %}
-                    <input required id="cardholder-name" type="text" name='cartHolder' placeholder="Nom du propriétaire de la carte">
-                    <div
-                        id="card-element"><!-- A Stripe Element will be inserted here. -->
-                    </div>
-
-                    <!-- Used to display form errors. -->
-                    <div id="card-errors" role="alert"></div>
+     
+            <div class="form-row">
+                <h4 class="center-align">Information cartes bancaires</h4>
+                <input id="cardholder-name" type="text" name='cartHolder' placeholder="Nom du propriétaire de la carte">
+                <div
+                    id="card-element"><!-- A Stripe Element will be inserted here. -->
                 </div>
 
-                <div class="center-align">
-                    <button id="card-button" class="waves-effect waves-light btn-large btn-payment" data-secret="{{clientPayment}}">
-                        Paiement
-                    </button>
-                </div>
-                <p>
-                    <label>
-                        <input name='check' required type="checkbox"/>
-                        <span> J'accepte les <a href="{{path ('mentions')}}" target="_blank">conditions générales de vente</a></span>
-                    </label>
-                </p>
-                <p>
-                    
-                </p>
-                <div class="center-align">
-                    <img alt="Stripe protège vos achats" class="responsive-img monetico" src="{{ asset ('assets/img/paiement-securise-stripe.jpeg')}}">
+                <!-- Used to display form errors. -->
+               
+                
+                <div style="margin-top : 15px" id="card-errors" role="alert" class="form-error" ></div>
+                <div style="margin-top : 15px" id="card-success" role="alert" class="flash-notice" ></div>
+                
+                
+            </div>
+            <input id='id-order' type="hidden" value={{order.id}}>
+            <div class="center-align">
+                <button id="card-button" class="waves-effect waves-light btn-large btn-payment" data-secret="{{clientPayment}}">
+                    Paiement
+                </button>
+            </div>
+            <p>
+                <label>
+                    <input id="legal-notice" name='check' type="checkbox"/>
+                    <span>
+                        J'accepte les
+                        <a href="{{path ('mentions')}}" target="_blank">conditions générales de vente</a>
+                    </span>
+                </label>
+            </p>
+
+            <div class="center-align">
+                <img alt="Stripe protège vos achats" class="responsive-img monetico" src="{{ asset ('assets/img/paiement-securise-stripe.jpeg')}}">
 
 
-                </div>
-            </form>
+            </div>
+
 
         </div>
 
 
     </div>
+{% endblock %}
+{% block javascripts %}
+
+    <script src="https://js.stripe.com/v3/"></script>
 {% endblock %}

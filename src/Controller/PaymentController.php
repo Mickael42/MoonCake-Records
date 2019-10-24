@@ -17,7 +17,7 @@ class PaymentController extends AbstractController
      */
     public function paymentForm(Orders $order, Request $request)
     {
-
+       
         $amount = $order->getTotalAmount() * 100;
 
         \Stripe\Stripe::setApiKey('sk_test_bfHv9DFUb0tj17UHOsD63dks00IUrgmQ30');
@@ -29,16 +29,19 @@ class PaymentController extends AbstractController
             'metadata' => ['order_id' => $order->getId()],
         ]);
 
-        $charges = \Stripe\Charge::all([
-            'payment_intent' => '{{PAYMENT_INTENT_ID}}',
-            // Limit the number of objects to return (the default is 10)
-            'limit' => 3,
-        ]);
-
         $checkbox = $request->request->get('check');
         $nameCartHolder = $request->request->get('cartHolder');
+        $paymentIntent = $request->request->get('paymentIntent');
 
-        if (!empty($checkbox) and !empty($nameCartHolder)) {
+
+ if (!empty($checkbox) and !empty($nameCartHolder) and !empty($paymentIntent)) {
+
+            \Stripe\Stripe::setApiKey('sk_test_bfHv9DFUb0tj17UHOsD63dks00IUrgmQ30');
+
+            $intent = \Stripe\PaymentIntent::retrieve($paymentIntent);
+            $charges = $intent->charges->data;
+
+           if($charges[0]->status === "succeeded"){
             $entityManager = $this->getDoctrine()->getManager();
             $order->setStatus("paid");
             $entityManager->persist($order);
@@ -47,15 +50,25 @@ class PaymentController extends AbstractController
             return $this->redirectToRoute('payment_confirmation', [
                 'id' => $order->getId()
             ]);
-        }
+           } else {
 
+            $this->addFlash(
+                'error',
+                'Il y a eu un problème avec le paiement. Veuillez réessayer.'
+            );
+            return $this->render('payment/index.html.twig', [
+                'controller_name' => 'PaymentController',
+                'order' => $order,
+                'clientPayment' => $intent->client_secret
+            ]);
+           }         
+ }
         return $this->render('payment/index.html.twig', [
             'controller_name' => 'PaymentController',
             'order' => $order,
             'clientPayment' => $intent->client_secret
         ]);
     }
-
 
     /**
      * @Route("/confirmation/{id}", name="payment_confirmation", methods={"POST", "GET"})
