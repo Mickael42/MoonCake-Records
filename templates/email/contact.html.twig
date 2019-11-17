@@ -7,7 +7,7 @@
         <!-- Facebook sharing information tags -->
         <meta property="og:title" content="Confirmation de votre commande sur MoonCake Reocrds"/>
 
-        <title>Confirmation de votre commande sur MoonCake Records</title>
+        <title>Message de contact MoonCake Records</title>
 <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet"> 
         <style type="text/css">
@@ -541,7 +541,7 @@
                                                     <tr>
                                                         <td valign="top" class="bodyContent">
                                                             <div mc:edit="std_content00">
-                                                                <h1 class="h1">{{name|capitalize}}, votre commande est en cours de traitement</h1>
+                                                                <h1 class="h1">Message de contact | Mooncake Records</h1>
                                                                 {#<strong>Getting started:</strong> Transactional emails serve a defined and simple purpose. They differ from traditional mass-emails because they're generally sent on a user-by-user basis, instead of large list of users, and are generally used to deliver purchase receipts, account updates, security notifications, and more.#}
                                                             </div>
                                                         </td>
@@ -551,25 +551,30 @@
                                                             <table border="0" cellpadding="10" cellspacing="0" width="100%" class="templateDataTable">
                                                                 <tr>
                                                                     <th scope="col" valign="top" width="25%" class="dataTableHeading" mc:edit="data_table_heading00">
-                                                                       N°COMMANDE
+                                                                       Prénom et Nom 
                                                                     </th>
                                                                     <th scope="col" valign="top" width="25%" class="dataTableHeading" mc:edit="data_table_heading00">
-                                                                        DATE
+                                                                        N° de téléphone
                                                                     </th>
                                                                     <th scope="col" valign="top" width="25%" class="dataTableHeading" mc:edit="data_table_heading02">
-                                                                        PRIX TTC
+                                                                        Email
+                                                                    </th>
+                                                                    <th scope="col" valign="top" width="25%" class="dataTableHeading" mc:edit="data_table_heading02">
+                                                                        Message
                                                                     </th>
                                                                 </tr>
                                                                 <tr mc:repeatable>
                                                                     <td valign="top" class="dataTableContent" mc:edit="data_table_content00">
-                                                                        {{ orderId }}
+                                                                        {{ firstname }} {{lastname}}
                                                                     </td>
                                                                     <td valign="top" class="dataTableContent" mc:edit="data_table_content00">
-                                                                        {{ date|date('d/m/Y') }}
+                                                                        {{ phone }}
                                                                     </td>
                                                                     <td valign="top" class="dataTableContent" mc:edit="data_table_content02">
-                                                                        {{ totalAmount }}
-                                                                        €
+                                                                        {{ email }}
+                                                                    </td>
+                                                                     <td valign="top" class="dataTableContent" mc:edit="data_table_content02">
+                                                                        {{ message }}
                                                                     </td>
                                                                 </tr>
                                                             </table>

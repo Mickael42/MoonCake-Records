@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Orders;
 use App\Entity\Vinyl;
-use App\Manager\EmailManager;
 use App\Manager\SessionManager;
 use App\Repository\OrderProductRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -16,11 +14,9 @@ class PaymentController extends AbstractController
     /**
      * @Route("/paiement/{id}", name="payment", methods={"POST", "GET"})
      */
-    public function paymentForm(Orders $order, Request $request)
+    public function paymentForm(Orders $order)
     {
-
         $amount = $order->getTotalAmount() * 100;
-
         \Stripe\Stripe::setApiKey('sk_test_bfHv9DFUb0tj17UHOsD63dks00IUrgmQ30');
 
         $intent = \Stripe\PaymentIntent::create([
@@ -30,37 +26,6 @@ class PaymentController extends AbstractController
             'metadata' => ['order_id' => $order->getId()],
         ]);
 
-        $checkbox = $request->request->get('check');
-        $nameCartHolder = $request->request->get('cartHolder');
-        $paymentIntent = $request->request->get('paymentIntent');
-
-
-        if (!empty($checkbox) and !empty($nameCartHolder) and !empty($paymentIntent)) {
-
-            \Stripe\Stripe::setApiKey('sk_test_bfHv9DFUb0tj17UHOsD63dks00IUrgmQ30');
-
-            $intent = \Stripe\PaymentIntent::retrieve($paymentIntent);
-            $charges = $intent->charges->data;
-
-            if ($charges[0]->status === "succeeded") {
-
-
-                return $this->redirectToRoute('payment_confirmation', [
-                    'id' => $order->getId()
-                ]);
-            } else {
-
-                $this->addFlash(
-                    'error',
-                    'Il y a eu un problème avec le paiement. Veuillez réessayer.'
-                );
-                return $this->render('payment/index.html.twig', [
-                    'controller_name' => 'PaymentController',
-                    'order' => $order,
-                    'clientPayment' => $intent->client_secret
-                ]);
-            }
-        }
         return $this->render('payment/index.html.twig', [
             'controller_name' => 'PaymentController',
             'order' => $order,

@@ -11,10 +11,16 @@
 
     </div>
 
+        {% for message in app.flashes('notice') %}
+        <div class="row">
+            <div class="col s12 m8 offset-m2 l8 offset-l2  ">
+                <p class="flash-notice center-align ">{{ message }}</p>
+            </div>
+        </div>
+    {% endfor %}
+
 
     <form method="POST" action="#!" accept-charset="UTF-8" id="formContact" class="light-gray-bg">
-        <input name="_token" type="hidden" value="">
-        <input name="job_id" type="hidden" value="">
         <section class="section-padding">
             <div class="container">
                 <div class="text-center mb-80">
@@ -62,7 +68,7 @@
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-md-6 col-md-offset-3 center-align">
-                                <button type="submit" name="submit" class="button-orange">
+                                <button type="submit"  class="waves-effect waves-light btn-large btn-add-cart">
                                     Envoyer votre message
                                 </button>
                             </div>
